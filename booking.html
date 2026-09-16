@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Booking - Travel App</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="index.html" class="logo">logo</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="booking.html" class="active">Booking</a>
+      <a href="places.html">Places</a>
+      <a href="#" class="login-btn">Login</a>
+    </nav>
+  </header>
+
+  <main class="main-container">
+    <div class="page-header">
+      <h1>Available Packages</h1>
+      <p class="subtitle">Select your destination options</p>
+    </div>
+
+    <div class="packages-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
+      <div class="package-card" style="background: #f8fafc; border: 1px solid #cbd5e0; border-radius: 12px; padding: 16px;">
+        <div class="package-details">
+          <h3>Day Trip</h3>
+          <span class="package-desc" style="font-size: 12px; color: #718096;">Single-day guided visit</span>
+          <div class="package-price" style="font-size: 16px; font-weight: 700; color: #ff7582; margin-top: 8px;">₱ 1,800.00 / pax</div>
+        </div>
+      </div>
+      <div class="package-card" style="background: #f8fafc; border: 1px solid #cbd5e0; border-radius: 12px; padding: 16px;">
+        <div class="package-details">
+          <h3>Weekend Getaway</h3>
+          <span class="package-desc" style="font-size: 12px; color: #718096;">2 days, 1 night stay included</span>
+          <div class="package-price" style="font-size: 16px; font-weight: 700; color: #ff7582; margin-top: 8px;">₱ 3,200.00 / pax</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reservation-box">
+      <h2>Reservation</h2>
+
+      <div class="form-group">
+        <label for="standalone-date">Select Tour Date</label>
+        <div class="select-wrapper">
+          <input type="date" id="standalone-date" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px;" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Quantity</label>
+        <div class="quantity-row">
+          <span>Adult</span>
+          <div class="counter">
+            <button type="button" class="counter-btn">−</button>
+            <span class="count">2</span>
+            <button type="button" class="counter-btn">+</button>
+          </div>
+        </div>
+        <div class="quantity-row">
+          <span>Child</span>
+          <div class="counter">
+            <button type="button" class="counter-btn">−</button>
+            <span class="count">0</span>
+            <button type="button" class="counter-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <a href="index.html" class="btn btn-cancel" style="text-decoration: none; text-align: center;">Cancel</a>
+        <button type="button" class="btn btn-continue">Confirm Booking</button>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

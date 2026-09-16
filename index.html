@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travel App</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Global Navigation Bar -->
+  <header class="navbar">
+    <a href="#" class="logo" data-page="home">TraveLaya</a>
+    <nav class="nav-links">
+      <a href="#" data-page="home" class="nav-btn active">Home</a>
+      <a href="#" data-page="places" class="nav-btn">Places</a>
+      <a href="#" data-page="booking" class="nav-btn">Booking</a>
+      <a href="#" data-page="blogs" class="nav-btn">Blogs</a>
+      <a href="#" data-page="faq" class="nav-btn">FAQ</a>
+      <a href="#" class="login-btn">Login</a>
+    </nav>
+  </header>
+
+  <!-- Dynamic SPA Content Container -->
+  <main id="app-content"></main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
