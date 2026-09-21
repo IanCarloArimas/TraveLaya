@@ -32,6 +32,6 @@ project/
 - Wireframe
   (to be added)
 ### Development of design diagrams (Figma interface mock up)
-- To be added
+- [Figma link](https://www.figma.com/design/F6Z0rTTHbOoJxxD2dbDvOI/HCI-TOURISM-PROJECT?node-id=0-1&t=GAmzGcDZsv8YLKR4-1)
 
 [Click here](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
