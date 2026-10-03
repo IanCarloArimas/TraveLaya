@@ -166,7 +166,7 @@ export const views = {
       <div style="background: linear-gradient(135deg, #131c38 0%, #1f2d5a 100%); color: #ffffff; padding: 20px 28px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 6px 18px rgba(0,0,0,0.06);">
         <div>
           <span style="background: #ff7582; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; text-transform: uppercase;">Special Promo</span>
-          <h3 style="font-size: 18px; font-weight: 700; margin-top: 6px;">Early Bird Saver: Use code GO365</h3>
+          <h3 style="font-size: 18px; font-weight: 700; margin-top: 6px;">Early Bird Saver: Use code TRAVELAYA</h3>
           <p style="font-size: 12px; opacity: 0.85;">Enjoy up to 15% off when you book 15 days in advance!</p>
         </div>
         <button onclick="navigateTo('places')" style="background: #ff7582; color: #fff; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer;">Book Early</button>
@@ -555,7 +555,7 @@ export const views = {
               <label style="font-size: 13px; font-weight: 600; color: #4a5568; margin-bottom: 8px; display: block;">Specify Child Ages</label>
               <div id="child-age-fields" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px;"></div>
             </div>
-          </div>
+          </div> 
 
           <div class="form-group">
             <label for="promo-code-input">Promo / Discount Code</label>

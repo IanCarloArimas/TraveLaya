@@ -9,7 +9,7 @@ let currentDetailSlideIndex = 0;
 let appliedPromoDiscount = 0;
 let appliedPromoName = '';
 
-// Expose routing and global actions to window so HTML inline onclick events can find them
+//ONCLICK UPDATER
 window.navigateTo = navigateTo;
 window.changeBookingDestination = changeBookingDestination;
 window.viewPlaceDetail = viewPlaceDetail;
@@ -20,7 +20,7 @@ window.selectPackageType = selectPackageType;
 window.plusDetailSlide = plusDetailSlide;
 window.handleBookingSubmit = handleBookingSubmit;
 window.handleNewsletterSubmit = handleNewsletterSubmit;
-
+window.updateBookingTotal = updateBookingTotal;
 function changeBookingDestination(placeId) {
   if (allPlacesData[placeId]) {
     selectedPlace = allPlacesData[placeId];
@@ -315,7 +315,7 @@ function applyPromoCode() {
     appliedPromoDiscount = 0;
     appliedPromoName = '';
     feedback.style.color = '#e53e3e';
-    feedback.textContent = '❌ Invalid or expired promo code. Try "TraveLaya".';
+    feedback.textContent = '❌ Invalid or expired promo code. Try "TRAVELAYA".';
     if (breakdown) {
       breakdown.style.display = 'none';
     }
