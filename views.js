@@ -81,6 +81,77 @@ function renderReviewCard(review) {
   `;
 }
 
+function renderLoginModal() {
+  return `
+    <div id="login-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+      <!-- Login Box -->
+      <div id="login-box" style="background: #ffffff; padding: 32px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative;">
+        <button onclick="closeLoginModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 18px; font-weight: bold; cursor: pointer; color: #64748b;">&times;</button>
+        
+        <h2 style="font-size: 22px; font-weight: 700; color: #131c38; margin-bottom: 8px;">Welcome Back</h2>
+        <p style="font-size: 13px; color: #64748b; margin-bottom: 14px;">Log in to manage your bookings and access secret deals.</p>
+        
+        <!-- Sample Accounts Helper Box -->
+        <div style="background: #f8fafc; border: 1px dashed #cbd5e0; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 11px; color: #4a5568; line-height: 1.4;">
+          <strong>Sample Accounts for Testing:</strong><br>
+          • BeatrizMarie@gmail.com / password123 (Beatriz Marie Bautista)<br>
+          • KarlaMae@gmail.com / password123 (Karla Mae Ibuig)<br>
+          • RhonaAngelica@gmail.com / password123 (Rhona Angelica Cailao)
+        </div>
+        
+        <form onsubmit="handleLoginSubmit(event)">
+          <div style="margin-bottom: 16px;">
+            <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 6px;">Email Address</label>
+            <input type="email" id="login-email" value="BeatrizMarie@gmail.com" placeholder="name@example.com" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+          </div>
+          
+          <div style="margin-bottom: 20px;">
+            <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 6px;">Password</label>
+            <input type="password" id="login-password" value="password123" placeholder="••••••••" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+          </div>
+          
+          <button type="submit" style="width: 100%; background: #ff7582; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s;">Log In</button>
+        </form>
+
+        <p style="text-align: center; font-size: 13px; color: #64748b; margin-top: 16px;">
+          Don't have an account? <a href="#" onclick="switchToRegister(event)" style="color: #ff7582; font-weight: 600; text-decoration: none;">Register Now</a>
+        </p>
+      </div>
+
+      <!-- Register Box (Initially Hidden) -->
+      <div id="register-box" style="display: none; background: #ffffff; padding: 32px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative;">
+        <button onclick="closeLoginModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 18px; font-weight: bold; cursor: pointer; color: #64748b;">&times;</button>
+        
+        <h2 style="font-size: 22px; font-weight: 700; color: #131c38; margin-bottom: 8px;">Create an Account</h2>
+        <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">Join TraveLaya to start booking your next adventure.</p>
+        
+        <form onsubmit="handleRegisterSubmit(event)">
+          <div style="margin-bottom: 14px;">
+            <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 4px;">Full Name</label>
+            <input type="text" id="reg-name" placeholder="John Doe" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 4px;">Email Address</label>
+            <input type="email" id="reg-email" placeholder="name@example.com" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+          </div>
+          
+          <div style="margin-bottom: 20px;">
+            <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 4px;">Password</label>
+            <input type="password" id="reg-password" placeholder="••••••••" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+          </div>
+          
+          <button type="submit" style="width: 100%; background: #ff7582; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s;">Sign Up</button>
+        </form>
+
+        <p style="text-align: center; font-size: 13px; color: #64748b; margin-top: 16px;">
+          Already have an account? <a href="#" onclick="switchToLogin(event)" style="color: #ff7582; font-weight: 600; text-decoration: none;">Log In</a>
+        </p>
+      </div>
+    </div>
+  `;
+}
+
 export const views = {
   home: `
     <section class="hero" id="hero-section">
@@ -288,6 +359,8 @@ export const views = {
         <p>&copy; 2026 TraveLaya. All Rights Reserved.</p>
       </div>
     </footer>
+
+    ${renderLoginModal()}
   `,
 
   places: `
@@ -303,6 +376,7 @@ export const views = {
         ${Object.values(allPlacesData).map(renderPlaceRow).join('')}
       </div>
     </div>
+    ${renderLoginModal()}
   `,
 
   blogs: `
@@ -327,6 +401,7 @@ export const views = {
         `).join('')}
       </div>
     </div>
+    ${renderLoginModal()}
   `,
 
   faq: `
@@ -387,7 +462,44 @@ export const views = {
         </div>
       </div>
     </div>
+    ${renderLoginModal()}
   `,
+
+  getMyBookingsView: (bookings) => {
+    return `
+      <div class="main-container">
+        <div class="page-header">
+          <h1>My Bookings</h1>
+          <p class="subtitle">View all your confirmed reservations and reference IDs.</p>
+        </div>
+
+        ${bookings.length === 0 ? `
+          <div style="text-align: center; padding: 50px 20px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; margin-top: 20px;">
+            <p style="font-size: 16px; color: #64748b; margin-bottom: 16px;">You don't have any bookings yet.</p>
+            <button onclick="navigateTo('home')" style="background: #ff7582; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer;">Explore Destinations</button>
+          </div>
+        ` : `
+          <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
+            ${bookings.map(b => `
+              <div style="background: #ffffff; border: 1px solid #cbd5e0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div>
+                  <span style="background: #e2e8f0; color: #1b263b; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">Ref: ${b.referenceId}</span>
+                  <h3 style="font-size: 18px; color: #1b263b; margin: 8px 0 4px 0;">${b.destination}</h3>
+                  <p style="font-size: 13px; color: #64748b; margin: 0;">Package: <strong>${b.packageType}</strong> | Travel Date: <strong>${b.date}</strong></p>
+                  <p style="font-size: 12px; color: #718096; margin-top: 4px;">Guest: ${b.name} (${b.contact}) | Payment: ${b.paymentMethod}</p>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-size: 12px; color: #718096; display: block;">Total Paid</span>
+                  <strong style="font-size: 20px; color: #ff7582;">${b.total}</strong>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `}
+      </div>
+      ${renderLoginModal()}
+    `;
+  },
 
   getDetailView: (selectedPlace) => {
     const bannerImages = [selectedPlace.image, ...(selectedPlace.landmarks ? selectedPlace.landmarks.map(l => l.image) : [])];
@@ -398,7 +510,7 @@ export const views = {
 
         <div class="detail-banner-slideshow" style="position: relative; width: 100%; height: 360px; border-radius: 16px; overflow: hidden; margin-bottom: 24px; background: #131c38;">
           ${bannerImages.map((img, index) => `
-            <div class="detail-slide ${index === 0 ? 'active' : ''}" style="position: absolute; inset: 0; background-size: cover; background-position: center; background-image: url('${img}'); opacity: ${index === 0 ? '1' : '0'}; transition: opacity 1s ease-in-out;"></div>
+            <div class="detail-slide ${index === 0 ? 'active' : ''}" style="position: absolute; inset: 0; background-size: cover; background-position: center; background-image: url('${img}'); opacity:${index === 0 ? '1' : '0'}; transition: opacity 1s ease-in-out;"></div>
           `).join('')}
           <button class="nav-arrow right-arrow" onclick="plusDetailSlide(1)" style="position: absolute; top: 50%; right: 16px; transform: translateY(-50%); z-index: 10; cursor: pointer;">&#10095;</button>
         </div>
@@ -457,6 +569,7 @@ export const views = {
           <button class="book-now-main-btn" onclick="navigateTo('booking')">Book Now</button>
         </div>
       </div>
+      ${renderLoginModal()}
     `;
   },
 
@@ -525,6 +638,33 @@ export const views = {
         <div class="reservation-box">
           <h2>Reservation Form - ${selectedPlace.name}</h2>
 
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="guest-firstname">First Name</label>
+              <input type="text" id="guest-firstname" placeholder="Enter first name" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" required />
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="guest-lastname">Last Name</label>
+              <input type="text" id="guest-lastname" placeholder="Enter last name" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="guest-contact">Contact Number</label>
+              <input type="tel" id="guest-contact" placeholder="e.g. 09123456789" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" required />
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="payment-method">Mode of Payment</label>
+              <select id="payment-method" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; background: #fff; cursor: pointer; box-sizing: border-box;">
+                <option value="GCash">GCash</option>
+                <option value="Maya">Maya</option>
+                <option value="Credit/Debit Card">Credit/Debit Card</option>
+                <option value="Bank Transfer">Direct Bank Transfer</option>
+              </select>
+            </div>
+          </div>
+
           <div class="form-group">
             <label for="booking-date">Select Travel Date</label>
             <div class="select-wrapper">
@@ -555,7 +695,7 @@ export const views = {
               <label style="font-size: 13px; font-weight: 600; color: #4a5568; margin-bottom: 8px; display: block;">Specify Child Ages</label>
               <div id="child-age-fields" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px;"></div>
             </div>
-          </div> 
+          </div>
 
           <div class="form-group">
             <label for="promo-code-input">Promo / Discount Code</label>
@@ -597,6 +737,7 @@ export const views = {
           </div>
         </div>
       </div>
+      ${renderLoginModal()}
     `;
   }
 };

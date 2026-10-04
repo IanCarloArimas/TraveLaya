@@ -8,8 +8,17 @@ let detailSlideInterval = null;
 let currentDetailSlideIndex = 0;
 let appliedPromoDiscount = 0;
 let appliedPromoName = '';
+let isLoggedIn = false;
+let currentUserEmail = null; 
 
-//ONCLICK UPDATER
+// MGA ACCOUNTS NA SAMPLE LANG, WALA KASI DB KAYA GANITO NALANG MUNA
+const sampleAccounts = [
+  { email: 'BeatrizMarie@gmail.com', password: 'password123', name: 'Beatriz Marie Bautista', bookings: [] },
+  { email: 'KarlaMae@gmail.com', password: 'password123', name: 'Karla Mae Ibuig', bookings: [] },
+  { email: 'RhonaAngelica@gmail.com', password: 'password123', name: 'Rhona Angelica Cailao', bookings: [] }
+];
+
+//WALA KASI DB GANITO NALANG MUNA TAYO DIBA
 window.navigateTo = navigateTo;
 window.changeBookingDestination = changeBookingDestination;
 window.viewPlaceDetail = viewPlaceDetail;
@@ -21,6 +30,102 @@ window.plusDetailSlide = plusDetailSlide;
 window.handleBookingSubmit = handleBookingSubmit;
 window.handleNewsletterSubmit = handleNewsletterSubmit;
 window.updateBookingTotal = updateBookingTotal;
+window.openLoginModal = openLoginModal;
+window.closeLoginModal = closeLoginModal;
+window.handleLoginSubmit = handleLoginSubmit;
+window.switchToRegister = switchToRegister;
+window.switchToLogin = switchToLogin;
+window.handleRegisterSubmit = handleRegisterSubmit;
+window.handleAuthAction = handleAuthAction;
+
+function openLoginModal(e) {
+  if (e) e.preventDefault();
+  const modal = document.getElementById('login-modal');
+  const loginBox = document.getElementById('login-box');
+  const registerBox = document.getElementById('register-box');
+  
+  if (modal) modal.style.display = 'flex';
+  if (loginBox) loginBox.style.display = 'block';
+  if (registerBox) registerBox.style.display = 'none';
+}
+
+function closeLoginModal() {
+  const modal = document.getElementById('login-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function switchToRegister(e) {
+  e.preventDefault();
+  document.getElementById('login-box').style.display = 'none';
+  document.getElementById('register-box').style.display = 'block';
+}
+
+function switchToLogin(e) {
+  e.preventDefault();
+  document.getElementById('register-box').style.display = 'none';
+  document.getElementById('login-box').style.display = 'block';
+}
+
+function updateNavAuthLabel() {
+  const loginBtn = document.querySelector('.login-btn, #nav-login-btn');
+  if (loginBtn) {
+    loginBtn.textContent = isLoggedIn ? 'Logout' : 'Login';
+  }
+}
+
+function handleLoginSubmit(e) {
+  e.preventDefault();
+  const emailInput = document.getElementById('login-email').value.trim().toLowerCase();
+  const passwordInput = document.getElementById('login-password').value;
+
+  const foundUser = sampleAccounts.find(acc => acc.email.toLowerCase() === emailInput && acc.password === passwordInput);
+
+  if (foundUser || (emailInput && passwordInput)) {
+    isLoggedIn = true;
+    currentUserEmail = emailInput;
+
+    if (!foundUser) {
+      sampleAccounts.push({ email: emailInput, password: passwordInput, name: emailInput.split('@')[0], bookings: [] });
+    }
+
+    updateNavAuthLabel();
+    alert(`Successfully logged in as ${foundUser ? foundUser.name : emailInput}! You can now proceed with your bookings.`);
+    closeLoginModal();
+  } else {
+    alert('Invalid email or password. You can use the sample account: BeatrizMarie@gmail.com / password123');
+  }
+}
+
+function handleRegisterSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById('reg-name').value;
+  const email = document.getElementById('reg-email').value.trim().toLowerCase();
+  const password = document.getElementById('reg-password').value;
+
+  sampleAccounts.push({ email, password, name, bookings: [] });
+
+  isLoggedIn = true;
+  currentUserEmail = email;
+  updateNavAuthLabel();
+  alert(`🎉 Account successfully created and logged in for ${name} (${email})!`);
+  closeLoginModal();
+}
+
+function handleAuthAction(e) {
+  e.preventDefault();
+  if (isLoggedIn) {
+    if (confirm('Are you sure you want to log out?')) {
+      isLoggedIn = false;
+      currentUserEmail = null;
+      updateNavAuthLabel();
+      alert('You have been logged out.');
+      navigateTo('home');
+    }
+  } else {
+    openLoginModal(e);
+  }
+}
+
 function changeBookingDestination(placeId) {
   if (allPlacesData[placeId]) {
     selectedPlace = allPlacesData[placeId];
@@ -40,6 +145,18 @@ function navigateTo(pageKey) {
   const container = document.getElementById('app-content');
   if (!container) return;
 
+  if (pageKey === 'booking' && !isLoggedIn) {
+    alert('⚠️ Please log in or register an account before proceeding to booking.');
+    openLoginModal();
+    return;
+  }
+
+  if (pageKey === 'myBookings' && !isLoggedIn) {
+    alert('⚠️ Please log in to view your bookings.');
+    openLoginModal();
+    return;
+  }
+
   if (slideshowInterval) clearInterval(slideshowInterval);
   if (detailSlideInterval) clearInterval(detailSlideInterval);
 
@@ -48,6 +165,10 @@ function navigateTo(pageKey) {
     content = views.getDetailView(selectedPlace);
   } else if (pageKey === 'booking') {
     content = views.getBookingView(selectedPlace, selectedPackageType, appliedPromoName, appliedPromoDiscount);
+  } else if (pageKey === 'myBookings') {
+    const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail);
+    const myBookingsList = activeUser ? activeUser.bookings : [];
+    content = views.getMyBookingsView(myBookingsList);
   } else {
     content = views[pageKey];
   }
@@ -68,6 +189,7 @@ function navigateTo(pageKey) {
     resetDetailSlideTimer();
   }
 
+  updateNavAuthLabel();
   window.scrollTo(0, 0);
 }
 
@@ -347,17 +469,50 @@ function updateBookingTotal(effectiveBasePrice) {
 }
 
 function handleBookingSubmit() {
+  const firstName = document.getElementById('guest-firstname')?.value.trim();
+  const lastName = document.getElementById('guest-lastname')?.value.trim();
+  const contact = document.getElementById('guest-contact')?.value.trim();
+  const paymentMethod = document.getElementById('payment-method')?.value;
   const dateInput = document.getElementById('booking-date');
   const adults = document.getElementById('adult-count')?.textContent || '0';
   const totalDisplay = document.getElementById('total-price-display')?.textContent || '';
 
-  if (!dateInput || !dateInput.value) {
-    alert('Please select a valid travel date.');
+  if (!firstName || !lastName || !contact || !dateInput || !dateInput.value) {
+    alert('Please fill out all required fields (First Name, Last Name, Contact Number, and Travel Date).');
     return;
   }
 
-  alert(`🎉 Reservation Successful!\n\nDestination: ${selectedPlace.name}\nDate: ${dateInput.value}\nAdults: ${adults}\nTotal Paid: ${totalDisplay}\n\nThank you for booking with TraveLaya!`);
-  navigateTo('home');
+  const referenceId = 'TRV-' + Math.floor(100000 + Math.random() * 900000);
+
+  const newBooking = {
+    referenceId,
+    destination: `${selectedPlace.name} (${selectedPlace.location})`,
+    name: `${firstName} ${lastName}`,
+    contact,
+    date: dateInput.value,
+    adults,
+    paymentMethod,
+    total: totalDisplay,
+    packageType: selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package'
+  };
+
+  const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail);
+  if (activeUser) {
+    activeUser.bookings.push(newBooking);
+  }
+
+  const confirmationMessage = 
+    `🎉 Booking Confirmed Successfully!\n\n` +
+    `Reference ID: ${referenceId}\n` +
+    `Name: ${firstName} ${lastName}\n` +
+    `Destination: ${selectedPlace.name}\n` +
+    `Travel Date: ${dateInput.value}\n` +
+    `Total Amount: ${totalDisplay}\n\n` +
+    `You can view this reservation anytime under the "My Bookings" tab.`;
+
+  if (confirm(confirmationMessage)) {
+    navigateTo('myBookings');
+  }
 }
 
 function setupCarousel(prevId, nextId, wrapperId, dotsId, dataArray) {
@@ -442,6 +597,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navTarget) {
       e.preventDefault();
       navigateTo(navTarget.dataset.page);
+    }
+
+    if (e.target.closest('.login-btn') || e.target.closest('#nav-login-btn')) {
+      handleAuthAction(e);
     }
   });
 
