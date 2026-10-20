@@ -635,6 +635,25 @@ export const views = {
           </div>
         </div>
 
+        <div class="landmark-options">
+          <h2>Landmark Options</h2>
+          <span style="font-size: 13px; color: #718096; display: block; margin-bottom: 14px;">Select your preferred primary landmark to visit</span>
+          <div class="landmark-selection-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            ${(selectedPlace.landmarks || []).map((lm, idx) => `
+              <div class="landmark-choice-card ${idx === 0 ? 'active' : ''}" onclick="selectLandmark(${idx})" style="background: ${idx === 0 ? '#fff5f6' : '#f8fafc'}; border: 2px solid ${idx === 0 ? '#ff7582' : '#cbd5e0'}; border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s;">
+                <div style="height: 100px; background-size: cover; background-position: center; background-image: url('${lm.image}');"></div>
+                <div style="padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <h4 style="font-size: 13px; font-weight: 700; color: #1b263b; margin: 0 0 2px 0;">${lm.name}</h4>
+                    <span style="font-size: 11px; color: #ff7582; font-weight: 600;">+₱${lm.price.toLocaleString()}</span>
+                  </div>
+                  <input type="radio" name="landmark_choice" value="${lm.name}" data-price="${lm.price}" ${idx === 0 ? 'checked' : ''} onchange="updateBookingTotal(${effectiveBasePrice})" style="accent-color: #ff7582; cursor: pointer;" />
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
         <div class="reservation-box">
           <h2>Reservation Form - ${selectedPlace.name}</h2>
 

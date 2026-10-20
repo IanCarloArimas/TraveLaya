@@ -345,6 +345,36 @@ function basePackagePriceForUpdate() {
   return selectedPackageType === 'full' ? basePrice * 1.25 : basePrice;
 }
 
+//LANDMARK OPTIONS
+window.selectLandmark = selectLandmark;
+
+let selectedLandmark = '';
+
+function selectLandmark(index) {
+  const cards = document.querySelectorAll('.landmark-choice-card');
+  
+  cards.forEach((card, i) => {
+    const radio = card.querySelector('input[type="radio"]');
+    if (i === index) {
+      card.classList.add('active');
+      card.style.background = '#fff5f6';
+      card.style.borderColor = '#ff7582';
+      if (radio) {
+        radio.checked = true;
+      }
+      selectedLandmark = radio ? radio.value : '';
+    } else {
+      card.classList.remove('active');
+      card.style.background = '#f8fafc';
+      card.style.borderColor = '#cbd5e0';
+      if (radio) {
+        radio.checked = false;
+      }
+    }
+  });
+  updateBookingTotal(basePackagePriceForUpdate());
+}
+
 function selectPackageType(type, basePrice) {
   selectedPackageType = type;
   const fullPrice = basePrice * 1.25;
@@ -460,7 +490,13 @@ function updateBookingTotal(effectiveBasePrice) {
     addonsTotal += parseInt(checkbox.dataset.price, 10) || 0;
   });
 
-  const subtotal = (adults * effectiveBasePrice) + childTotal + addonsTotal;
+  let landmarkTotal = 0;
+  const selectedLandmarkRadio = document.querySelector('input[name="landmark_choice"]:checked');
+  if (selectedLandmarkRadio) {
+    landmarkTotal += parseInt(selectedLandmarkRadio.dataset.price, 10) || 0;
+  }
+
+  const subtotal = (adults * effectiveBasePrice) + childTotal + addonsTotal + landmarkTotal;
   const promoDiscountAmount = subtotal * appliedPromoDiscount;
   const total = subtotal - promoDiscountAmount;
 
