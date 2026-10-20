@@ -594,13 +594,13 @@ export const views = {
       <div class="main-container">
         <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap;">
           <div>
-            <h1 style="margin-bottom: 4px;">Reservation Details</h1>
+            <h1 style="margin-bottom: 4px;">Booking Details</h1>
             <p class="subtitle">Location: <strong>${selectedPlace.location}</strong> | Base Rate: <strong>${selectedPlace.price} / Adult</strong></p>
           </div>
           
           <div style="min-width: 260px;">
             <label for="destination-select" style="font-size: 12px; font-weight: 700; color: #4a5568; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Change Destination</label>
-            <select id="destination-select" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-family: inherit; font-size: 14px; background: #ffffff; cursor: pointer; color: #1b263b; font-weight: 600;" onchange="changeBookingDestination(this.value)">
+            <select id="destination-select" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-family: inherit; font-size: 14px; background: #ffffff; margin-bottom: 10px; cursor: pointer; color: #1b263b; font-weight: 600;" onchange="changeBookingDestination(this.value)">
               ${Object.values(allPlacesData).map(p => `
                 <option value="${p.id}" ${p.id === selectedPlace.id ? 'selected' : ''}>
                   ${p.name} (${p.location})
@@ -711,7 +711,7 @@ export const views = {
           <div class="form-group">
             <label>Optional Add-ons & Services</label>
             <div class="addons-list" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
-              ${availableAddons.map(addon => `
+              ${(selectedPlace.addons || availableAddons).map(addon => `
                 <label class="addon-item" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer;">
                   <span style="font-size: 13px; font-weight: 500; color: #2d3748; display: flex; align-items: center; gap: 10px;">
                     <input type="checkbox" class="addon-checkbox" value="${addon.id}" data-price="${addon.price}" onchange="updateBookingTotal(${effectiveBasePrice})" />

@@ -29,6 +29,12 @@ export const allPlacesData = {
     itinerary: [
       { day: 'Day 1', title: 'Arrival & Island Tour', details: 'Check-in and afternoon boat excursion.' },
       { day: 'Day 2', title: 'Lagoon Exploration', details: 'Visit Big Lagoon and secret beaches.' }
+    ],
+    addons: [
+      { id: 'kayak', name: 'Transparent Kayak Rental', price: 600 },
+      { id: 'gopro', name: 'GoPro Underwater Rental', price: 900 },
+      { id: 'massage', name: 'Beachfront Sunset Massage', price: 1200 },
+      { id: 'snorkeling', name: 'Beach-side snorkeling', price: 200 }
     ]
   },
   'boracay': {
@@ -54,6 +60,11 @@ export const allPlacesData = {
     itinerary: [
       { day: 'Day 1', title: 'White Beach Sunset', details: 'Arrival and evening stroll along Station 2.' },
       { day: 'Day 2', title: 'Water Sports', details: 'Parasailing and helmet diving.' }
+    ],
+    addons: [
+      { id: 'helmet', name: 'Helmet Diving', price: 650 },
+      { id: 'paraw', name: 'Sunset Paraw Sailing', price: 850 },
+      { id: 'crystal', name: 'Crystal Kayak Photoshoot', price: 400 }
     ]
   },
   'chocolate-hills': {
@@ -78,6 +89,11 @@ export const allPlacesData = {
     ],
     itinerary: [
       { day: 'Day 1', title: 'Hills & Tarsiers', details: 'View deck observation and Loboc river cruise.' }
+    ],
+    addons: [
+      { id: 'atv', name: 'ATV Adventure', price: 1500 },
+      { id: 'gopro', name: 'GoPro Underwater Rental', price: 900 },
+      { id: 'bike', name: 'Bike Zip Adventure', price: 500 }
     ]
   },
   'banaue': {
@@ -102,6 +118,11 @@ export const allPlacesData = {
     ],
     itinerary: [
       { day: 'Day 1', title: 'Mountain Trek', details: 'Viewing terraces and local village walk.' }
+    ],
+    addons: [
+      { id: 'hiking', name: 'Tappiya Waterfalls Hiking', price: 500 },
+      { id: 'attire', name: 'Cultural Attire Experience ', price: 450 },
+      { id: 'trekking', name: 'Local Mountain Guide for Terraces Trekking', price: 1100 }
     ]
   },
   'siargao': {
@@ -126,6 +147,11 @@ export const allPlacesData = {
     ],
     itinerary: [
       { day: 'Day 1', title: 'Cloud 9 Surfing', details: 'Board rental and surf lesson.' }
+    ],
+    addons: [
+      { id: 'island', name: 'Three-Island Hopping Tour', price: 1700 },
+      { id: 'surfing', name: 'Cloud 9 Surfing', price: 700 },
+      { id: 'scooter', name: 'Land Tour Scooter Rental', price: 400 }
     ]
   },
   'mount-fuji': {
@@ -150,6 +176,11 @@ export const allPlacesData = {
     ],
     itinerary: [
       { day: 'Day 1', title: 'Lake View & Onsen', details: 'Check-in and hot springs relaxation.' }
+    ],
+    addons: [
+      { id: 'ropeway', name: 'Panoramic Ropeway Ticket', price: 500 },
+      { id: 'lake', name: 'GoPro Underwater Rental', price: 900 },
+      { id: 'springs', name: 'Traditional Springs Exploration', price: 500 }
     ]
   },
   'santorini': {
@@ -174,6 +205,11 @@ export const allPlacesData = {
     ],
     itinerary: [
       { day: 'Day 1', title: 'Sunset in Oia', details: 'Caldera view check-in and evening walk.' }
+    ],
+    addons: [
+      { id: 'cruise', name: 'Sunset Cruise', price: 8000 },
+      { id: 'photoshoot', name: 'Professional Photoshoot', price: 7600 },
+      { id: 'cable', name: 'Cable Car', price: 500 }
     ]
   },
   'eiffel-tower': {
@@ -198,6 +234,11 @@ export const allPlacesData = {
     ],
     itinerary: [
       { day: 'Day 1', title: 'City Tour', details: 'Eiffel tower fast-pass entry.' }
+    ],
+    addons: [
+      { id: 'elevator', name: 'Stairs and Summit Elevator', price: 1750 },
+      { id: 'bar', name: 'Champagne Bar Experience', price: 7600 },
+      { id: 'cruise', name: 'River Evening Sightseeing Cruise', price: 1500 }
     ]
   },
   'colosseum': {
@@ -221,6 +262,11 @@ export const allPlacesData = {
     ],
     itinerary: [
       { day: 'Day 1', title: 'Ancient Rome', details: 'Colosseum and Roman Forum tour.' }
+    ],
+    addons: [
+      { id: 'underground', name: 'Underground and Arena Ticket', price: 1500 },
+      { id: 'roman', name: 'Roman Forum Guided Walking Tour', price: 5500 },
+      { id: 'tour', name: 'Night Tour with Underground Access', price: 9500 }
     ]
   }
 };
