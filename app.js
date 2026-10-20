@@ -594,12 +594,6 @@ function handleBookingSubmit() {
   if (confirm(confirmationMessage)) {
     navigateTo('myBookings');
   }
-
-  alert(confirmationMessage);
-
-  setTimeout(() => {
-    navigateTo('myBookings');
-  }, 100);
 }
 
 function setupCarousel(prevId, nextId, wrapperId, dotsId, dataArray) {
