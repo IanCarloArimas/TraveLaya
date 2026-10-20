@@ -637,17 +637,17 @@ export const views = {
 
         <div class="landmark-options">
           <h2>Landmark Options</h2>
-          <span style="font-size: 13px; color: #718096; display: block; margin-bottom: 14px;">Select your preferred primary landmark to visit</span>
+          <span style="font-size: 13px; color: #718096; display: block; margin-bottom: 14px;">Select your preferred landmarks to visit (Multiple selection)</span>
           <div class="landmark-selection-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
             ${(selectedPlace.landmarks || []).map((lm, idx) => `
-              <div class="landmark-choice-card ${idx === 0 ? 'active' : ''}" onclick="selectLandmark(${idx})" style="background: ${idx === 0 ? '#fff5f6' : '#f8fafc'}; border: 2px solid ${idx === 0 ? '#ff7582' : '#cbd5e0'}; border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s;">
+              <div class="landmark-choice-card ${idx === 0 ? 'active' : ''}" onclick="toggleLandmark(${idx})" style="background: ${idx === 0 ? '#fff5f6' : '#f8fafc'}; border: 2px solid ${idx === 0 ? '#ff7582' : '#cbd5e0'}; border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s;">
                 <div style="height: 100px; background-size: cover; background-position: center; background-image: url('${lm.image}');"></div>
                 <div style="padding: 12px; display: flex; justify-content: space-between; align-items: center;">
                   <div>
-                    <h4 style="font-size: 13px; font-weight: 700; color: #1b263b; margin: 0 0 2px 0;">${lm.name}</h4>
-                    <span style="font-size: 11px; color: #ff7582; font-weight: 600;">+₱${lm.price.toLocaleString()}</span>
+                    <h4 style="font-size: 15px; font-weight: 700; color: #1b263b; margin: 2px 0 2px 0;">${lm.name}</h4>
+                    <span style="font-size: 13px; color: #ff7582; font-weight: 600;">+₱${lm.price.toLocaleString()}</span>
                   </div>
-                  <input type="radio" name="landmark_choice" value="${lm.name}" data-price="${lm.price}" ${idx === 0 ? 'checked' : ''} onchange="updateBookingTotal(${effectiveBasePrice})" style="accent-color: #ff7582; cursor: pointer;" />
+                  <input type="checkbox" name="landmark_choice" value="${lm.name}" data-price="${lm.price}" ${idx === 0 ? 'checked' : ''} onchange="updateBookingTotal(${effectiveBasePrice})" style="accent-color: #ff7582; cursor: pointer;" />
                 </div>
               </div>
             `).join('')}
@@ -742,12 +742,44 @@ export const views = {
             </div>
           </div>
 
-          <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; text-align: right; border: 1px solid #e2e8f0;">
-            <div id="promo-breakdown" style="font-size: 13px; color: #718096; margin-bottom: 4px; display: ${appliedPromoDiscount > 0 ? 'block' : 'none'};">
-              Promo Discount (${appliedPromoName}): <span style="color: #38a169;">-${(appliedPromoDiscount * 100)}%</span>
+          <div style="margin: 20px 0; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 15px; font-weight: 700; color: #1b263b; margin: 0 0 12px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+              Price Breakdown
+            </h3>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #4a5568;">
+              <div style="display: flex; justify-content: space-between;">
+                <span id="breakdown-adult-label">Adult Package (2 pax):</span>
+                <span id="breakdown-adult-price" style="font-weight: 600; color: #1b263b;">₱${(effectiveBasePrice * 2).toLocaleString()}</span>
+              </div>
+              
+              <div id="breakdown-child-row" style="display: flex; justify-content: space-between;">
+                <span id="breakdown-child-label">Child Guests (0 pax):</span>
+                <span id="breakdown-child-price" style="font-weight: 600; color: #1b263b;">₱0</span>
+              </div>
+
+              <div id="breakdown-landmark-row" style="display: flex; justify-content: space-between;">
+                <span>Selected Landmarks:</span>
+                <span id="breakdown-landmark-price" style="font-weight: 600; color: #1b263b;">
+                  +₱${(selectedPlace.landmarks?.[0]?.price || 0).toLocaleString()}
+                </span>
+              </div>
+
+              <div id="breakdown-addons-row" style="display: flex; justify-content: space-between;">
+                <span>Optional Add-ons:</span>
+                <span id="breakdown-addons-price" style="font-weight: 600; color: #1b263b;">₱0</span>
+              </div>
+
+              <div id="breakdown-promo-row" style="display: ${appliedPromoDiscount > 0 ? 'flex' : 'none'}; justify-content: space-between; color: #38a169; font-weight: 600;">
+                <span id="breakdown-promo-label">Promo Discount (${appliedPromoName}):</span>
+                <span id="breakdown-promo-price">-${appliedPromoDiscount * 100}%</span>
+              </div>
             </div>
-            <span style="font-size: 15px; font-weight: 600; color: #1b263b;">Estimated Total: </span>
-            <strong id="total-price-display" style="font-size: 22px; color: #ff7582;">₱${Math.round(initialTotal).toLocaleString()}</strong>
+
+            <div style="margin-top: 14px; padding-top: 12px; border-top: 2px dashed #cbd5e0; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 16px; font-weight: 700; color: #1b263b;">Estimated Total:</span>
+              <strong id="total-price-display" style="font-size: 22px; color: #ff7582;">₱${Math.round(initialTotal).toLocaleString()}</strong>
+            </div>
           </div>
 
           <div class="action-buttons">

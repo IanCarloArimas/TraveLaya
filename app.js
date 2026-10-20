@@ -346,32 +346,28 @@ function basePackagePriceForUpdate() {
 }
 
 //LANDMARK OPTIONS
-window.selectLandmark = selectLandmark;
+window.toggleLandmark = toggleLandmark;
 
-let selectedLandmark = '';
-
-function selectLandmark(index) {
+function toggleLandmark(index) {
   const cards = document.querySelectorAll('.landmark-choice-card');
-  
-  cards.forEach((card, i) => {
-    const radio = card.querySelector('input[type="radio"]');
-    if (i === index) {
+  const card = cards[index];
+  if (!card) return;
+
+  const checkbox = card.querySelector('input[type="checkbox"]');
+  if (checkbox) {
+    checkbox.checked = !checkbox.checked;
+
+    if (checkbox.checked) {
       card.classList.add('active');
       card.style.background = '#fff5f6';
       card.style.borderColor = '#ff7582';
-      if (radio) {
-        radio.checked = true;
-      }
-      selectedLandmark = radio ? radio.value : '';
     } else {
       card.classList.remove('active');
       card.style.background = '#f8fafc';
       card.style.borderColor = '#cbd5e0';
-      if (radio) {
-        radio.checked = false;
-      }
     }
-  });
+  }
+
   updateBookingTotal(basePackagePriceForUpdate());
 }
 
@@ -478,11 +474,16 @@ function applyPromoCode() {
 
 function updateBookingTotal(effectiveBasePrice) {
   const adults = parseInt(document.getElementById('adult-count')?.textContent || '2', 10);
+  const children = parseInt(document.getElementById('child-count')?.textContent || '0', 10);
   const ageSelects = document.querySelectorAll('.child-age-select');
   
+  const adultSubtotal = adults * effectiveBasePrice;
+
   let childTotal = 0;
-  ageSelects.forEach(() => {
-    childTotal += effectiveBasePrice * 0.5;
+  ageSelects.forEach(select => {
+    if (select.value !== '0') {
+      childTotal += effectiveBasePrice * 0.5;
+    }
   });
 
   let addonsTotal = 0;
@@ -491,17 +492,55 @@ function updateBookingTotal(effectiveBasePrice) {
   });
 
   let landmarkTotal = 0;
-  const selectedLandmarkRadio = document.querySelector('input[name="landmark_choice"]:checked');
-  if (selectedLandmarkRadio) {
-    landmarkTotal += parseInt(selectedLandmarkRadio.dataset.price, 10) || 0;
+  document.querySelectorAll('input[name="landmark_choice"]:checked').forEach(checkbox => {
+    landmarkTotal += parseInt(checkbox.dataset.price, 10) || 0;
+  });
+
+  const subtotal = adultSubtotal + childTotal + addonsTotal + landmarkTotal;
+  const promoDiscountAmount = subtotal * appliedPromoDiscount;
+  const grandTotal = subtotal - promoDiscountAmount;
+
+  const bAdultLabel = document.getElementById('breakdown-adult-label');
+  const bAdultPrice = document.getElementById('breakdown-adult-price');
+  if (bAdultLabel && bAdultPrice) {
+    bAdultLabel.textContent = `Adult Package (${adults} ${adults === 1 ? 'pax' : 'pax'}):`;
+    bAdultPrice.textContent = `₱${adultSubtotal.toLocaleString()}`;
   }
 
-  const subtotal = (adults * effectiveBasePrice) + childTotal + addonsTotal + landmarkTotal;
-  const promoDiscountAmount = subtotal * appliedPromoDiscount;
-  const total = subtotal - promoDiscountAmount;
+  const bChildLabel = document.getElementById('breakdown-child-label');
+  const bChildPrice = document.getElementById('breakdown-child-price');
+  if (bChildLabel && bChildPrice) {
+    bChildLabel.textContent = `Child Guests (${children} ${children === 1 ? 'pax' : 'pax'}):`;
+    bChildPrice.textContent = `₱${childTotal.toLocaleString()}`;
+  }
+
+  const bLandmarkPrice = document.getElementById('breakdown-landmark-price');
+  if (bLandmarkPrice) {
+    bLandmarkPrice.textContent = landmarkTotal > 0 ? `+₱${landmarkTotal.toLocaleString()}` : '₱0';
+  }
+
+  const bAddonsPrice = document.getElementById('breakdown-addons-price');
+  if (bAddonsPrice) {
+    bAddonsPrice.textContent = addonsTotal > 0 ? `+₱${addonsTotal.toLocaleString()}` : '₱0';
+  }
+
+  const bPromoRow = document.getElementById('breakdown-promo-row');
+  const bPromoLabel = document.getElementById('breakdown-promo-label');
+  const bPromoPrice = document.getElementById('breakdown-promo-price');
+  if (bPromoRow && bPromoLabel && bPromoPrice) {
+    if (appliedPromoDiscount > 0) {
+      bPromoRow.style.display = 'flex';
+      bPromoLabel.textContent = `Promo Discount (${appliedPromoName}):`;
+      bPromoPrice.textContent = `-₱${Math.round(promoDiscountAmount).toLocaleString()} (${appliedPromoDiscount * 100}%)`;
+    } else {
+      bPromoRow.style.display = 'none';
+    }
+  }
 
   const display = document.getElementById('total-price-display');
-  if (display) display.textContent = `₱${Math.round(total).toLocaleString()}`;
+  if (display) {
+    display.textContent = `₱${Math.round(grandTotal).toLocaleString()}`;
+  }
 }
 
 function handleBookingSubmit() {
@@ -512,6 +551,8 @@ function handleBookingSubmit() {
   const dateInput = document.getElementById('booking-date');
   const adults = document.getElementById('adult-count')?.textContent || '0';
   const totalDisplay = document.getElementById('total-price-display')?.textContent || '';
+
+  console.log("Submitting booking with:", { firstName, lastName, contact, date: dateInput?.value });
 
   if (!firstName || !lastName || !contact || !dateInput || !dateInput.value) {
     alert('Please fill out all required fields (First Name, Last Name, Contact Number, and Travel Date).');
@@ -532,7 +573,11 @@ function handleBookingSubmit() {
     packageType: selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package'
   };
 
-  const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail);
+  let activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail);
+  if (!activeUser && sampleAccounts.length > 0) {
+    activeUser = sampleAccounts[0];
+  }
+
   if (activeUser) {
     activeUser.bookings.push(newBooking);
   }
@@ -549,6 +594,12 @@ function handleBookingSubmit() {
   if (confirm(confirmationMessage)) {
     navigateTo('myBookings');
   }
+
+  alert(confirmationMessage);
+
+  setTimeout(() => {
+    navigateTo('myBookings');
+  }, 100);
 }
 
 function setupCarousel(prevId, nextId, wrapperId, dotsId, dataArray) {
@@ -625,6 +676,7 @@ function attachBookingListeners() {
       updateBookingTotal(basePackagePriceForUpdate());
     });
   });
+  updateBookingTotal(basePackagePriceForUpdate());
 }
 
 document.addEventListener('DOMContentLoaded', () => {

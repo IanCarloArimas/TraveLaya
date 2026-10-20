@@ -54,8 +54,8 @@ export const allPlacesData = {
     amenities: ['Swimming Pool', 'Air Conditioning', 'Spa & Wellness Center', 'Welcome Drinks', 'Live Music Lounge'],
     landmarks: [
       { name: 'Willy\'s Rock', price: 500, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Puka Shell Beach', price: 500, image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Mount Luho', price: 500, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Puka Shell Beach', price: 600, image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' },
+      { name: 'Mount Luho', price: 700, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'White Beach Sunset', details: 'Arrival and evening stroll along Station 2.' },
@@ -84,8 +84,8 @@ export const allPlacesData = {
     amenities: ['Private Van Service', 'Tour Guide', 'Lunch Included', 'Entrance Fees Included'],
     landmarks: [
       { name: 'Main Complex', price: 500, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Loboc River', price: 500, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Tarsier Sanctuary', price: 500, image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Loboc River', price: 600, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
+      { name: 'Tarsier Sanctuary', price: 700, image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Hills & Tarsiers', details: 'View deck observation and Loboc river cruise.' }
@@ -113,8 +113,8 @@ export const allPlacesData = {
     amenities: ['Local Trekking Guide', 'Mountain View Deck', 'Traditional Breakfast', 'Hot Shower Homestay'],
     landmarks: [
       { name: 'Batad Terraces', price: 500, image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Tappiya Falls', price: 500, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Viewpoint Peak', price: 500, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Tappiya Falls', price: 600, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
+      { name: 'Viewpoint Peak', price: 700, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Mountain Trek', details: 'Viewing terraces and local village walk.' }
@@ -142,8 +142,8 @@ export const allPlacesData = {
     amenities: ['Surfboard Rental', 'Motorbike Rental Option', 'Beach Bar Access', 'Free Wi-Fi', 'Coffee Station'],
     landmarks: [
       { name: 'Cloud 9 Boardwalk', price: 500, image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Sugba Lagoon', price: 500, image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Magpupungko Pools', price: 500, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Sugba Lagoon', price: 600, image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' },
+      { name: 'Magpupungko Pools', price: 700, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Cloud 9 Surfing', details: 'Board rental and surf lesson.' }
@@ -171,8 +171,8 @@ export const allPlacesData = {
     amenities: ['Onsen Access', 'Traditional Yukata', 'Kaiseki Dinner', 'High-speed Wi-Fi', 'Luggage Transfer'],
     landmarks: [
       { name: 'Chureito Pagoda', price: 500, image: 'https://images.unsplash.com/photo-1528164344705-47542687990d?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Lake Kawaguchiko', price: 500, image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Fuji-Q Highland', price: 500, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Lake Kawaguchiko', price: 600, image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=400&auto=format&fit=crop' },
+      { name: 'Fuji-Q Highland', price: 700, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Lake View & Onsen', details: 'Check-in and hot springs relaxation.' }
@@ -200,8 +200,8 @@ export const allPlacesData = {
     amenities: ['Infinity Pool', 'Caldera View Balcony', 'Wine Tasting Pass', 'Complimentary Champagne', 'Air Conditioning'],
     landmarks: [
       { name: 'Oia Castle', price: 500, image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Red Beach', price: 500, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Akrotiri Ruins', price: 500, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Red Beach', price: 600, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
+      { name: 'Akrotiri Ruins', price: 700, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Sunset in Oia', details: 'Caldera view check-in and evening walk.' }
@@ -229,8 +229,8 @@ export const allPlacesData = {
     amenities: ['Museum Fast-Pass', 'City Metro Card', 'Croissant Breakfast', 'Concierge Service', 'Free Wi-Fi'],
     landmarks: [
       { name: 'Louvre Museum', price: 500, image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Arc de Triomphe', price: 500, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Seine River', price: 500, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Arc de Triomphe', price: 600, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' },
+      { name: 'Seine River', price: 700, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'City Tour', details: 'Eiffel tower fast-pass entry.' }
