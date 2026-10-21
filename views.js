@@ -645,6 +645,7 @@ export const views = {
                 <div style="padding: 12px; display: flex; justify-content: space-between; align-items: center;">
                   <div>
                     <h4 style="font-size: 15px; font-weight: 700; color: #1b263b; margin: 2px 0 2px 0;">${lm.name}</h4>
+                    <p style="font-size: 12px; font-weight: 400; color:  #606670; margin: 0px;">${lm.desc}</p>
                     <span style="font-size: 13px; color: #ff7582; font-weight: 600;">+₱${lm.price.toLocaleString()}</span>
                   </div>
                   <input type="checkbox" name="landmark_choice" value="${lm.name}" data-price="${lm.price}" ${idx === 0 ? 'checked' : ''} onchange="updateBookingTotal(${effectiveBasePrice})" style="accent-color: #ff7582; cursor: pointer;" />
