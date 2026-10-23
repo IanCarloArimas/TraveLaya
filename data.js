@@ -22,13 +22,19 @@ export const allPlacesData = {
     description: 'El Nido is renowned worldwide for its dramatic limestone cliffs, crystal-clear turquoise waters, and thriving marine sanctuaries serving as the gateway to the breathtaking Bacuit Archipelago.',
     amenities: ['Free Wi-Fi', 'Beachfront Access', 'Snorkeling Gear Included', 'Airport Shuttle', 'Buffet Breakfast'],
     landmarks: [
-      { name: 'Big Lagoon', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Nacpan Beach', image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Secret Lagoon', image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Big Lagoon', price: 500, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'A famous, narrow waterway with crystal-clear turquoise and emerald waters surrounded by towering dark limestone karst cliffs.' },
+      { name: 'Nacpan Beach', price: 600, image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' , desc: 'A tropical beach with clear turquoise waters, white sand, and lush greenery.' },
+      { name: 'Secret Lagoon', price: 700, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' , desc: 'The Secret Lagoon is a hidden natural pool located on Miniloc Island.'}
     ],
     itinerary: [
       { day: 'Day 1', title: 'Arrival & Island Tour', details: 'Check-in and afternoon boat excursion.' },
       { day: 'Day 2', title: 'Lagoon Exploration', details: 'Visit Big Lagoon and secret beaches.' }
+    ],
+    addons: [
+      { id: 'kayak', name: 'Transparent Kayak Rental', price: 600 },
+      { id: 'gopro', name: 'GoPro Underwater Rental', price: 900 },
+      { id: 'massage', name: 'Beachfront Sunset Massage', price: 1200 },
+      { id: 'snorkeling', name: 'Beach-side snorkeling', price: 200 }
     ]
   },
   'boracay': {
@@ -47,13 +53,18 @@ export const allPlacesData = {
     description: 'Famous for its four-mile White Beach with powdery soft sand, vibrant nightlife, water sports, and relaxing beachfront resorts.',
     amenities: ['Swimming Pool', 'Air Conditioning', 'Spa & Wellness Center', 'Welcome Drinks', 'Live Music Lounge'],
     landmarks: [
-      { name: 'Willy\'s Rock', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Puka Shell Beach', image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Mount Luho', image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Willy\'s Rock', price: 500, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' , desc: "Willy's Rock is an oddly shaped volcanic formation with a statue of Our Lady of Lourdes." },
+      { name: 'Puka Shell Beach', price: 600, image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' , desc: 'Puka Beach is famous for its abundant natural puka shells, its quieter and more untamed atmosphere.' },
+      { name: 'Mount Luho', price: 700, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' , desc: 'Mount Luho is the highest point and peak on Boracay Island in Aklan, Philippines.' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'White Beach Sunset', details: 'Arrival and evening stroll along Station 2.' },
       { day: 'Day 2', title: 'Water Sports', details: 'Parasailing and helmet diving.' }
+    ],
+    addons: [
+      { id: 'helmet', name: 'Helmet Diving', price: 650 },
+      { id: 'paraw', name: 'Sunset Paraw Sailing', price: 850 },
+      { id: 'crystal', name: 'Crystal Kayak Photoshoot', price: 400 }
     ]
   },
   'chocolate-hills': {
@@ -72,12 +83,17 @@ export const allPlacesData = {
     description: 'A geological formation of over 1,200 conical hills in Bohol that turn chocolate-brown during the dry season, creating a surreal natural landscape.',
     amenities: ['Private Van Service', 'Tour Guide', 'Lunch Included', 'Entrance Fees Included'],
     landmarks: [
-      { name: 'Main Complex', image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Loboc River', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Tarsier Sanctuary', image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Main Complex', price: 500, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' , desc: "The Main Complex in Carmen is one of Bohol's most iconic and must-visit attractions" },
+      { name: 'Loboc River', price: 600, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' , desc: 'Loboc is a scenic riverside municipality.' },
+      { name: 'Tarsier Sanctuary', price: 700, image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' , desc: 'Forest where visitors can see the tarsier, a small native primate, in its natural habitat.' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Hills & Tarsiers', details: 'View deck observation and Loboc river cruise.' }
+    ],
+    addons: [
+      { id: 'atv', name: 'ATV Adventure', price: 1500 },
+      { id: 'gopro', name: 'GoPro Underwater Rental', price: 900 },
+      { id: 'bike', name: 'Bike Zip Adventure', price: 500 }
     ]
   },
   'banaue': {
@@ -96,12 +112,17 @@ export const allPlacesData = {
     description: '2,000-year-old rice terraces carved into the mountains of Ifugao by ancestors of the indigenous people, often called the "Eighth Wonder of the World".',
     amenities: ['Local Trekking Guide', 'Mountain View Deck', 'Traditional Breakfast', 'Hot Shower Homestay'],
     landmarks: [
-      { name: 'Batad Terraces', image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Tappiya Falls', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Viewpoint Peak', image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Batad Terraces', price: 500, image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=400&auto=format&fit=crop' , desc: 'A famous, amphitheater-shaped cluster of stone-walled rice paddies located in Batad village.' },
+      { name: 'Tappiya Falls', price: 600, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' , desc: 'A massive 21- to 70-meter cascading waterfall located near the remote village of Batad.' },
+      { name: 'Viewpoint Peak', price: 700, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' , desc: 'The most iconic, elevated vantage point for observing the historic rice fields.' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Mountain Trek', details: 'Viewing terraces and local village walk.' }
+    ],
+    addons: [
+      { id: 'hiking', name: 'Tappiya Waterfalls Hiking', price: 500 },
+      { id: 'attire', name: 'Cultural Attire Experience ', price: 450 },
+      { id: 'trekking', name: 'Local Mountain Guide for Terraces Trekking', price: 1100 }
     ]
   },
   'siargao': {
@@ -120,12 +141,17 @@ export const allPlacesData = {
     description: 'The surfing capital of the Philippines, known for its iconic Cloud 9 wave, vast coconut palm groves, rock pools, and laid-back island vibes.',
     amenities: ['Surfboard Rental', 'Motorbike Rental Option', 'Beach Bar Access', 'Free Wi-Fi', 'Coffee Station'],
     landmarks: [
-      { name: 'Cloud 9 Boardwalk', image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Sugba Lagoon', image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Magpupungko Pools', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Cloud 9 Boardwalk', price: 500, image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' , desc: 'Cloud 9 in Siargao was named after the popular Cloud 9 chocolate bar.' },
+      { name: 'Sugba Lagoon', price: 600, image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' , desc: 'A turquoise blue-green natural pool surrounded by dense mangrove forests and limestone hills.' },
+      { name: 'Magpupungko Pools', price: 700, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' , desc: 'Stunning natural rock and coral lagoons in Pilar.' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Cloud 9 Surfing', details: 'Board rental and surf lesson.' }
+    ],
+    addons: [
+      { id: 'island', name: 'Three-Island Hopping Tour', price: 1700 },
+      { id: 'surfing', name: 'Cloud 9 Surfing', price: 700 },
+      { id: 'scooter', name: 'Land Tour Scooter Rental', price: 400 }
     ]
   },
   'mount-fuji': {
@@ -144,12 +170,17 @@ export const allPlacesData = {
     description: 'Mount Fuji is an iconic active volcano located about 100 kilometers southwest of Tokyo. Commonly referred to as "Fuji-san," it stands as Japan\'s tallest peak and holds deep cultural significance.',
     amenities: ['Onsen Access', 'Traditional Yukata', 'Kaiseki Dinner', 'High-speed Wi-Fi', 'Luggage Transfer'],
     landmarks: [
-      { name: 'Chureito Pagoda', image: 'https://images.unsplash.com/photo-1528164344705-47542687990d?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Lake Kawaguchiko', image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Fuji-Q Highland', image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Chureito Pagoda', price: 500, image: 'https://images.unsplash.com/photo-1528164344705-47542687990d?q=80&w=400&auto=format&fit=crop' , desc: 'Iconic pagoda on a hilltop facing Mt. Fuji in Arakurayama Sengen Park, reached via 398 steps.' },
+      { name: 'Lake Kawaguchiko', price: 600, image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=400&auto=format&fit=crop' , desc: 'It is the second largest of the Fuji Five Lakes in terms of surface area, and is located at the lowest elevation.c' },
+      { name: 'Fuji-Q Highland', price: 700, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' , desc: "A free amusement park at the foot of Mount Fuji that offers many of the world's attractions." }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Lake View & Onsen', details: 'Check-in and hot springs relaxation.' }
+    ],
+    addons: [
+      { id: 'ropeway', name: 'Panoramic Ropeway Ticket', price: 500 },
+      { id: 'lake', name: 'GoPro Underwater Rental', price: 900 },
+      { id: 'springs', name: 'Traditional Springs Exploration', price: 500 }
     ]
   },
   'santorini': {
@@ -168,12 +199,17 @@ export const allPlacesData = {
     description: 'Perched on steep volcanic cliffs in the Aegean Sea, Santorini features iconic whitewashed houses, blue-domed churches, and world-famous sunsets over caldera views.',
     amenities: ['Infinity Pool', 'Caldera View Balcony', 'Wine Tasting Pass', 'Complimentary Champagne', 'Air Conditioning'],
     landmarks: [
-      { name: 'Oia Castle', image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Red Beach', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Akrotiri Ruins', image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Oia Castle', price: 500, image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' , desc: 'Sea views from the surviving watchtower of a Renaissance-era castle built to guard against pirates.' },
+      { name: 'Red Beach', price: 600, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'A famous volcanic sand beach on the southern coast.' },
+      { name: 'Akrotiri Ruins', price: 700, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' , desc: 'Akrotiri is a Cycladic Bronze Age settlement site on the volcanic Greek island of Santorini.' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Sunset in Oia', details: 'Caldera view check-in and evening walk.' }
+    ],
+    addons: [
+      { id: 'cruise', name: 'Sunset Cruise', price: 8000 },
+      { id: 'photoshoot', name: 'Professional Photoshoot', price: 7600 },
+      { id: 'cable', name: 'Cable Car', price: 500 }
     ]
   },
   'eiffel-tower': {
@@ -192,12 +228,17 @@ export const allPlacesData = {
     description: 'The wrought-iron lattice tower on the Champ de Mars in Paris, France. Named after engineer Gustave Eiffel, it is a global cultural icon of France.',
     amenities: ['Museum Fast-Pass', 'City Metro Card', 'Croissant Breakfast', 'Concierge Service', 'Free Wi-Fi'],
     landmarks: [
-      { name: 'Louvre Museum', image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Arc de Triomphe', image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Seine River', image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Louvre Museum', price: 500, image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' , desc: 'Home to some of the most canonical works of Western art, including the Mona Lisa, Venus de Milo, and Winged Victory.' },
+      { name: 'Arc de Triomphe', price: 600, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' , desc: 'One of the most famous monuments in Paris, France.' },
+      { name: 'Seine River', price: 700, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' , desc: 'A major 777-kilometer-long (483 mi) waterway in northern France that flows through the heart of Paris before emptying into the English Channel at Le Havre.' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'City Tour', details: 'Eiffel tower fast-pass entry.' }
+    ],
+    addons: [
+      { id: 'elevator', name: 'Stairs and Summit Elevator', price: 1750 },
+      { id: 'bar', name: 'Champagne Bar Experience', price: 7600 },
+      { id: 'cruise', name: 'River Evening Sightseeing Cruise', price: 1500 }
     ]
   },
   'colosseum': {
@@ -215,12 +256,17 @@ export const allPlacesData = {
     image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=1600&auto=format&fit=crop',
     description: 'An ancient amphitheatre in the centre of the city of Rome, Italy. Built of travertine limestone, tuff, and brick-faced concrete, it was the largest amphitheatre ever built.',
     landmarks: [
-      { name: 'Roman Forum', image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Pantheon', image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' },
-      { name: 'Trevi Fountain', image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' }
+      { name: 'Roman Forum', price: 500, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' , desc: 'A rectangular forum surrounded by the ruins of several important ancient government buildings at the centre of the city of Rome. ' },
+      { name: 'Pantheon', price: 600, image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' , desc: 'An ancient Roman architectural marvel featuring a massive, unreinforced concrete dome and a central open-air opening called the oculus.' },
+      { name: 'Trevi Fountain', price: 700, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' , desc: 'An 18th-century fountain in the Trevi district in Rome, Italy.' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Ancient Rome', details: 'Colosseum and Roman Forum tour.' }
+    ],
+    addons: [
+      { id: 'underground', name: 'Underground and Arena Ticket', price: 1500 },
+      { id: 'roman', name: 'Roman Forum Guided Walking Tour', price: 5500 },
+      { id: 'tour', name: 'Night Tour with Underground Access', price: 9500 }
     ]
   }
 };
