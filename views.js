@@ -476,7 +476,7 @@ export const views = {
         ${bookings.length === 0 ? `
           <div style="text-align: center; padding: 50px 20px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; margin-top: 20px;">
             <p style="font-size: 16px; color: #64748b; margin-bottom: 16px;">You don't have any bookings yet.</p>
-            <button onclick="navigateTo('home')" style="background: #ff7582; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer;">Explore Destinations</button>
+            <button onclick="navigateTo('places')" style="background: #ff7582; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer;">Explore Destinations</button>
           </div>
         ` : `
           <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">

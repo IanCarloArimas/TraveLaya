@@ -10,15 +10,16 @@ let appliedPromoDiscount = 0;
 let appliedPromoName = '';
 let isLoggedIn = false;
 let currentUserEmail = null; 
+let isAdmin = false;
 
-// MGA ACCOUNTS NA SAMPLE LANG, WALA KASI DB KAYA GANITO NALANG MUNA
+// Sample accounts including an Admin account
 const sampleAccounts = [
-  { email: 'BeatrizMarie@gmail.com', password: 'password123', name: 'Beatriz Marie Bautista', bookings: [] },
-  { email: 'KarlaMae@gmail.com', password: 'password123', name: 'Karla Mae Ibuig', bookings: [] },
-  { email: 'RhonaAngelica@gmail.com', password: 'password123', name: 'Rhona Angelica Cailao', bookings: [] }
+  { email: 'admin@travelaya.com', password: 'admin123', name: 'System Administrator', bookings: [], isAdmin: true },
+  { email: 'BeatrizMarie@gmail.com', password: 'password123', name: 'Beatriz Marie Bautista', bookings: [], isAdmin: false },
+  { email: 'KarlaMae@gmail.com', password: 'password123', name: 'Karla Mae Ibuig', bookings: [], isAdmin: false },
+  { email: 'RhonaAngelica@gmail.com', password: 'password123', name: 'Rhona Angelica Cailao', bookings: [], isAdmin: false }
 ];
 
-//WALA KASI DB GANITO NALANG MUNA TAYO DIBA
 window.navigateTo = navigateTo;
 window.changeBookingDestination = changeBookingDestination;
 window.viewPlaceDetail = viewPlaceDetail;
@@ -37,6 +38,8 @@ window.switchToRegister = switchToRegister;
 window.switchToLogin = switchToLogin;
 window.handleRegisterSubmit = handleRegisterSubmit;
 window.handleAuthAction = handleAuthAction;
+window.toggleLandmark = toggleLandmark;
+window.approveBooking = approveBooking;
 
 function openLoginModal(e) {
   if (e) e.preventDefault();
@@ -68,8 +71,14 @@ function switchToLogin(e) {
 
 function updateNavAuthLabel() {
   const loginBtn = document.querySelector('.login-btn, #nav-login-btn');
+  const adminNavBtn = document.getElementById('nav-admin-btn');
+
   if (loginBtn) {
     loginBtn.textContent = isLoggedIn ? 'Logout' : 'Login';
+  }
+
+  if (adminNavBtn) {
+    adminNavBtn.style.display = (isLoggedIn && isAdmin) ? 'inline-block' : 'none';
   }
 }
 
@@ -80,19 +89,22 @@ function handleLoginSubmit(e) {
 
   const foundUser = sampleAccounts.find(acc => acc.email.toLowerCase() === emailInput && acc.password === passwordInput);
 
-  if (foundUser || (emailInput && passwordInput)) {
+  if (foundUser) {
     isLoggedIn = true;
-    currentUserEmail = emailInput;
-
-    if (!foundUser) {
-      sampleAccounts.push({ email: emailInput, password: passwordInput, name: emailInput.split('@')[0], bookings: [] });
-    }
+    currentUserEmail = foundUser.email;
+    isAdmin = !!foundUser.isAdmin;
 
     updateNavAuthLabel();
-    alert(`Successfully logged in as ${foundUser ? foundUser.name : emailInput}! You can now proceed with your bookings.`);
+    alert(`Successfully logged in as ${foundUser.name} (${isAdmin ? 'Admin' : 'User'})!`);
     closeLoginModal();
+
+    if (isAdmin) {
+      navigateTo('admin');
+    } else {
+      navigateTo('home');
+    }
   } else {
-    alert('Invalid email or password. You can use the sample account: BeatrizMarie@gmail.com / password123');
+    alert('Invalid email or password.\nTry Admin: admin@travelaya.com / admin123\nOr User: BeatrizMarie@gmail.com / password123');
   }
 }
 
@@ -102,13 +114,15 @@ function handleRegisterSubmit(e) {
   const email = document.getElementById('reg-email').value.trim().toLowerCase();
   const password = document.getElementById('reg-password').value;
 
-  sampleAccounts.push({ email, password, name, bookings: [] });
+  sampleAccounts.push({ email, password, name, bookings: [], isAdmin: false });
 
   isLoggedIn = true;
   currentUserEmail = email;
+  isAdmin = false;
   updateNavAuthLabel();
   alert(`🎉 Account successfully created and logged in for ${name} (${email})!`);
   closeLoginModal();
+  navigateTo('home');
 }
 
 function handleAuthAction(e) {
@@ -117,6 +131,7 @@ function handleAuthAction(e) {
     if (confirm('Are you sure you want to log out?')) {
       isLoggedIn = false;
       currentUserEmail = null;
+      isAdmin = false;
       updateNavAuthLabel();
       alert('You have been logged out.');
       navigateTo('home');
@@ -147,13 +162,20 @@ function navigateTo(pageKey) {
 
   if (pageKey === 'booking' && !isLoggedIn) {
     alert('⚠️ Please log in or register an account before proceeding to booking.');
+    navigateTo('places'); // Redirects to Places page when unauthenticated
     openLoginModal();
     return;
   }
 
   if (pageKey === 'myBookings' && !isLoggedIn) {
     alert('⚠️ Please log in to view your bookings.');
+    navigateTo('places'); // Redirects to Places page when unauthenticated
     openLoginModal();
+    return;
+  }
+
+  if (pageKey === 'admin' && !isAdmin) {
+    alert('⚠️ Access denied. Administrator privileges required.');
     return;
   }
 
@@ -166,9 +188,11 @@ function navigateTo(pageKey) {
   } else if (pageKey === 'booking') {
     content = views.getBookingView(selectedPlace, selectedPackageType, appliedPromoName, appliedPromoDiscount);
   } else if (pageKey === 'myBookings') {
-    const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail);
+    const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail?.toLowerCase());
     const myBookingsList = activeUser ? activeUser.bookings : [];
     content = views.getMyBookingsView(myBookingsList);
+  } else if (pageKey === 'admin') {
+    content = views.getAdminView(sampleAccounts);
   } else {
     content = views[pageKey];
   }
@@ -191,6 +215,18 @@ function navigateTo(pageKey) {
 
   updateNavAuthLabel();
   window.scrollTo(0, 0);
+}
+
+function approveBooking(userEmail, referenceId) {
+  const user = sampleAccounts.find(acc => acc.email.toLowerCase() === userEmail.toLowerCase());
+  if (user) {
+    const booking = user.bookings.find(b => b.referenceId === referenceId);
+    if (booking) {
+      booking.status = 'Approved / Paid Confirmed';
+      alert(`Booking ${referenceId} has been successfully approved!`);
+      navigateTo('admin');
+    }
+  }
 }
 
 function applyFilters() {
@@ -345,18 +381,30 @@ function basePackagePriceForUpdate() {
   return selectedPackageType === 'full' ? basePrice * 1.25 : basePrice;
 }
 
-//LANDMARK OPTIONS
-window.toggleLandmark = toggleLandmark;
-
 function toggleLandmark(index) {
   const cards = document.querySelectorAll('.landmark-choice-card');
   const card = cards[index];
   if (!card) return;
 
   const checkbox = card.querySelector('input[type="checkbox"]');
-  if (checkbox) {
-    checkbox.checked = !checkbox.checked;
+  if (!checkbox) return;
 
+  if (selectedPackageType === 'day') {
+    document.querySelectorAll('input[name="landmark_choice"]').forEach((cb, i) => {
+      cb.checked = (i === index);
+      const cCard = cards[i];
+      if (i === index) {
+        cCard.classList.add('active');
+        cCard.style.background = '#fff5f6';
+        cCard.style.borderColor = '#ff7582';
+      } else {
+        cCard.classList.remove('active');
+        cCard.style.background = '#f8fafc';
+        cCard.style.borderColor = '#cbd5e0';
+      }
+    });
+  } else {
+    checkbox.checked = !checkbox.checked;
     if (checkbox.checked) {
       card.classList.add('active');
       card.style.background = '#fff5f6';
@@ -552,7 +600,11 @@ function handleBookingSubmit() {
   const adults = document.getElementById('adult-count')?.textContent || '0';
   const totalDisplay = document.getElementById('total-price-display')?.textContent || '';
 
-  console.log("Submitting booking with:", { firstName, lastName, contact, date: dateInput?.value });
+  if (!isLoggedIn || !currentUserEmail) {
+    alert('⚠️ Please log in to complete your booking.');
+    openLoginModal();
+    return;
+  }
 
   if (!firstName || !lastName || !contact || !dateInput || !dateInput.value) {
     alert('Please fill out all required fields (First Name, Last Name, Contact Number, and Travel Date).');
@@ -570,26 +622,27 @@ function handleBookingSubmit() {
     adults,
     paymentMethod,
     total: totalDisplay,
-    packageType: selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package'
+    packageType: selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package',
+    status: 'Pending Payment Confirmation'
   };
 
-  let activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail);
-  if (!activeUser && sampleAccounts.length > 0) {
-    activeUser = sampleAccounts[0];
-  }
+  const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail.toLowerCase());
 
   if (activeUser) {
+    if (!activeUser.bookings) activeUser.bookings = [];
     activeUser.bookings.push(newBooking);
+  } else {
+    alert('⚠️ Please log in to complete your booking.');
+    openLoginModal();
+    return;
   }
 
   const confirmationMessage = 
-    `🎉 Booking Confirmed Successfully!\n\n` +
+    `🎉 Booking Submitted Successfully!\n\n` +
     `Reference ID: ${referenceId}\n` +
-    `Name: ${firstName} ${lastName}\n` +
-    `Destination: ${selectedPlace.name}\n` +
-    `Travel Date: ${dateInput.value}\n` +
+    `Status: Pending Payment Confirmation\n` +
     `Total Amount: ${totalDisplay}\n\n` +
-    `You can view this reservation anytime under the "My Bookings" tab.`;
+    `You can view your booking status under "My Bookings".`;
 
   if (confirm(confirmationMessage)) {
     navigateTo('myBookings');
