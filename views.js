@@ -94,9 +94,9 @@ function renderLoginModal() {
         <!-- Sample Accounts Helper Box -->
         <div style="background: #f8fafc; border: 1px dashed #cbd5e0; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 11px; color: #4a5568; line-height: 1.4;">
           <strong>Sample Accounts for Testing:</strong><br>
-          • BeatrizMarie@gmail.com / password123 (Beatriz Marie Bautista)<br>
-          • KarlaMae@gmail.com / password123 (Karla Mae Ibuig)<br>
-          • RhonaAngelica@gmail.com / password123 (Rhona Angelica Cailao)
+          • 🛡️ <strong>Admin:</strong> admin@travelaya.com / admin123<br>
+          • 👤 <strong>User:</strong> BeatrizMarie@gmail.com / password123<br>
+          • 👤 <strong>User:</strong> KarlaMae@gmail.com / password123
         </div>
         
         <form onsubmit="handleLoginSubmit(event)">
@@ -469,8 +469,8 @@ export const views = {
     return `
       <div class="main-container">
         <div class="page-header">
-          <h1>My Bookings</h1>
-          <p class="subtitle">View all your confirmed reservations and reference IDs.</p>
+          <h1>My Bookings & Reservations</h1>
+          <p class="subtitle">Monitor your pending and confirmed bookings waiting for admin approval.</p>
         </div>
 
         ${bookings.length === 0 ? `
@@ -480,20 +480,85 @@ export const views = {
           </div>
         ` : `
           <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
-            ${bookings.map(b => `
-              <div style="background: #ffffff; border: 1px solid #cbd5e0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-                <div>
-                  <span style="background: #e2e8f0; color: #1b263b; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">Ref: ${b.referenceId}</span>
-                  <h3 style="font-size: 18px; color: #1b263b; margin: 8px 0 4px 0;">${b.destination}</h3>
-                  <p style="font-size: 13px; color: #64748b; margin: 0;">Package: <strong>${b.packageType}</strong> | Travel Date: <strong>${b.date}</strong></p>
-                  <p style="font-size: 12px; color: #718096; margin-top: 4px;">Guest: ${b.name} (${b.contact}) | Payment: ${b.paymentMethod}</p>
+            ${bookings.map(b => {
+              const isApproved = b.status && b.status.includes('Approved');
+              return `
+                <div style="background: #ffffff; border: 1px solid ${isApproved ? '#38a169' : '#ed8936'}; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                  <div>
+                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+                      <span style="background: #e2e8f0; color: #1b263b; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">Ref: ${b.referenceId}</span>
+                      <span style="background: ${isApproved ? '#c6f6d5' : '#feebc8'}; color: ${isApproved ? '#22543d' : '#9c4221'}; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
+                        ${isApproved ? '✓ Confirmed / Paid' : '⏳ Pending Admin Confirmation'}
+                      </span>
+                    </div>
+                    <h3 style="font-size: 18px; color: #1b263b; margin: 4px 0 4px 0;">${b.destination}</h3>
+                    <p style="font-size: 13px; color: #64748b; margin: 0;">Package: <strong>${b.packageType}</strong> | Travel Date: <strong>${b.date}</strong></p>
+                    <p style="font-size: 12px; color: #718096; margin-top: 4px;">Guest: ${b.name} (${b.contact}) | Payment: ${b.paymentMethod}</p>
+                  </div>
+                  <div style="text-align: right;">
+                    <span style="font-size: 12px; color: #718096; display: block;">Total Amount</span>
+                    <strong style="font-size: 20px; color: #ff7582;">${b.total}</strong>
+                  </div>
                 </div>
-                <div style="text-align: right;">
-                  <span style="font-size: 12px; color: #718096; display: block;">Total Paid</span>
-                  <strong style="font-size: 20px; color: #ff7582;">${b.total}</strong>
+              `;
+            }).join('')}
+          </div>
+        `}
+      </div>
+      ${renderLoginModal()}
+    `;
+  },
+
+  getAdminView: (accounts) => {
+    // Gather all bookings across all accounts
+    let allBookings = [];
+    accounts.forEach(acc => {
+      if (acc.bookings && acc.bookings.length > 0) {
+        acc.bookings.forEach(b => {
+          allBookings.push({ ...b, userEmail: acc.email, userName: acc.name });
+        });
+      }
+    });
+
+    return `
+      <div class="main-container">
+        <div class="page-header" style="margin-bottom: 24px;">
+          <span style="background: #2b6cb0; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">Administrator Panel</span>
+          <h1 style="margin-top: 6px;">System Bookings Management</h1>
+          <p class="subtitle">Review pending tourist reservations and approve payments.</p>
+        </div>
+
+        ${allBookings.length === 0 ? `
+          <div style="text-align: center; padding: 50px 20px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0;">
+            <p style="font-size: 16px; color: #64748b;">No bookings have been submitted by users yet.</p>
+          </div>
+        ` : `
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            ${allBookings.map(b => {
+              const isApproved = b.status && b.status.includes('Approved');
+              return `
+                <div style="background: #ffffff; border: 1px solid ${isApproved ? '#cbd5e0' : '#ff7582'}; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                  <div>
+                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+                      <span style="background: #edf2f7; color: #1b263b; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">Ref: ${b.referenceId}</span>
+                      <span style="background: ${isApproved ? '#c6f6d5' : '#fed7d7'}; color: ${isApproved ? '#22543d' : '#9b2c2c'}; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
+                        ${b.status || 'Pending Payment Confirmation'}
+                      </span>
+                    </div>
+                    <h3 style="font-size: 18px; color: #1b263b; margin: 4px 0;">${b.destination}</h3>
+                    <p style="font-size: 13px; color: #4a5568; margin: 0;"><strong>User Account:</strong> ${b.userName} (${b.userEmail})</p>
+                    <p style="font-size: 13px; color: #64748b; margin: 2px 0 0 0;">Travel Date: <strong>${b.date}</strong> | Guests: <strong>${b.adults} Adults</strong> | Total: <strong style="color: #ff7582;">${b.total}</strong></p>
+                  </div>
+                  <div>
+                    ${isApproved ? `
+                      <span style="color: #38a169; font-weight: 700; font-size: 14px;">✓ Confirmed</span>
+                    ` : `
+                      <button onclick="approveBooking('${b.userEmail}', '${b.referenceId}')" style="background: #38a169; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; box-shadow: 0 2px 8px rgba(56,161,105,0.3);">Approve Booking</button>
+                    `}
+                  </div>
                 </div>
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
         `}
       </div>
