@@ -3,9 +3,8 @@ import { allPlacesData, blogsData, reviewsData, topPlaces, domesticPlaces, inter
 function renderFilterableCard(place) {
   const isDayTrip = place.packageType === 'Day Trip';
   const badgeBg = isDayTrip ? '#3182ce' : '#2b6cb0';
-
   return `
-    <div class="place-card" onclick="viewPlaceDetail('${place.id}')">
+    <div class="place-card" style="cursor: pointer;" onclick="viewPlaceDetail('${place.id}')">
       <div class="card-image" style="background-image: url('${place.image}'); position: relative;">
         <span style="position: absolute; top: 10px; left: 10px; background: #ff7582; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">${place.discount}% OFF</span>
         <span style="position: absolute; top: 10px; right: 10px; background: ${badgeBg}; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">${place.packageType}</span>
@@ -19,7 +18,7 @@ function renderFilterableCard(place) {
         <span class="location">📍 ${place.location}</span>
         <div class="card-footer-row">
           <span class="price-label">From <strong class="price">${place.price}</strong></span>
-          <button class="book-now-btn">View</button>
+          <button class="book-now-btn" onclick="event.stopPropagation(); viewPlaceDetail('${place.id}')">View</button>
         </div>
       </div>
     </div>
@@ -28,7 +27,7 @@ function renderFilterableCard(place) {
 
 function renderCard(place) {
   return `
-    <div class="place-card" onclick="viewPlaceDetail('${place.id}')">
+    <div class="place-card" style="cursor: pointer;" onclick="viewPlaceDetail('${place.id}')">
       <div class="card-image" style="background-image: url('${place.image}');">
         <span class="card-badge">${place.badge}</span>
       </div>
@@ -41,7 +40,7 @@ function renderCard(place) {
         <span class="location">${place.location}</span>
         <div class="card-footer-row">
           <span class="price-label">From <strong class="price">${place.price}</strong></span>
-          <button class="book-now-btn">View</button>
+          <button class="book-now-btn" onclick="event.stopPropagation(); viewPlaceDetail('${place.id}')">View</button>
         </div>
       </div>
     </div>
@@ -50,7 +49,7 @@ function renderCard(place) {
 
 function renderPlaceRow(place) {
   return `
-    <div class="place-row-card" onclick="viewPlaceDetail('${place.id}')">
+    <div class="place-row-card" style="cursor: pointer;" onclick="viewPlaceDetail('${place.id}')">
       <div class="card-thumbnail" style="background-image: url('${place.image}');"></div>
       <div class="card-body">
         <div class="card-header">
@@ -84,19 +83,18 @@ function renderReviewCard(review) {
 function renderLoginModal() {
   return `
     <div id="login-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
-      <!-- Login Box -->
       <div id="login-box" style="background: #ffffff; padding: 32px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative;">
         <button onclick="closeLoginModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 18px; font-weight: bold; cursor: pointer; color: #64748b;">&times;</button>
         
         <h2 style="font-size: 22px; font-weight: 700; color: #131c38; margin-bottom: 8px;">Welcome Back</h2>
         <p style="font-size: 13px; color: #64748b; margin-bottom: 14px;">Log in to manage your bookings and access secret deals.</p>
         
-        <!-- Sample Accounts Helper Box -->
         <div style="background: #f8fafc; border: 1px dashed #cbd5e0; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 11px; color: #4a5568; line-height: 1.4;">
           <strong>Sample Accounts for Testing:</strong><br>
-          • 🛡️ <strong>Admin:</strong> admin@travelaya.com / admin123<br>
-          • 👤 <strong>User:</strong> BeatrizMarie@gmail.com / password123<br>
-          • 👤 <strong>User:</strong> KarlaMae@gmail.com / password123
+          • admin@travelaya.com / admin123 (Admin)<br>
+          • BeatrizMarie@gmail.com / password123 (Beatriz)<br>
+          • KarlaMae@gmail.com / password123 (Karla)<br>
+          • RhonaAngelica@gmail.com / password123 (Rhona)
         </div>
         
         <form onsubmit="handleLoginSubmit(event)">
@@ -112,13 +110,11 @@ function renderLoginModal() {
           
           <button type="submit" style="width: 100%; background: #ff7582; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s;">Log In</button>
         </form>
-
         <p style="text-align: center; font-size: 13px; color: #64748b; margin-top: 16px;">
           Don't have an account? <a href="#" onclick="switchToRegister(event)" style="color: #ff7582; font-weight: 600; text-decoration: none;">Register Now</a>
         </p>
       </div>
 
-      <!-- Register Box (Initially Hidden) -->
       <div id="register-box" style="display: none; background: #ffffff; padding: 32px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative;">
         <button onclick="closeLoginModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 18px; font-weight: bold; cursor: pointer; color: #64748b;">&times;</button>
         
@@ -130,7 +126,6 @@ function renderLoginModal() {
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 4px;">Full Name</label>
             <input type="text" id="reg-name" placeholder="John Doe" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
           </div>
-
           <div style="margin-bottom: 14px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 4px;">Email Address</label>
             <input type="email" id="reg-email" placeholder="name@example.com" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
@@ -143,11 +138,41 @@ function renderLoginModal() {
           
           <button type="submit" style="width: 100%; background: #ff7582; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s;">Sign Up</button>
         </form>
-
         <p style="text-align: center; font-size: 13px; color: #64748b; margin-top: 16px;">
           Already have an account? <a href="#" onclick="switchToLogin(event)" style="color: #ff7582; font-weight: 600; text-decoration: none;">Log In</a>
         </p>
       </div>
+    </div>
+  `;
+}
+
+function renderItineraryColumns(itineraryData) {
+  const daysMap = {};
+  itineraryData.forEach((item) => {
+    const dayKey = item.dayGroup || (item.day.includes('Day') ? item.day.split('(')[0].trim() : 'Day 1');
+    if (!daysMap[dayKey]) daysMap[dayKey] = [];
+    daysMap[dayKey].push(item);
+  });
+
+  const activeDays = Object.entries(daysMap);
+  const colCount = activeDays.length;
+
+  return `
+    <div id="itinerary-container" style="display: grid; grid-template-columns: repeat(${colCount}, minmax(0, 1fr)); gap: 16px; align-items: start; margin-top: 12px;">
+      ${activeDays.map(([dayName, items]) => `
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #ff7582; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 14px;">
+          <h4 style="font-size: 15px; font-weight: 800; color: #ff7582; text-transform: uppercase; margin: 0; padding-bottom: 8px; border-bottom: 1px solid #edf2f7; letter-spacing: 0.5px;">${dayName}</h4>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            ${items.map(sub => `
+              <div style="background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #edf2f7;">
+                <span style="font-size: 10px; font-weight: 700; color: #e53e3e; display: block; margin-bottom: 2px;">${sub.day}</span>
+                <strong style="font-size: 13px; color: #131c38; display: block; margin-bottom: 2px;">${sub.title}</strong>
+                <p style="font-size: 12px; color: #4a5568; margin: 0; line-height: 1.4;">${sub.details}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('')}
     </div>
   `;
 }
@@ -176,15 +201,8 @@ export const views = {
           <label style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 4px;">Category</label>
           <select id="filter-category" onchange="applyFilters()" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e0; background: #fff; font-size: 12px; color: #1b263b;">
             <option value="">Type of promotion</option>
-            <option value="Trending">Trending</option>
-            <option value="Best Value">Best Value</option>
             <option value="Nature">Nature</option>
             <option value="Heritage">Heritage</option>
-            <option value="Surf">Surf</option>
-            <option value="Popular">Popular</option>
-            <option value="Luxury">Luxury</option>
-            <option value="Europe">Europe</option>
-            <option value="History">History</option>
           </select>
         </div>
 
@@ -193,10 +211,8 @@ export const views = {
           <select id="filter-location" onchange="applyFilters()" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e0; background: #fff; font-size: 12px; color: #1b263b;">
             <option value="">Location</option>
             <option value="Philippines">Philippines</option>
-            <option value="Japan">Japan</option>
-            <option value="Greece">Greece</option>
-            <option value="France">France</option>
-            <option value="Italy">Italy</option>
+            <option value="Benguet">Benguet</option>
+            <option value="Bataan">Bataan</option>
           </select>
         </div>
 
@@ -233,23 +249,6 @@ export const views = {
       <div class="carousel-dots" id="filtered-dots"></div>
     </section>
 
-    <section style="max-width: 1040px; margin: 30px auto 10px auto; padding: 0 20px;">
-      <div style="background: linear-gradient(135deg, #131c38 0%, #1f2d5a 100%); color: #ffffff; padding: 20px 28px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 6px 18px rgba(0,0,0,0.06);">
-        <div>
-          <span style="background: #ff7582; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; text-transform: uppercase;">Special Promo</span>
-          <h3 style="font-size: 18px; font-weight: 700; margin-top: 6px;">Early Bird Saver: Use code TRAVELAYA</h3>
-          <p style="font-size: 12px; opacity: 0.85;">Enjoy up to 15% off when you book 15 days in advance!</p>
-        </div>
-        <button onclick="navigateTo('places')" style="background: #ff7582; color: #fff; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer;">Book Early</button>
-      </div>
-    </section>
-
-    <section class="trust-bar">
-      <div class="trust-item">⭐ <strong>4.9/5 Rating</strong> from 10,000+ Travelers</div>
-      <div class="trust-item">🛡️ <strong>100% Verified</strong> Local Tour Guides</div>
-      <div class="trust-item">💳 <strong>Flexible Cancellations</strong> & Best Prices</div>
-    </section>
-
     <section class="places-section">
       <div class="section-header">
         <h2>Top Featured Destinations</h2>
@@ -278,52 +277,6 @@ export const views = {
         <button class="nav-arrow right-arrow" id="dom-next">&#10095;</button>
       </div>
       <div class="carousel-dots" id="dom-dots"></div>
-    </section>
-
-    <section class="places-section">
-      <div class="section-header">
-        <h2>International Getaways</h2>
-        <p class="subtitle">Discover popular destinations across the globe.</p>
-      </div>
-      <div class="carousel-container">
-        <button class="nav-arrow left-arrow" id="intl-prev">&#10094;</button>
-        <div class="cards-wrapper" id="intl-carousel">
-          ${internationalPlaces.map(renderCard).join('')}
-        </div>
-        <button class="nav-arrow right-arrow" id="intl-next">&#10095;</button>
-      </div>
-      <div class="carousel-dots" id="intl-dots"></div>
-    </section>
-
-    <section style="max-width: 1040px; margin: 30px auto; padding: 32px 36px; background: #ffffff; border-radius: 20px; border: 1px solid #cbd5e0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);">
-      <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
-        <div>
-          <h2>Go-To Trip: Travel Guides & Tips</h2>
-          <p class="subtitle">Inspiration, itineraries, and local food recommendations.</p>
-        </div>
-        <button onclick="navigateTo('blogs')" style="background: none; border: none; color: #ff7582; font-weight: 700; cursor: pointer; font-size: 13px; margin-bottom: 20px;">View All Blogs →</button>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
-        ${blogsData.slice(0, 3).map(blog => `
-          <div onclick="navigateTo('blogs')" style="background: #f8fafc; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-            <div style="height: 120px; background-size: cover; background-position: center; background-image: url('${blog.image}');"></div>
-            <div style="padding: 14px;">
-              <span style="font-size: 10px; color: #ff7582; font-weight: 700; text-transform: uppercase;">${blog.category}</span>
-              <h4 style="font-size: 14px; color: #1b263b; font-weight: 700; margin: 4px 0;">${blog.title}</h4>
-              <p style="font-size: 12px; color: #64748b;">${blog.excerpt}</p>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    </section>
-
-    <section style="max-width: 1040px; margin: 30px auto; background: #131c38; border-radius: 20px; padding: 36px 48px; color: #ffffff; text-align: center;">
-      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Get Secret Deals & Travel Tips</h2>
-      <p style="font-size: 13px; opacity: 0.85; margin-bottom: 20px;">Subscribe to our newsletter to receive exclusive flash sales and travel discounts.</p>
-      <form id="newsletter-form" onsubmit="handleNewsletterSubmit(event)" style="display: flex; justify-content: center; gap: 12px; max-width: 500px; margin: 0 auto;">
-        <input type="email" id="newsletter-email" placeholder="Enter your email address" required style="flex: 1; padding: 12px 20px; border-radius: 25px; border: none; outline: none; font-size: 14px;" />
-        <button type="submit" style="background: #ff7582; color: #ffffff; border: none; padding: 12px 28px; border-radius: 25px; font-weight: 700; font-size: 14px; cursor: pointer; transition: transform 0.2s;">Subscribe</button>
-      </form>
     </section>
 
     <section class="reviews-section">
@@ -359,7 +312,6 @@ export const views = {
         <p>&copy; 2026 TraveLaya. All Rights Reserved.</p>
       </div>
     </footer>
-
     ${renderLoginModal()}
   `,
 
@@ -420,46 +372,6 @@ export const views = {
             You can modify or cancel your booking up to 48 hours prior to your check-in date via your confirmation email or by contacting support for a full refund.
           </div>
         </div>
-
-        <div class="faq-item" style="border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #f8fafc;">
-          <button class="faq-question" style="width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; font-size: 15px; font-weight: 700; color: #1b263b; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-            <span>Are airport transfers included in all packages?</span>
-            <span class="faq-icon" style="color: #ff7582; font-size: 18px;">+</span>
-          </button>
-          <div class="faq-answer" style="display: none; padding: 0 20px 16px 20px; font-size: 13px; color: #4a5568; line-height: 1.6;">
-            Select destinations include complimentary airport transfers. You can also add private transfer options directly on the booking page during checkout.
-          </div>
-        </div>
-
-        <div class="faq-item" style="border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #f8fafc;">
-          <button class="faq-question" style="width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; font-size: 15px; font-weight: 700; color: #1b263b; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-            <span>What payment methods do you accept?</span>
-            <span class="faq-icon" style="color: #ff7582; font-size: 18px;">+</span>
-          </button>
-          <div class="faq-answer" style="display: none; padding: 0 20px 16px 20px; font-size: 13px; color: #4a5568; line-height: 1.6;">
-            We accept all major credit/debit cards, GCash, Maya, and direct bank transfers.
-          </div>
-        </div>
-
-        <div class="faq-item" style="border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #f8fafc;">
-          <button class="faq-question" style="width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; font-size: 15px; font-weight: 700; color: #1b263b; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-            <span>Are tour guides provided during the trips?</span>
-            <span class="faq-icon" style="color: #ff7582; font-size: 18px;">+</span>
-          </button>
-          <div class="faq-answer" style="display: none; padding: 0 20px 16px 20px; font-size: 13px; color: #4a5568; line-height: 1.6;">
-            Yes! All of our tour packages include 100% verified local tour guides to ensure a safe, informative, and unforgettable experience.
-          </div>
-        </div>
-
-        <div class="faq-item" style="border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #f8fafc;">
-          <button class="faq-question" style="width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; font-size: 15px; font-weight: 700; color: #1b263b; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-            <span>How do I use my promo or discount code?</span>
-            <span class="faq-icon" style="color: #ff7582; font-size: 18px;">+</span>
-          </button>
-          <div class="faq-answer" style="display: none; padding: 0 20px 16px 20px; font-size: 13px; color: #4a5568; line-height: 1.6;">
-            You can enter your promotional code during the final checkout or booking step to apply your discounts automatically.
-          </div>
-        </div>
       </div>
     </div>
     ${renderLoginModal()}
@@ -469,10 +381,9 @@ export const views = {
     return `
       <div class="main-container">
         <div class="page-header">
-          <h1>My Bookings & Reservations</h1>
-          <p class="subtitle">Monitor your pending and confirmed bookings waiting for admin approval.</p>
+          <h1>My Bookings</h1>
+          <p class="subtitle">View all your confirmed reservations and reference IDs.</p>
         </div>
-
         ${bookings.length === 0 ? `
           <div style="text-align: center; padding: 50px 20px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; margin-top: 20px;">
             <p style="font-size: 16px; color: #64748b; margin-bottom: 16px;">You don't have any bookings yet.</p>
@@ -480,28 +391,19 @@ export const views = {
           </div>
         ` : `
           <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
-            ${bookings.map(b => {
-              const isApproved = b.status && b.status.includes('Approved');
-              return `
-                <div style="background: #ffffff; border: 1px solid ${isApproved ? '#38a169' : '#ed8936'}; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-                  <div>
-                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
-                      <span style="background: #e2e8f0; color: #1b263b; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">Ref: ${b.referenceId}</span>
-                      <span style="background: ${isApproved ? '#c6f6d5' : '#feebc8'}; color: ${isApproved ? '#22543d' : '#9c4221'}; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
-                        ${isApproved ? '✓ Confirmed / Paid' : '⏳ Pending Admin Confirmation'}
-                      </span>
-                    </div>
-                    <h3 style="font-size: 18px; color: #1b263b; margin: 4px 0 4px 0;">${b.destination}</h3>
-                    <p style="font-size: 13px; color: #64748b; margin: 0;">Package: <strong>${b.packageType}</strong> | Travel Date: <strong>${b.date}</strong></p>
-                    <p style="font-size: 12px; color: #718096; margin-top: 4px;">Guest: ${b.name} (${b.contact}) | Payment: ${b.paymentMethod}</p>
-                  </div>
-                  <div style="text-align: right;">
-                    <span style="font-size: 12px; color: #718096; display: block;">Total Amount</span>
-                    <strong style="font-size: 20px; color: #ff7582;">${b.total}</strong>
-                  </div>
+            ${bookings.map(b => `
+              <div style="background: #ffffff; border: 1px solid #cbd5e0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div>
+                  <span style="background: #e2e8f0; color: #1b263b; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">Ref: ${b.referenceId}</span>
+                  <h3 style="font-size: 18px; color: #1b263b; margin: 8px 0 4px 0;">${b.destination}</h3>
+                  <p style="font-size: 13px; color: #64748b; margin: 0;">Package: <strong>${b.packageType}</strong> | Travel Date: <strong>${b.date}</strong></p>
                 </div>
-              `;
-            }).join('')}
+                <div style="text-align: right;">
+                  <span style="font-size: 12px; color: #718096; display: block;">Total Paid</span>
+                  <strong style="font-size: 20px; color: #ff7582;">${b.total}</strong>
+                </div>
+              </div>
+            `).join('')}
           </div>
         `}
       </div>
@@ -509,9 +411,8 @@ export const views = {
     `;
   },
 
-  getAdminView: (accounts) => {
-    // Gather all bookings across all accounts
-    let allBookings = [];
+  getAdminView: (accounts, blockedDates = {}) => {
+    const allBookings = [];
     accounts.forEach(acc => {
       if (acc.bookings && acc.bookings.length > 0) {
         acc.bookings.forEach(b => {
@@ -522,45 +423,68 @@ export const views = {
 
     return `
       <div class="main-container">
-        <div class="page-header" style="margin-bottom: 24px;">
-          <span style="background: #2b6cb0; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">Administrator Panel</span>
-          <h1 style="margin-top: 6px;">System Bookings Management</h1>
-          <p class="subtitle">Review pending tourist reservations and approve payments.</p>
+        <div class="page-header">
+          <h1>Admin Dashboard</h1>
+          <p class="subtitle">Manage user bookings and control per-destination tour date availability.</p>
         </div>
 
-        ${allBookings.length === 0 ? `
-          <div style="text-align: center; padding: 50px 20px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0;">
-            <p style="font-size: 16px; color: #64748b;">No bookings have been submitted by users yet.</p>
+        <!-- Per-Destination Date Availability Control Section -->
+        <div style="background: #fff; border-radius: 16px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-top: 20px;">
+          <h3 style="font-size: 18px; font-weight: 700; color: #131c38; margin-bottom: 8px;">📅 Per-Destination Date Availability Control</h3>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">Select a destination and date to block or unblock reservations.</p>
+          
+          <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap;">
+            <div>
+              <label style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 4px;">Destination</label>
+              <select id="admin-target-place" style="padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; background: #fff; font-weight: 600;">
+                ${Object.values(allPlacesData).map(p => `<option value="${p.id}">${p.name} (${p.location})</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 4px;">Date</label>
+              <input type="date" id="admin-target-date" style="padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; background: #fff;" />
+            </div>
+            <div style="padding-top: 18px;">
+              <button type="button" onclick="toggleDateAvailability(document.getElementById('admin-target-place').value, document.getElementById('admin-target-date').value)" style="background: #ff7582; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer;">Toggle Date Status</button>
+            </div>
           </div>
-        ` : `
-          <div style="display: flex; flex-direction: column; gap: 16px;">
-            ${allBookings.map(b => {
-              const isApproved = b.status && b.status.includes('Approved');
-              return `
-                <div style="background: #ffffff; border: 1px solid ${isApproved ? '#cbd5e0' : '#ff7582'}; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+
+          <h4 style="font-size: 13px; font-weight: 700; color: #4a5568; margin-bottom: 8px;">Currently Blocked Dates per Destination:</h4>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            ${Object.keys(blockedDates).length > 0 && Object.values(blockedDates).some(arr => arr.length > 0)
+              ? Object.entries(blockedDates).map(([placeId, dates]) => {
+                  if (!dates || dates.length === 0) return '';
+                  const placeObj = allPlacesData[placeId];
+                  const placeName = placeObj ? placeObj.name : placeId;
+                  return `<div style="font-size: 13px; color: #4a5568;"><strong>${placeName}:</strong> ${dates.map(d => `<span style="background: #fed7d7; color: #c53030; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; margin-left: 6px;">${d} <button type="button" onclick="toggleDateAvailability('${placeId}', '${d}')" style="background:none; border:none; color:#c53030; cursor:pointer; font-weight:bold; font-size: 12px; padding: 0;">&times;</button></span>`).join('')}</div>`;
+                }).join('')
+              : '<span style="font-size: 13px; color: #a0aec0;">No dates currently blocked for any destination.</span>'
+            }
+          </div>
+        </div>
+
+        <!-- Customer Bookings Section -->
+        <div style="background: #fff; border-radius: 16px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-top: 20px;">
+          <h3 style="font-size: 18px; font-weight: 700; color: #131c38; margin-bottom: 16px;">All Customer Bookings (${allBookings.length})</h3>
+          ${allBookings.length === 0 ? `<p style="color: #64748b; font-size: 14px; text-align: center; padding: 30px;">No bookings found yet.</p>` : `
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              ${allBookings.map(b => `
+                <div style="background: #f8fafc; border: 1px solid #cbd5e0; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
                   <div>
-                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
-                      <span style="background: #edf2f7; color: #1b263b; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">Ref: ${b.referenceId}</span>
-                      <span style="background: ${isApproved ? '#c6f6d5' : '#fed7d7'}; color: ${isApproved ? '#22543d' : '#9b2c2c'}; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
-                        ${b.status || 'Pending Payment Confirmation'}
-                      </span>
-                    </div>
-                    <h3 style="font-size: 18px; color: #1b263b; margin: 4px 0;">${b.destination}</h3>
-                    <p style="font-size: 13px; color: #4a5568; margin: 0;"><strong>User Account:</strong> ${b.userName} (${b.userEmail})</p>
-                    <p style="font-size: 13px; color: #64748b; margin: 2px 0 0 0;">Travel Date: <strong>${b.date}</strong> | Guests: <strong>${b.adults} Adults</strong> | Total: <strong style="color: #ff7582;">${b.total}</strong></p>
+                    <span style="background: #2b6cb0; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;">${b.referenceId}</span>
+                    <h4 style="font-size: 16px; color: #1b263b; margin: 6px 0 2px 0;">${b.destination}</h4>
+                    <p style="font-size: 12px; color: #4a5568; margin: 0;">User: <strong>${b.userName}</strong> (${b.userEmail})</p>
+                    <p style="font-size: 12px; color: #d69e2e; font-weight: 600; margin-top: 4px;">Status: ${b.status}</p>
                   </div>
-                  <div>
-                    ${isApproved ? `
-                      <span style="color: #38a169; font-weight: 700; font-size: 14px;">✓ Confirmed</span>
-                    ` : `
-                      <button onclick="approveBooking('${b.userEmail}', '${b.referenceId}')" style="background: #38a169; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; box-shadow: 0 2px 8px rgba(56,161,105,0.3);">Approve Booking</button>
-                    `}
+                  <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                    <strong style="font-size: 18px; color: #ff7582;">${b.total}</strong>
+                    ${b.status.includes('Approved') ? `<span style="background: #c6f6d5; color: #22543d; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px;">✓ Approved</span>` : `<button onclick="approveBooking('${b.userEmail}', '${b.referenceId}')" style="background: #38a169; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Approve Payment</button>`}
                   </div>
                 </div>
-              `;
-            }).join('')}
-          </div>
-        `}
+              `).join('')}
+            </div>
+          `}
+        </div>
       </div>
       ${renderLoginModal()}
     `;
@@ -568,7 +492,9 @@ export const views = {
 
   getDetailView: (selectedPlace) => {
     const bannerImages = [selectedPlace.image, ...(selectedPlace.landmarks ? selectedPlace.landmarks.map(l => l.image) : [])];
-
+    const isBataan = selectedPlace.id === 'bataan-3d2n';
+    const isBaguio = selectedPlace.id === 'baguio';
+    
     return `
       <div class="main-container detail-container">
         <button class="back-btn" onclick="navigateTo('places')">← Back to Destinations</button>
@@ -587,7 +513,7 @@ export const views = {
             <span class="location-tag">📍 ${selectedPlace.location}</span>
             
             <div class="detail-description-box">
-              <h3>About & History</h3>
+              <h3>About & Highlights</h3>
               <p>${selectedPlace.description}</p>
             </div>
 
@@ -613,20 +539,60 @@ export const views = {
                 `).join('')}
               </div>
             </div>
+
+            <!-- Itinerary Section -->
+            <div class="itinerary-section" style="margin-top: 28px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                <h3 style="margin: 0;">Tour Itinerary</h3>
+                ${isBaguio ? `
+                  <div style="display: flex; gap: 8px;">
+                    <button onclick="switchItinerary('2D1N')" id="itinerary-btn-2d" style="padding: 6px 12px; background: #ff7582; color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer;">2D 1N Itinerary</button>
+                    <button onclick="switchItinerary('3D2N')" id="itinerary-btn-3d" style="padding: 6px 12px; background: #e2e8f0; color: #4a5568; border: none; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer;">3D 2N Itinerary</button>
+                  </div>
+                ` : isBataan ? `
+                  <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <button onclick="switchBataanPackage('A')" id="btn-pkg-a" style="padding: 6px 12px; background: #ff7582; color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer;">Package A (₱12,850)</button>
+                    <button onclick="switchBataanPackage('B')" id="btn-pkg-b" style="padding: 6px 12px; background: #e2e8f0; color: #4a5568; border: none; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer;">Package B (₱7,950)</button>
+                    <button onclick="switchBataanPackage('C')" id="btn-pkg-c" style="padding: 6px 12px; background: #e2e8f0; color: #4a5568; border: none; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer;">Package C (₱19,550)</button>
+                  </div>
+                ` : ''}
+              </div>
+
+              <div id="itinerary-container">
+                ${renderItineraryColumns(selectedPlace.itineraryPackageA || selectedPlace.itinerary2D1N || selectedPlace.itinerary)}
+              </div>
+            </div>
           </div>
 
-          <div class="detail-sidebar-deals">
-            <h3>Travel Deals</h3>
-            <div class="deal-card">
-              <h4>Day Tour Package</h4>
-              <p>Guided tour with lunch & transfers</p>
-              <span class="deal-price">${selectedPlace.price}</span>
-            </div>
-            <div class="deal-card">
-              <h4>Full Stay Package</h4>
-              <p>3 Days hotel + tour passes</p>
-              <span class="deal-price">₱12,500</span>
-            </div>
+          <!-- Sidebar Packages -->
+          <div class="detail-packages-sidebar">
+            <h3 style="font-size: 18px; font-weight: 800; color: #131c38; margin-bottom: 16px; text-align: center;">Tour Packages</h3>
+            
+            ${isBataan ? `
+              <div class="package-pillar-card" id="sidebar-card-a" style="background: #fff; padding: 14px; border-radius: 12px; border: 2px solid #ff7582; margin-bottom: 12px; cursor: pointer;" onclick="switchBataanPackage('A')">
+                <h4 style="color: #131c38; font-size: 14px; margin-bottom: 4px;">PACKAGE A</h4>
+                <p style="font-size: 11px; color: #64748b; margin-bottom: 6px;">Las Casas, Camaya Coast, Corregidor & Mt. Samat</p>
+                <div style="background: #ff7582; color: #fff; text-align: center; padding: 4px; border-radius: 4px; font-weight: 700; font-size: 12px;">₱12,850 / Pax</div>
+              </div>
+
+              <div class="package-pillar-card" id="sidebar-card-b" style="background: #fff; padding: 14px; border-radius: 12px; border: 1px solid #cbd5e0; margin-bottom: 12px; cursor: pointer;" onclick="switchBataanPackage('B')">
+                <h4 style="color: #131c38; font-size: 14px; margin-bottom: 4px;">PACKAGE B</h4>
+                <p style="font-size: 11px; color: #64748b; margin-bottom: 6px;">Mariveles Five Fingers, Laki Beach, Camaya Coast & Mt. Samat</p>
+                <div style="background: #2b6cb0; color: #fff; text-align: center; padding: 4px; border-radius: 4px; font-weight: 700; font-size: 12px;">₱7,950 / Pax</div>
+              </div>
+
+              <div class="package-pillar-card" id="sidebar-card-c" style="background: #fff; padding: 14px; border-radius: 12px; border: 1px solid #cbd5e0; margin-bottom: 12px; cursor: pointer;" onclick="switchBataanPackage('C')">
+                <h4 style="color: #131c38; font-size: 14px; margin-bottom: 4px;">PACKAGE C</h4>
+                <p style="font-size: 11px; color: #64748b; margin-bottom: 6px;">1-Night Las Casas Stay + Corregidor, Camaya Coast & Mt. Samat</p>
+                <div style="background: #2b6cb0; color: #fff; text-align: center; padding: 4px; border-radius: 4px; font-weight: 700; font-size: 12px;">₱19,550 / Pax</div>
+              </div>
+              <p style="font-size: 10px; color: #718096; text-align: center; margin-top: 8px;">Rates based on min. 10 participants.</p>
+            ` : `
+              <div class="package-pillar-card" style="background: #fff; padding: 16px; border-radius: 12px; border: 2px solid #ff7582; margin-bottom: 16px;">
+                <h4 class="pillar-title" style="color: #131c38; margin-bottom: 6px;">STANDARD PACKAGE</h4>
+                <div class="pillar-price-badge" style="background: #ff7582; color: #fff; text-align: center; padding: 6px; border-radius: 6px; font-weight: 700;">${selectedPlace.price} / Pax</div>
+              </div>
+            `}
           </div>
         </div>
 
@@ -639,21 +605,11 @@ export const views = {
   },
 
   getBookingView: (selectedPlace, selectedPackageType, appliedPromoName, appliedPromoDiscount) => {
-    const basePrice = parseInt(selectedPlace.price.replace(/[^0-9]/g, ''), 10) || 2000;
+    const basePrice = parseInt(selectedPlace.price.replace(/[^0-9]/g, ''), 10) || 7950;
     const discountRate = selectedPlace.discount ? selectedPlace.discount / 100 : 0;
-    const originalBasePrice = discountRate > 0 ? Math.round(basePrice / (1 - discountRate)) : basePrice;
-
-    const fullStayPrice = basePrice * 1.25;
-    const originalFullStayPrice = discountRate > 0 ? Math.round(fullStayPrice / (1 - discountRate)) : fullStayPrice;
-
-    const effectiveBasePrice = selectedPackageType === 'full' ? fullStayPrice : basePrice;
-    
-    const subtotal = effectiveBasePrice * 2;
+    const subtotal = basePrice * 2;
     const promoDiscountAmount = subtotal * appliedPromoDiscount;
     const initialTotal = subtotal - promoDiscountAmount;
-
-    const currentOriginalAdultPrice = selectedPackageType === 'full' ? originalFullStayPrice : originalBasePrice;
-    const currentDiscountedAdultPrice = effectiveBasePrice;
 
     return `
       <div class="main-container">
@@ -675,54 +631,9 @@ export const views = {
           </div>
         </div>
 
-        <div class="packages-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
-          <div class="package-card" id="pkg-card-day" onclick="selectPackageType('day', ${basePrice})" style="background: ${selectedPackageType === 'day' ? '#fff5f6' : '#f8fafc'}; border: 2px solid ${selectedPackageType === 'day' ? '#ff7582' : '#cbd5e0'}; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <h3 style="margin: 0; font-size: 16px; color: #1b263b;">Day Trip Package</h3>
-              <input type="radio" name="pkg_type" ${selectedPackageType === 'day' ? 'checked' : ''} style="accent-color: #ff7582; cursor: pointer;" />
-            </div>
-            <span style="font-size: 12px; color: #718096; display: block; margin-top: 4px;">Single-day guided visit</span>
-            <div style="font-size: 16px; font-weight: 700; color: #ff7582; margin-top: 8px;">
-              ${discountRate > 0 ? `<span style="text-decoration: line-through; color: #a0aec0; font-size: 13px; font-weight: normal; margin-right: 6px;">₱${originalBasePrice.toLocaleString()}</span>` : ''}
-              ₱${basePrice.toLocaleString()} / pax
-            </div>
-          </div>
-          <div class="package-card" id="pkg-card-full" onclick="selectPackageType('full', ${basePrice})" style="background: ${selectedPackageType === 'full' ? '#fff5f6' : '#f8fafc'}; border: 2px solid ${selectedPackageType === 'full' ? '#ff7582' : '#cbd5e0'}; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <h3 style="margin: 0; font-size: 16px; color: #1b263b;">Full Stay Getaway</h3>
-              <input type="radio" name="pkg_type" ${selectedPackageType === 'full' ? 'checked' : ''} style="accent-color: #ff7582; cursor: pointer;" />
-            </div>
-            <span style="font-size: 12px; color: #718096; display: block; margin-top: 4px;">Extended tour & hotel stay</span>
-            <div style="font-size: 16px; font-weight: 700; color: #ff7582; margin-top: 8px;">
-              ${discountRate > 0 ? `<span style="text-decoration: line-through; color: #a0aec0; font-size: 13px; font-weight: normal; margin-right: 6px;">₱${originalFullStayPrice.toLocaleString()}</span>` : ''}
-              ₱${fullStayPrice.toLocaleString()} / pax
-            </div>
-          </div>
-        </div>
-
-        <div class="landmark-options">
-          <h2>Landmark Options</h2>
-          <span style="font-size: 13px; color: #718096; display: block; margin-bottom: 14px;">Select your preferred landmarks to visit (Multiple selection)</span>
-          <div class="landmark-selection-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
-            ${(selectedPlace.landmarks || []).map((lm, idx) => `
-              <div class="landmark-choice-card ${idx === 0 ? 'active' : ''}" onclick="toggleLandmark(${idx})" style="background: ${idx === 0 ? '#fff5f6' : '#f8fafc'}; border: 2px solid ${idx === 0 ? '#ff7582' : '#cbd5e0'}; border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s;">
-                <div style="height: 100px; background-size: cover; background-position: center; background-image: url('${lm.image}');"></div>
-                <div style="padding: 12px; display: flex; justify-content: space-between; align-items: center;">
-                  <div>
-                    <h4 style="font-size: 15px; font-weight: 700; color: #1b263b; margin: 2px 0 2px 0;">${lm.name}</h4>
-                    <p style="font-size: 12px; font-weight: 400; color:  #606670; margin: 0px;">${lm.desc}</p>
-                    <span style="font-size: 13px; color: #ff7582; font-weight: 600;">+₱${lm.price.toLocaleString()}</span>
-                  </div>
-                  <input type="checkbox" name="landmark_choice" value="${lm.name}" data-price="${lm.price}" ${idx === 0 ? 'checked' : ''} onchange="updateBookingTotal(${effectiveBasePrice})" style="accent-color: #ff7582; cursor: pointer;" />
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-
-        <div class="reservation-box">
+        <div class="reservation-box" style="margin-top: 20px;">
           <h2>Reservation Form - ${selectedPlace.name}</h2>
-
+          
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
             <div class="form-group" style="margin-bottom: 0;">
               <label for="guest-firstname">First Name</label>
@@ -752,104 +663,86 @@ export const views = {
 
           <div class="form-group">
             <label for="booking-date">Select Travel Date</label>
-            <div class="select-wrapper">
-              <input type="date" id="booking-date" class="booking-date-input" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-family: inherit; font-size: 14px;" />
-            </div>
+            <input type="date" id="booking-date" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px;" />
           </div>
 
           <div class="form-group">
             <label>Guests & Quantity</label>
-            <div class="quantity-row">
-              <span id="adult-label">Adult (${discountRate > 0 ? `<span style="text-decoration: line-through; color: #a0aec0; font-size: 11px; margin-right: 4px;">₱${currentOriginalAdultPrice.toLocaleString()}</span>` : ''}₱${currentDiscountedAdultPrice.toLocaleString()})</span>
-              <div class="counter" data-type="adult">
-                <button type="button" class="counter-btn" data-action="minus">−</button>
-                <span class="count" id="adult-count">2</span>
-                <button type="button" class="counter-btn" data-action="plus">+</button>
+            <div class="quantity-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span id="adult-label" style="font-size: 14px; font-weight: 600; color: #1b263b;">Adult (₱${basePrice.toLocaleString()})</span>
+              <div class="counter" data-type="adult" style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" class="counter-btn" data-action="minus" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #cbd5e0; background: #fff; cursor: pointer; font-weight: bold;">−</button>
+                <span class="count" id="adult-count" style="font-weight: 700; font-size: 16px; min-width: 20px; text-align: center;">2</span>
+                <button type="button" class="counter-btn" data-action="plus" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #cbd5e0; background: #fff; cursor: pointer; font-weight: bold;">+</button>
               </div>
             </div>
-            <div class="quantity-row">
-              <span>Child (0-2 yrs: Free, 3-11 yrs: 50% Off)</span>
-              <div class="counter" data-type="child">
-                <button type="button" class="counter-btn" data-action="minus">−</button>
-                <span class="count" id="child-count">0</span>
-                <button type="button" class="counter-btn" data-action="plus">+</button>
+
+            <div class="quantity-row" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="font-size: 14px; font-weight: 600; color: #1b263b; display: block;">Child (3-11 yrs)</span>
+                <small style="font-size: 11px; color: #64748b;">50% off base rate</small>
+              </div>
+              <div class="counter" data-type="child" style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" class="counter-btn" data-action="minus" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #cbd5e0; background: #fff; cursor: pointer; font-weight: bold;">−</button>
+                <span class="count" id="child-count" style="font-weight: 700; font-size: 16px; min-width: 20px; text-align: center;">0</span>
+                <button type="button" class="counter-btn" data-action="plus" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #cbd5e0; background: #fff; cursor: pointer; font-weight: bold;">+</button>
               </div>
             </div>
-            
-            <div id="child-ages-container" style="display: none; margin-top: 14px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px dashed #cbd5e0;">
-              <label style="font-size: 13px; font-weight: 600; color: #4a5568; margin-bottom: 8px; display: block;">Specify Child Ages</label>
-              <div id="child-age-fields" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px;"></div>
+
+            <div id="child-ages-container" style="display: none; margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+              <label style="font-size: 12px; font-weight: 700; color: #4a5568; display: block; margin-bottom: 8px;">Child Ages</label>
+              <div id="child-age-fields" style="display: flex; flex-direction: column; gap: 8px;"></div>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="promo-code-input">Promo / Discount Code</label>
-            <div style="display: flex; gap: 10px;">
-              <input type="text" id="promo-code-input" placeholder="e.g. TRAVELAYA (Try for 10% off)" value="${appliedPromoName}" style="flex: 1; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; text-transform: uppercase;" />
-              <button type="button" onclick="applyPromoCode()" style="background: #131c38; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer;">Apply</button>
-            </div>
-            <small id="promo-feedback" style="display: block; margin-top: 6px; font-size: 12px; font-weight: 600; color: ${appliedPromoDiscount > 0 ? '#38a169' : '#e53e3e'};">
-              ${appliedPromoDiscount > 0 ? `✓ Promo code "${appliedPromoName}" applied successfully (${appliedPromoDiscount * 100}% OFF)!` : ''}
-            </small>
-          </div>
-
-          <div class="form-group">
-            <label>Optional Add-ons & Services</label>
-            <div class="addons-list" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+          <!-- Add-ons Section Restored -->
+          <div class="form-group" style="margin-top: 20px;">
+            <label style="font-size: 12px; font-weight: 700; color: #4a5568; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">Optional Add-ons & Extras</label>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
               ${(selectedPlace.addons || availableAddons).map(addon => `
-                <label class="addon-item" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer;">
-                  <span style="font-size: 13px; font-weight: 500; color: #2d3748; display: flex; align-items: center; gap: 10px;">
-                    <input type="checkbox" class="addon-checkbox" value="${addon.id}" data-price="${addon.price}" onchange="updateBookingTotal(${effectiveBasePrice})" />
+                <label style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 13px; color: #1b263b;">
+                  <span style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" class="addon-checkbox" data-price="${addon.price}" onchange="updateBookingTotal(basePackagePriceForUpdate())" style="width: 16px; height: 16px; accent-color: #ff7582; cursor: pointer;" />
                     ${addon.name}
                   </span>
-                  <span style="font-size: 13px; font-weight: 600; color: #ff7582;">+₱${addon.price.toLocaleString()}</span>
+                  <strong style="color: #ff7582;">+₱${addon.price.toLocaleString()}</strong>
                 </label>
               `).join('')}
             </div>
           </div>
 
-          <div style="margin: 20px 0; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
-            <h3 style="font-size: 15px; font-weight: 700; color: #1b263b; margin: 0 0 12px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
-              Price Breakdown
-            </h3>
-            
-            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #4a5568;">
-              <div style="display: flex; justify-content: space-between;">
-                <span id="breakdown-adult-label">Adult Package (2 pax):</span>
-                <span id="breakdown-adult-price" style="font-weight: 600; color: #1b263b;">₱${(effectiveBasePrice * 2).toLocaleString()}</span>
-              </div>
-              
-              <div id="breakdown-child-row" style="display: flex; justify-content: space-between;">
-                <span id="breakdown-child-label">Child Guests (0 pax):</span>
-                <span id="breakdown-child-price" style="font-weight: 600; color: #1b263b;">₱0</span>
-              </div>
-
-              <div id="breakdown-landmark-row" style="display: flex; justify-content: space-between;">
-                <span>Selected Landmarks:</span>
-                <span id="breakdown-landmark-price" style="font-weight: 600; color: #1b263b;">
-                  +₱${(selectedPlace.landmarks?.[0]?.price || 0).toLocaleString()}
-                </span>
-              </div>
-
-              <div id="breakdown-addons-row" style="display: flex; justify-content: space-between;">
-                <span>Optional Add-ons:</span>
-                <span id="breakdown-addons-price" style="font-weight: 600; color: #1b263b;">₱0</span>
-              </div>
-
-              <div id="breakdown-promo-row" style="display: ${appliedPromoDiscount > 0 ? 'flex' : 'none'}; justify-content: space-between; color: #38a169; font-weight: 600;">
-                <span id="breakdown-promo-label">Promo Discount (${appliedPromoName}):</span>
-                <span id="breakdown-promo-price">-${appliedPromoDiscount * 100}%</span>
-              </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <label for="promo-code-input">Promo / Discount Code</label>
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="promo-code-input" placeholder="e.g. TRAVELAYA" value="${appliedPromoName}" style="flex: 1; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; text-transform: uppercase;" />
+              <button type="button" onclick="applyPromoCode()" style="background: #131c38; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer;">Apply</button>
             </div>
+            <small id="promo-feedback" style="display: block; margin-top: 6px; font-size: 12px; font-weight: 600; color: ${appliedPromoDiscount > 0 ? '#38a169' : '#e53e3e'};">
+              ${appliedPromoDiscount > 0 ? `✓ Promo code applied (${appliedPromoDiscount * 100}% OFF)!` : ''}
+            </small>
+          </div>
 
-            <div style="margin-top: 14px; padding-top: 12px; border-top: 2px dashed #cbd5e0; display: flex; justify-content: space-between; align-items: center;">
+          <div style="margin: 20px 0; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span id="breakdown-adult-label" style="font-size: 13px; color: #64748b;">Adult Package (2 pax):</span>
+              <span id="breakdown-adult-price" style="font-size: 13px; font-weight: 600; color: #1b263b;">₱${subtotal.toLocaleString()}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 13px; color: #64748b;">Optional Add-ons:</span>
+              <span id="breakdown-addons-price" style="font-size: 13px; font-weight: 600; color: #1b263b;">₱0</span>
+            </div>
+            <div id="breakdown-promo-row" style="display: ${appliedPromoDiscount > 0 ? 'flex' : 'none'}; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span id="breakdown-promo-label" style="font-size: 13px; color: #38a169; font-weight: 600;">Promo Discount:</span>
+              <span id="breakdown-promo-price" style="font-size: 13px; font-weight: 600; color: #38a169;">-₱${Math.round(promoDiscountAmount).toLocaleString()}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #cbd5e0; padding-top: 12px; margin-top: 12px;">
               <span style="font-size: 16px; font-weight: 700; color: #1b263b;">Estimated Total:</span>
               <strong id="total-price-display" style="font-size: 22px; color: #ff7582;">₱${Math.round(initialTotal).toLocaleString()}</strong>
             </div>
           </div>
 
           <div class="action-buttons">
-            <button type="button" class="btn btn-cancel" onclick="navigateTo('home')">Cancel, I'm done</button>
+            <button type="button" class="btn btn-cancel" onclick="navigateTo('home')">Cancel</button>
             <button type="button" class="btn btn-continue" onclick="handleBookingSubmit()">Confirm Booking</button>
           </div>
         </div>

@@ -1,272 +1,436 @@
 export const heroImages = [
-  'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop'
+  'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1600&auto=format&fit=crop', // Scenic landscape
+  'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=1600&auto=format&fit=crop', // Tropical coast
+  'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1600&auto=format&fit=crop', // Resort / beach
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop'  // Ocean view
 ];
 
 export const allPlacesData = {
-  'el-nido': {
-    id: 'el-nido',
-    name: 'El Nido',
-    location: 'Palawan, Philippines',
+  'baguio': {
+    id: 'baguio',
+    name: 'Baguio City Getaway',
+    location: 'Benguet, Philippines',
     stars: '★★★★★',
-    price: '₱12,250',
-    numericPrice: 12250,
-    duration: '2D / 1N',
-    badge: 'Trending',
-    discount: 15,
-    category: 'Trending',
-    packageType: 'Full Stay',
-    image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/cb/a6/63/re-discovering-my-fave.jpg?w=1400&h=-1&s=1',
-    description: 'El Nido is renowned worldwide for its dramatic limestone cliffs, crystal-clear turquoise waters, and thriving marine sanctuaries serving as the gateway to the breathtaking Bacuit Archipelago.',
-    amenities: ['Free Wi-Fi', 'Beachfront Access', 'Snorkeling Gear Included', 'Airport Shuttle', 'Buffet Breakfast'],
-    landmarks: [
-      { name: 'Big Lagoon', price: 500, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'A famous, narrow waterway with crystal-clear turquoise and emerald waters surrounded by towering dark limestone karst cliffs.' },
-      { name: 'Nacpan Beach', price: 600, image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' , desc: 'A tropical beach with clear turquoise waters, white sand, and lush greenery.' },
-      { name: 'Secret Lagoon', price: 700, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' , desc: 'The Secret Lagoon is a hidden natural pool located on Miniloc Island.'}
-    ],
-    itinerary: [
-      { day: 'Day 1', title: 'Arrival & Island Tour', details: 'Check-in and afternoon boat excursion.' },
-      { day: 'Day 2', title: 'Lagoon Exploration', details: 'Visit Big Lagoon and secret beaches.' }
-    ],
-    addons: [
-      { id: 'kayak', name: 'Transparent Kayak Rental', price: 600 },
-      { id: 'gopro', name: 'GoPro Underwater Rental', price: 900 },
-      { id: 'massage', name: 'Beachfront Sunset Massage', price: 1200 },
-      { id: 'snorkeling', name: 'Beach-side snorkeling', price: 200 }
-    ]
-  },
-  'boracay': {
-    id: 'boracay',
-    name: 'Boracay Island',
-    location: 'Aklan, Philippines',
-    stars: '★★★★★',
-    price: '₱9,800',
-    numericPrice: 9800,
-    duration: '3D / 2N',
-    badge: 'Best Value',
+    price: '₱2,500',
+    numericPrice: 2500,
+    duration: '2D1N / 3D2N',
+    badge: 'Popular',
     discount: 10,
-    category: 'Best Value',
-    packageType: 'Full Stay',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv77CCR9BYhbIU3DRUKYnmfnfeMsHkxDqEKjL_7v0C_WpoqYRJbB2WkOs&s=10',
-    description: 'Famous for its four-mile White Beach with powdery soft sand, vibrant nightlife, water sports, and relaxing beachfront resorts.',
-    amenities: ['Swimming Pool', 'Air Conditioning', 'Spa & Wellness Center', 'Welcome Drinks', 'Live Music Lounge'],
-    landmarks: [
-      { name: 'Willy\'s Rock', price: 500, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' , desc: "Willy's Rock is an oddly shaped volcanic formation with a statue of Our Lady of Lourdes." },
-      { name: 'Puka Shell Beach', price: 600, image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' , desc: 'Puka Beach is famous for its abundant natural puka shells, its quieter and more untamed atmosphere.' },
-      { name: 'Mount Luho', price: 700, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' , desc: 'Mount Luho is the highest point and peak on Boracay Island in Aklan, Philippines.' }
-    ],
-    itinerary: [
-      { day: 'Day 1', title: 'White Beach Sunset', details: 'Arrival and evening stroll along Station 2.' },
-      { day: 'Day 2', title: 'Water Sports', details: 'Parasailing and helmet diving.' }
-    ],
-    addons: [
-      { id: 'helmet', name: 'Helmet Diving', price: 650 },
-      { id: 'paraw', name: 'Sunset Paraw Sailing', price: 850 },
-      { id: 'crystal', name: 'Crystal Kayak Photoshoot', price: 400 }
-    ]
-  },
-  'chocolate-hills': {
-    id: 'chocolate-hills',
-    name: 'Chocolate Hills',
-    location: 'Bohol, Philippines',
-    stars: '★★★★☆',
-    price: '₱1,800',
-    numericPrice: 1800,
-    duration: '1 Day',
-    badge: 'Nature',
-    discount: 5,
     category: 'Nature',
-    packageType: 'Day Trip',
-    image: 'https://kahibalo.com/wp-content/uploads/2024/03/chocolate-hills-bohol-philippines-kahibalo-foundation.jpg',
-    description: 'A geological formation of over 1,200 conical hills in Bohol that turn chocolate-brown during the dry season, creating a surreal natural landscape.',
-    amenities: ['Private Van Service', 'Tour Guide', 'Lunch Included', 'Entrance Fees Included'],
+    packageType: 'Full Stay',
+    // Pine trees / foggy mountain aesthetic for Baguio
+    image: 'https://www.pluxee.ph/sites/g/files/jclxxe401/files/styles/plx_blog_cover_v2_desktop/public/2025-08/shutterstock_1929081746_11zon.jpg.webp?h=ba0a90e8&itok=4IsOoVyn',
+    description: 'Experience the City of Pines! Enjoy cool mountain breezes, strawberry picking, scenic nature parks, historical landmarks, and the famous night market.',
+    amenities: ['Van Transportation (Manila-Baguio-Manila)', 'Accommodation (Transient House Room Sharing)', 'Tour Coordinator', 'Driver\'s Fee & Fuel', 'City Tour'],
     landmarks: [
-      { name: 'Main Complex', price: 500, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' , desc: "The Main Complex in Carmen is one of Bohol's most iconic and must-visit attractions" },
-      { name: 'Loboc River', price: 600, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' , desc: 'Loboc is a scenic riverside municipality.' },
-      { name: 'Tarsier Sanctuary', price: 700, image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' , desc: 'Forest where visitors can see the tarsier, a small native primate, in its natural habitat.' }
+      { name: 'Strawberry Farm', price: 0, image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=400&auto=format&fit=crop', desc: 'Pick fresh strawberries and try strawberry taho in La Trinidad.' },
+      { name: 'Camp John Hay', price: 0, image: 'https://images.unsplash.com/photo-1511497584788-8767611425e1?q=80&w=400&auto=format&fit=crop', desc: 'Pine tree trails, Eco-Trail walk, and Bamboo Sanctuary.' },
+      { name: 'Mirador Heritage', price: 0, image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=400&auto=format&fit=crop', desc: 'Panoramic city views and bamboo grove path.' }
+    ],
+    itinerary2D1N: [
+      { dayGroup: 'Day 1', day: '10:00 PM / 12:00 AM', title: 'Pick up & Departure from Manila', details: 'Departure via van transfer to Baguio City.' },
+      { dayGroup: 'Day 1', day: '05:00 AM', title: 'Arrival & Breakfast', details: 'Arrival in Baguio City followed by breakfast.' },
+      { dayGroup: 'Day 1', day: '06:00 AM', title: 'Scenic Views & Heritage Tour', details: 'Visit Strawberry Farm, Stobosa Colorful Houses, Bell Church, Igorot Stone Kingdom, and Tamawan Village.' },
+      { dayGroup: 'Day 1', day: '12:00 PM', title: 'Lunch Break', details: 'Lunch break (Pax account).' },
+      { dayGroup: 'Day 1', day: '01:00 PM', title: 'City Landmarks', details: 'Tour Diplomat Hotel, Lourdes Grotto, and Mirador Heritage and Eco-Spirituality Park.' },
+      { dayGroup: 'Day 1', day: '03:00 PM', title: 'Hotel Check-in & Rest', details: 'Hotel check-in, rest time, and free time.' },
+      { dayGroup: 'Day 1', day: '05:00 PM', title: 'Evening / Christmas Village', details: 'Evening tour and seasonal Christmas Village experience.' },
+      { dayGroup: 'Day 1', day: '07:00 PM', title: 'Dinner Time', details: 'Dinner break (Pax account).' },
+      { dayGroup: 'Day 1', day: '09:00 PM', title: 'Baguio Night Market', details: 'Shopping for pre-loved clothes (ukay-ukay) and street food.' },
+      { dayGroup: 'Day 1', day: '10:30 PM', title: 'Rest & Sleep', details: 'Sleep and rest for the night.' },
+      { dayGroup: 'Day 2', day: '07:00 AM', title: 'Breakfast & Checkout', details: 'Breakfast at the hotel followed by checkout.' },
+      { dayGroup: 'Day 2', day: '09:00 AM', title: 'Nature & Parks Tour', details: 'Visit Baguio Botanical Garden, Wright Park, The Mansion, and Mines View Park.' },
+      { dayGroup: 'Day 2', day: '12:00 PM', title: 'Lunch Break', details: 'Lunch break.' },
+      { dayGroup: 'Day 2', day: '01:00 PM', title: 'Camp John Hay & Eco-Trail', details: 'Explore Camp John Hay, Bamboo Sanctuary, and Eco-Trail walk.' },
+      { dayGroup: 'Day 2', day: '04:00 PM', title: 'Pasalubong Shopping', details: 'Visit Baguio Cathedral, Session Road, and final pasalubong shopping at Baguio Public Market.' },
+      { dayGroup: 'Day 2', day: '05:30 PM', title: 'ETD Back to Manila', details: 'Departure from Baguio back to Manila.' },
+      { dayGroup: 'Day 2', day: '10:30 PM', title: 'ETA in Manila', details: 'Safe arrival back in Manila.' }
+    ],
+    itinerary3D2N: [
+      { dayGroup: 'Day 1', day: '10:00 PM / 12:00 AM', title: 'Pick up & Departure from Manila', details: 'Departure via van transfer to Baguio City.' },
+      { dayGroup: 'Day 1', day: '05:00 AM', title: 'Arrival & Breakfast', details: 'Arrival in Baguio City followed by breakfast.' },
+      { dayGroup: 'Day 1', day: '06:00 AM', title: 'Scenic Views & Heritage Tour', details: 'Visit Strawberry Farm, Stobosa Colorful Houses, Bell Church, Igorot Stone Kingdom, and Tamawan Village.' },
+      { dayGroup: 'Day 1', day: '12:00 PM', title: 'Lunch Break', details: 'Lunch break (Pax account).' },
+      { dayGroup: 'Day 1', day: '01:00 PM', title: 'City Landmarks', details: 'Tour Diplomat Hotel, Lourdes Grotto, and Mirador Heritage and Eco-Spirituality Park.' },
+      { dayGroup: 'Day 1', day: '03:00 PM', title: 'Hotel Check-in & Rest', details: 'Hotel check-in, rest time, and free time.' },
+      { dayGroup: 'Day 1', day: '05:00 PM', title: 'Evening / Christmas Village', details: 'Evening tour and seasonal Christmas Village experience.' },
+      { dayGroup: 'Day 1', day: '07:00 PM', title: 'Dinner Time', details: 'Dinner break (Pax account).' },
+      { dayGroup: 'Day 1', day: '09:00 PM', title: 'Baguio Night Market', details: 'Shopping for pre-loved clothes (ukay-ukay) and street food.' },
+      
+      { dayGroup: 'Day 2', day: '07:00 AM', title: 'Breakfast & Morning Prep', details: 'Breakfast at the hotel.' },
+      { dayGroup: 'Day 2', day: '09:00 AM', title: 'Nature & Parks Tour', details: 'Visit Baguio Botanical Garden, Wright Park, The Mansion, and Mines View Park.' },
+      { dayGroup: 'Day 2', day: '12:00 PM', title: 'Lunch Break', details: 'Lunch break at Mines View or Session Road.' },
+      { dayGroup: 'Day 2', day: '01:30 PM', title: 'Camp John Hay & Eco-Trail', details: 'Explore Camp John Hay, Bamboo Sanctuary, and Eco-Trail walk.' },
+      { dayGroup: 'Day 2', day: '04:30 PM', title: 'Good Shepherd & Scenic Overlook', details: 'Buy famous Good Shepherd ube jam and enjoy pine forest views.' },
+      { dayGroup: 'Day 2', day: '07:00 PM', title: 'Dinner & Leisure', details: 'Dinner at leisure and free time around Burnham Park.' },
+
+      { dayGroup: 'Day 3', day: '08:00 AM', title: 'Breakfast & Checkout', details: 'Breakfast at the hotel followed by hotel checkout.' },
+      { dayGroup: 'Day 3', day: '10:00 AM', title: 'Cultural Walk & Shopping', details: 'Visit Baguio Cathedral, Burnham Park boating, SM Baguio, and Session Road.' },
+      { dayGroup: 'Day 3', day: '12:00 PM', title: 'Lunch & Pasalubong Hunt', details: 'Lunch break and final pasalubong shopping at Baguio Public Market.' },
+      { dayGroup: 'Day 3', day: '02:00 PM', title: 'ETD Back to Manila', details: 'Departure from Baguio back to Manila.' },
+      { dayGroup: 'Day 3', day: '08:00 PM', title: 'ETA in Manila', details: 'Safe arrival back in Manila.' }
+    ],
+    addons: [{ id: 'souvenir', name: 'Special Pasalubong Box', price: 450 }]
+  },
+
+  'las-casas': {
+    id: 'las-casas',
+    name: 'Las Casas Filipinas de Acuzar',
+    location: 'Bagac, Bataan, Philippines',
+    stars: '★★★★★',
+    price: '₱4,199',
+    numericPrice: 4199,
+    duration: '1 Day',
+    badge: 'Heritage',
+    discount: 5,
+    category: 'Heritage',
+    packageType: 'Day Trip',
+    // Spanish colonial architecture aesthetic
+    image: 'https://ak-d.tripcdn.com/images/1ik6h12000t6d38yy8F7E_R_960_660_R5_D.webp',
+    description: 'A unique heritage resort and open-air museum in Bagac, Bataan, showcasing restored Spanish-Filipino colonial houses, cobblestone streets, and cultural riverside tours.',
+    amenities: ['Balsa River Cruise', 'Set Lunch', 'Hotel de Oriente Viewing', '1 Hour Walking Guided Tour', 'Beach Access (Free Time)', 'Tranvia Ride', 'Van Transfers (Mnl-Bat-Mnl)'],
+    landmarks: [
+      { name: 'Hotel de Oriente', price: 0, image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=400&auto=format&fit=crop', desc: 'Viewing of historic luxury hotel facade.' },
+      { name: 'Balsa River', price: 0, image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=400&auto=format&fit=crop', desc: 'Scenic river cruise.' }
     ],
     itinerary: [
-      { day: 'Day 1', title: 'Hills & Tarsiers', details: 'View deck observation and Loboc river cruise.' }
+      { dayGroup: 'Day 1', day: '04:00 AM', title: 'Departure from Manila', details: 'Departure via van transfer.' },
+      { dayGroup: 'Day 1', day: '08:00 AM', title: 'Mount Samat Side Trip', details: 'Mount Samat, Japanese-Filipino Friendship Tower, Zero Kilometer.' },
+      { dayGroup: 'Day 1', day: '09:30 AM', title: 'ETD to Las Casas', details: 'Travel from side trip to Las Casas.' },
+      { dayGroup: 'Day 1', day: '10:00 AM', title: 'Registration', details: 'Arrival and registration at Las Casas.' },
+      { dayGroup: 'Day 1', day: '10:30 AM', title: 'Walking Guided Tour', details: '1-hour professional heritage walking tour.' },
+      { dayGroup: 'Day 1', day: '11:30 AM', title: 'Hotel de Oriente Viewing', details: 'Explore the iconic architectural landmark.' },
+      { dayGroup: 'Day 1', day: '12:00 PM', title: 'Set Lunch', details: 'Enjoy set lunch (12:00 NN - 2:00 PM).' },
+      { dayGroup: 'Day 1', day: '01:30 PM', title: 'Balsa River Cruise', details: 'River cruise experience (weather permitting).' },
+      { dayGroup: 'Day 1', day: '02:30 PM', title: 'Check-in / Free Time', details: 'Resort check-in.' },
+      { dayGroup: 'Day 1', day: '03:00 PM', title: 'Tranvia Ride to Beach', details: 'Tranvia ride to beach for self-guided leisure time.' },
+      { dayGroup: 'Day 1', day: '05:00 PM', title: 'Going back to Manila', details: 'Return trip back to Manila.' }
+    ],
+    addons: [{ id: 'souvenir', name: 'Cultural Souvenir Pack', price: 500 }]
+  },
+
+  'mount-samat-corregidor': {
+    id: 'mount-samat-corregidor',
+    name: 'Mount Samat & Corregidor Day Tour',
+    location: 'Bataan, Philippines',
+    stars: '★★★★★',
+    price: '₱3,999',
+    numericPrice: 3999,
+    duration: '1 Day',
+    badge: 'Day Tour',
+    discount: 5,
+    category: 'Heritage',
+    packageType: 'Day Trip',
+    // Monument / historical memorial aesthetic
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj0KJCLvhOCJW9wCAbuX2gjuPQpFaC43mB9Fhl_37OmNCqQ5Y7Rnptn67r&s=10',
+    description: 'Explore the historic island fortress of Corregidor and the majestic Mount Samat Shrine of Valor on an action-packed 1-day historical day tour from Manila.',
+    amenities: [
+      'Roundtrip Van Transfer (MNL-BAT-MNL)',
+      'Roundtrip outrigger boat ride (Mariveles Bataan to Corregidor)',
+      'Tour Vehicle (Tranvia Bus 35 seater)',
+      'Island Entrance Fee & Historical Tour',
+      'DOT-Accredited Travel Guide',
+      'Bento Lunch'
+    ],
+    landmarks: [
+      { name: 'Middle Side Barracks', price: 0, image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=400&auto=format&fit=crop', desc: 'Historic military quarters on Corregidor.' },
+      { name: 'Mile Long Barracks', price: 0, image: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=400&auto=format&fit=crop', desc: 'Known as the longest military barracks in the world.' },
+      { name: 'Malinta Tunnel', price: 0, image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=400&auto=format&fit=crop', desc: 'Underground tunnel system and historic site.' },
+      { name: 'Mt. Samat Shrine of Valor', price: 0, image: 'https://images.unsplash.com/photo-1562601579-599dec56540e?q=80&w=400&auto=format&fit=crop', desc: 'Panoramic viewpoint and towering memorial cross.' },
+      { name: 'Plaza Mayor de Balanga', price: 0, image: 'https://images.unsplash.com/photo-1548625149-fc4a29cf7092?q=80&w=400&auto=format&fit=crop', desc: 'Iconic plaza and church stop.' }
+    ],
+    itinerary: [
+      { dayGroup: 'Day 1', day: '04:00 AM', title: 'Manila Pick-up', details: 'Departure via roundtrip van transfer.' },
+      { dayGroup: 'Day 1', day: '07:00 AM', title: 'Meet up Mariveles, Bataan', details: 'Arrival at Mariveles meetup point.' },
+      { dayGroup: 'Day 1', day: '07:30 AM', title: 'ETA Corregidor & Historical Tour', details: 'Outrigger boat ride to Corregidor Island and start of guided tour.' },
+      { dayGroup: 'Day 1', day: '11:30 AM', title: 'Lunch Break', details: 'Bento lunch provided during tour.' },
+      { dayGroup: 'Day 1', day: '12:30 PM', title: 'ETD Corregidor', details: 'Boat transfer back to mainland Bataan.' },
+      { dayGroup: 'Day 1', day: '01:00 PM', title: 'Port Arrival', details: 'Arrival back at port.' },
+      { dayGroup: 'Day 1', day: '02:00 PM', title: 'ETA Mt. Samat', details: 'Visit Mt. Samat Shrine of Valor and Sword of Flame.' },
+      { dayGroup: 'Day 1', day: '03:30 PM', title: 'ETD Mt. Samat', details: 'Departure from Mt. Samat.' },
+      { dayGroup: 'Day 1', day: '04:30 PM', title: 'St. Joseph Parish & Plaza Mayor', details: 'Quick stop at St. Joseph Parish Church and Plaza Mayor de Balanga.' },
+      { dayGroup: 'Day 1', day: '05:00 PM', title: 'Pasalubong & Dinner', details: 'Pasalubong shopping and dinner stop at Best of Bataan Restaurant.' }
     ],
     addons: [
-      { id: 'atv', name: 'ATV Adventure', price: 1500 },
-      { id: 'gopro', name: 'GoPro Underwater Rental', price: 900 },
-      { id: 'bike', name: 'Bike Zip Adventure', price: 500 }
+      { id: 'souvenir', name: 'Bataan Special Pasalubong Pack', price: 450 }
     ]
   },
-  'banaue': {
-    id: 'banaue',
-    name: 'Banaue Terraces',
-    location: 'Ifugao, Philippines',
+
+  'bnpp-mount-samat': {
+    id: 'bnpp-mount-samat',
+    name: 'Bataan Nuclear Power Plant & Mount Samat',
+    location: 'Bataan, Philippines',
     stars: '★★★★★',
-    price: '₱7,700',
-    numericPrice: 7700,
-    duration: '2D / 1N',
-    badge: 'Heritage',
-    discount: 20,
+    price: '₱2,499',
+    numericPrice: 2499,
+    duration: '1 Day',
+    badge: 'New Tour',
+    discount: 5,
+    category: 'Heritage',
+    packageType: 'Day Trip',
+    // Architecture / industrial structure aesthetic
+    image: 'https://newsinfo.inquirer.net/files/2022/11/391896.jpeg',
+    description: 'Explore the iconic Bataan Nuclear Power Plant, the historical Mount Samat Shrine, Japanese-Filipino Friendship Tower, Zero Kilometer marker, and Bataan WWII Museum on an action-packed day tour from Manila.',
+    amenities: [
+      'Van Transfer (Mnl-Bat-Mnl)',
+      'Bataan Nuclear Power Plant Insight Tour',
+      'Mount Samat Exclusive Guided Tour',
+      'Japanese-Filipino Friendship Tower & Zero Kilometer marker',
+      'Bataan WWII Museum Tour',
+      'Rolling Tours (Sword of Flame, St. Joseph Parish, Plaza Mayor)',
+      'DOT-Accredited Travel Guide'
+    ],
+    landmarks: [
+      { name: 'Bataan Nuclear Power Plant', price: 0, image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=400&auto=format&fit=crop', desc: 'Insight tour of the historic nuclear facility.' },
+      { name: 'Mount Samat Shrine', price: 0, image: 'https://images.unsplash.com/photo-1562601579-599dec56540e?q=80&w=400&auto=format&fit=crop', desc: 'Shrine of Valor and panoramic views.' },
+      { name: 'Japanese-Filipino Friendship Tower', price: 0, image: 'https://images.unsplash.com/photo-1548625149-fc4a29cf7092?q=80&w=400&auto=format&fit=crop', desc: 'Historic memorial landmark.' }
+    ],
+    itinerary: [
+      { dayGroup: 'Day 1', day: '04:00 AM', title: 'Departure from Manila', details: 'Departure via van transfer to Bataan.' },
+      { dayGroup: 'Day 1', day: '08:00 AM - 10:00 AM', title: 'BNPP Insight Tour', details: 'Guided exploration of the Bataan Nuclear Power Plant.' },
+      { dayGroup: 'Day 1', day: '10:00 AM', title: 'Friendship Tower & Zero KM', details: 'Visit Japanese-Filipino Friendship Tower & Zero Kilometer marker.' },
+      { dayGroup: 'Day 1', day: '10:30 AM - 12:00 PM', title: 'Mount Samat Historical Tour', details: 'Explore the Mount Samat shrine and memorial grounds.' },
+      { dayGroup: 'Day 1', day: '12:00 PM', title: 'Lunch Break', details: 'Lunch break (Optional buffet lunch available).' },
+      { dayGroup: 'Day 1', day: '01:00 PM', title: 'Bataan Tourism', details: 'Bataan tourism highlights and cultural stops.' },
+      { dayGroup: 'Day 1', day: '02:00 PM', title: 'Bataan WWII Museum', details: 'Explore historical exhibits at the Bataan WWII Museum.' },
+      { dayGroup: 'Day 1', day: '03:00 PM', title: 'Rolling Tours', details: 'Visit Sword of Flame in Pilar, St. Joseph Parish Church, and Plaza Mayor Ciudad de Balanga.' },
+      { dayGroup: 'Day 1', day: '05:00 PM', title: 'Snack Time / Early Dinner', details: 'Food and rest stop.' },
+      { dayGroup: 'Day 1', day: '06:00 PM', title: 'Back to Manila', details: 'Departure back to Manila.' }
+    ],
+    addons: [
+      { id: 'buffet-lunch', name: 'Buffet Lunch (Filipino Dish)', price: 300 }
+    ]
+  },
+
+  'camaya-five-fingers-laki': {
+    id: 'camaya-five-fingers-laki',
+    name: '4-in-1 Camaya, Five Fingers & Laki Beach',
+    location: 'Bataan, Philippines',
+    stars: '★★★★★',
+    price: '₱2,499',
+    numericPrice: 2499,
+    duration: '2D1N',
+    badge: 'Beach Getaway',
+    discount: 10,
+    category: 'Nature',
+    packageType: 'Full Stay',
+    // Coastal cliff / cove aesthetic
+    image: 'https://images.squarespace-cdn.com/content/v1/5fa1522044bdda192713063c/1626670210718-1WISP48LOVD84O32699D/Laki+Beach+in+Mariveles%2C+Bataan',
+    description: 'Experience the ultimate 2D1N Bataan beach adventure! Explore Five Fingers coves, swim at Laki Beach, and enjoy Camaya Coast waterparks, infinity pools, and beachfront activities with overnight guesthouse stay.',
+    amenities: [
+      'Five Fingers Island Hopping & Boat Fee',
+      'Laki Beach Entrance Fee & Swimming',
+      'Camaya Coast Entrance & Infinity Pool Access',
+      'Aqua Fun Water Park & Inflatable Waterpark Access',
+      'Free Beachfront Tables/Chairs & Recreational Activities',
+      '2D1N Air-Conditioned Guesthouse Accommodation'
+    ],
+    landmarks: [
+      { name: 'Five Fingers Coves', price: 0, image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400&auto=format&fit=crop', desc: 'Scenic cove island hopping and rock formations.' },
+      { name: 'Laki Beach', price: 0, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'Pristine white sand beach and swimming.' },
+      { name: 'Camaya Coast', price: 0, image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=400&auto=format&fit=crop', desc: 'Waterpark, infinity pools, and evening fire dancing.' }
+    ],
+    itinerary: [
+      { dayGroup: 'Day 1', day: '08:00 AM', title: 'Call Time & Five Fingers Hopping', details: 'Arrival and start of Five Fingers island hopping and boat tour.' },
+      { dayGroup: 'Day 1', day: '11:00 AM', title: 'Laki Beach Swimming & Leisure', details: 'Free time, beach relaxation, and swimming at Laki Beach until 4:30 PM.' },
+      { dayGroup: 'Day 1', day: '05:00 PM', title: 'Port Arrival & Check-in', details: 'Departure from port and check-in to air-conditioned guesthouse.' },
+      { dayGroup: 'Day 2', day: '07:00 AM', title: 'Camaya Coast Waterpark & Beach Day', details: 'Full access to Camaya Coast infinity pools and waterpark.' },
+      { dayGroup: 'Day 2', day: '05:00 PM', title: 'Weekend Entertainment', details: 'Live band and fire dancing show.' }
+    ],
+    addons: [{ id: 'breakfast', name: 'Add Breakfast Package', price: 500 }]
+  },
+
+  'five-fingers-laki-camping': {
+    id: 'five-fingers-laki-camping',
+    name: 'Five Fingers & Laki Beach Camping',
+    location: 'Mariveles, Bataan, Philippines',
+    stars: '★★★★★',
+    price: '₱999',
+    numericPrice: 999,
+    duration: '2D1N',
+    badge: 'Camping Style',
+    discount: 10,
+    category: 'Nature',
+    packageType: 'Full Stay',
+    // Camping / tent under stars aesthetic
+    image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1600&auto=format&fit=crophttps://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgNIvzajEmS-sFf6CkSNuS9ksfJwejmtn6yAzU5hLqVI8WiVT-4KEQU2tUIV4EYXxGAN4NhXPFeCFKMGSMGluQUMzCZrtMS9aTQ_SZrfQdm_hPMnTZRxzvHrgTWYlxKGTcwk5UjNrCwukbT/w640-h427-rw/five-fingers-resort-bataan.JPG',
+    description: 'Experience an epic 2D1N camping adventure in Mariveles, Bataan! Explore Five Fingers rock formations, cliff dive at Nagbalite, swim at Laki Death Pool, and camp under the stars.',
+    amenities: [
+      'Five Fingers Island Hopping & Roundtrip Boat Fee',
+      'Life Vest & Environmental Fees',
+      'Entrance Fee to Laki Beach',
+      'First Aid Kit',
+      'Guided Trekking, Caving & Cliff Jumping Activities'
+    ],
+    landmarks: [
+      { name: 'Nagbintana Rock Formation', price: 0, image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=400&auto=format&fit=crop', desc: 'Stunning iconic rock formations.' },
+      { name: 'Nagbalite Cliff Dive', price: 0, image: 'https://images.unsplash.com/photo-1502680390469-be75c86b636f?q=80&w=400&auto=format&fit=crop', desc: 'Thrilling 40ft cliff diving spot.' },
+      { name: 'Laki Beach & Death Pool', price: 0, image: 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae53?q=80&w=400&auto=format&fit=crop', desc: 'Pristine beach camping and natural tidal pool.' }
+    ],
+    itinerary: [
+      { dayGroup: 'Day 1', day: '07:00 PM', title: 'Call Time & Port Arrival', details: 'Call time, registration, and waiver signing.' },
+      { dayGroup: 'Day 1', day: '07:30 AM', title: 'Five Fingers Island Hopping', details: 'Explore Nagbintana Rock Formation, Nagbalite 40ft Cliff Dive.' },
+      { dayGroup: 'Day 1', day: '10:30 AM', title: 'Arrival at Laki Beach & Camping', details: 'Tent pitching, swimming, and exploring cliff side.' },
+      { dayGroup: 'Day 2', day: '12:00 PM', title: 'Call Time & Back to Port', details: 'Return boat departure.' }
+    ],
+    addons: [
+      { id: 'tent-rental', name: 'Camping Tent Rental', price: 400 },
+      { id: 'cottage', name: 'Cottage Rental (15 Pax)', price: 950 }
+    ]
+  },
+
+  'playa-la-caleta-overnight': {
+    id: 'playa-la-caleta-overnight',
+    name: 'Playa La Caleta Overnight & Island Hopping',
+    location: 'Bagac, Bataan, Philippines',
+    stars: '★★★★★',
+    price: '₱2,499',
+    numericPrice: 2499,
+    duration: '2D1N',
+    badge: 'Beach Escape',
+    discount: 10,
+    category: 'Nature',
+    packageType: 'Full Stay',
+    // Tropical cove aesthetic
+    image: 'https://q-xx.bstatic.com/xdata/images/hotel/max500/493979183.jpg?k=8d207b63cd0ecbc18e73c501c42d539fe0c402b3208d88a25dd123752ed795e0&o=',
+    description: 'Enjoy a relaxing 2D1N beach getaway at Playa La Caleta in Bagac, Bataan! Includes private round-trip boat transfers, island hopping, beach & pool access, and overnight fan-cooled nipa gazebo accommodation.',
+    amenities: [
+      'Round-trip private boat transfers',
+      'Island hopping (BNPP, Sugong Cave & Miguelito Island)',
+      'Welcome drinks & Breakfast',
+      'Beach & Pool Access',
+      'Overnight gazebo accommodation with ocean views & beddings',
+      'Shared shower, toilet & grilling facilities'
+    ],
+    landmarks: [
+      { name: 'Sugong Cave', price: 0, image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=400&auto=format&fit=crop', desc: 'Scenic island cave exploration.' },
+      { name: 'Miguelito Island', price: 0, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'Pristine island hopping destination.' }
+    ],
+    itinerary: [
+      { dayGroup: 'Day 1', day: '09:00 AM', title: 'Bagac Port Call Time', details: 'Meetup and briefing at Bagac Port.' },
+      { dayGroup: 'Day 1', day: '09:30 AM', title: 'Island Hopping Tour', details: 'Visit Bataan Nuclear Power Plant, Sugong Cave, and Miguelito Island.' },
+      { dayGroup: 'Day 2', day: '12:00 PM', title: 'Resort Check-out', details: 'Check-out and boat transfer back to Bagac Port.' }
+    ],
+    addons: [{ id: 'glamping', name: 'Upgrade to Family Glamping Tent', price: 1200 }]
+  },
+
+  'la-jolla-bataan': {
+    id: 'la-jolla-bataan',
+    name: 'La Jolla Bataan Resort',
+    location: 'Bataan, Philippines',
+    stars: '★★★★★',
+    price: '₱4,750',
+    numericPrice: 4750,
+    duration: '2D1N',
+    badge: 'Luxury Resort',
+    discount: 10,
+    category: 'Nature',
+    packageType: 'Full Stay',
+    // Luxury pool/resort aesthetic
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKUDC-HKcrEw0PHAE0okhBk-M484k6-CCRFyQ_2l1gyRthMGVHbSXxNaeB&s=10',
+    description: 'Experience a luxurious 2D1N beach getaway at La Jolla Bataan Resort! Includes roundtrip van transfers, family room with loft, complimentary breakfast, swimming pool & beach access.',
+    amenities: [
+      'Round-trip Van Transfers (Manila-Bataan-Manila)',
+      'Family Room with Loft (Good for 6-8 Persons)',
+      'Complimentary Breakfast',
+      'Swimming Pool & Beach Use',
+      'Access to Free Wi-Fi & Kiddie Play Room'
+    ],
+    landmarks: [
+      { name: 'La Jolla Beachfront', price: 0, image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=400&auto=format&fit=crop', desc: 'Pristine white sand beach and coastal views.' },
+      { name: 'Resort Swimming Pool', price: 0, image: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=400&auto=format&fit=crop', desc: 'Relaxing infinity and resort pools.' }
+    ],
+    itinerary: [
+      { dayGroup: 'Day 1', day: '07:00 AM', title: 'Departure from Manila', details: 'Van transfer pickup from Manila to Bataan.' },
+      { dayGroup: 'Day 1', day: '02:00 PM', title: 'Resort Check-in & Leisure', details: 'Check-in and free time for beach/pool access.' },
+      { dayGroup: 'Day 2', day: '12:00 PM', title: 'Resort Check-out', details: 'Check-out from family loft room and return to Manila.' }
+    ],
+    addons: [{ id: 'spa', name: 'Resort Wellness Spa Session', price: 950 }]
+  },
+
+  'bataan-3d2n': {
+    id: 'bataan-3d2n',
+    name: 'Bataan Top Destinations 3D2N',
+    location: 'Bataan, Philippines',
+    stars: '★★★★★',
+    price: '₱7,950',
+    numericPrice: 7950,
+    duration: '3D2N',
+    badge: 'Premium Value',
+    discount: 10,
     category: 'Heritage',
     packageType: 'Full Stay',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnKrq6a7ACCkga6UV_E247i9JB4RKXZ-dp2xUFeDeKdA&s=10',
-    description: '2,000-year-old rice terraces carved into the mountains of Ifugao by ancestors of the indigenous people, often called the "Eighth Wonder of the World".',
-    amenities: ['Local Trekking Guide', 'Mountain View Deck', 'Traditional Breakfast', 'Hot Shower Homestay'],
-    landmarks: [
-      { name: 'Batad Terraces', price: 500, image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=400&auto=format&fit=crop' , desc: 'A famous, amphitheater-shaped cluster of stone-walled rice paddies located in Batad village.' },
-      { name: 'Tappiya Falls', price: 600, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' , desc: 'A massive 21- to 70-meter cascading waterfall located near the remote village of Batad.' },
-      { name: 'Viewpoint Peak', price: 700, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop' , desc: 'The most iconic, elevated vantage point for observing the historic rice fields.' }
+    // Comprehensive Philippine travel / heritage destination aesthetic
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2w_v-cbodElIZ_2Aj5Xe3vhJ5jQGtEKoA1tceFYMGQCKVh05bP8FCEG4&s=10',
+    description: 'Experience the ultimate 3D2N Bataan adventure! Explore historical landmarks, pristine beaches, heritage resorts, and scenic coastal views across Package A, B, and C options.',
+    amenities: [
+      'Van Transfers (Manila - Bataan - Manila)',
+      '2-Night Resort Stay / 1-Night Las Casas Stay (per package)',
+      'Daily Breakfast',
+      'Tour Coordinator & Driver\'s Fee',
+      'Guided Historical & Beach Tours'
     ],
-    itinerary: [
-      { day: 'Day 1', title: 'Mountain Trek', details: 'Viewing terraces and local village walk.' }
+    landmarks: [
+      { name: 'Las Casas Filipinas', price: 0, image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=400&auto=format&fit=crop', desc: 'Heritage resort & open-air Spanish-Filipino colonial museum.' },
+      { name: 'Camaya Coast', price: 0, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'Premier beach destination with white sand and clear waters.' },
+      { name: 'Corregidor Island', price: 0, image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=400&auto=format&fit=crop', desc: 'Historic fortress island with WWII ruins and memorials.' },
+      { name: 'Mt. Samat', price: 0, image: 'https://images.unsplash.com/photo-1562601579-599dec56540e?q=80&w=400&auto=format&fit=crop', desc: 'Shrine of Valor and panoramic viewpoint.' },
+      { name: 'Mariveles Five Fingers', price: 0, image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400&auto=format&fit=crop', desc: 'Scenic cove hiking and cliff-side rock formations.' }
+    ],
+    itineraryPackageA: [
+      { dayGroup: 'Day 1', day: '05:00 AM', title: 'Departure from Manila & Arrival in Bataan', details: 'Van transfer from Manila to Bataan.' },
+      { dayGroup: 'Day 1', day: '08:00 AM', title: 'Mt. Samat & Bataan Heritage Tour', details: 'Explore the Shrine of Valor, World War II memorials, and historical museums.' },
+      { dayGroup: 'Day 1', day: '12:00 PM', title: 'Lunch Break', details: 'Local cuisine lunch break.' },
+      { dayGroup: 'Day 1', day: '01:30 PM', title: 'Corregidor Historical Tour', details: 'Guided ferry and historical tour of Corregidor Island ruins and barracks.' },
+      { dayGroup: 'Day 1', day: '06:00 PM', title: 'Resort Check-in & Dinner', details: 'Check-in to 2-night resort stay and dinner.' },
+      { dayGroup: 'Day 2', day: '07:00 AM', title: 'Breakfast at Resort', details: 'Daily breakfast provided.' },
+      { dayGroup: 'Day 2', day: '08:30 AM', title: 'Las Casas Day Tour & Activities', details: 'Heritage walking tour, river cruise, and Hotel de Oriente viewing.' },
+      { dayGroup: 'Day 2', day: '12:30 PM', title: 'Lunch at Las Casas', details: 'Enjoy local set lunch.' },
+      { dayGroup: 'Day 2', day: '02:00 PM', title: 'Tranvia & Beach Leisure', details: 'Tranvia ride and afternoon relaxation at Las Casas beach.' },
+      { dayGroup: 'Day 2', day: '07:00 PM', title: 'Dinner & Free Time', details: 'Dinner at leisure.' },
+      { dayGroup: 'Day 3', day: '07:00 AM', title: 'Breakfast & Checkout Prep', details: 'Breakfast at the resort.' },
+      { dayGroup: 'Day 3', day: '09:00 AM', title: 'Camaya Coast Day Tour & Activities', details: 'Enjoy white sand beaches and coastal activities at Camaya Coast.' },
+      { dayGroup: 'Day 3', day: '01:00 PM', title: 'Lunch & Pasalubong Shopping', details: 'Lunch and local Bataan pasalubong shopping.' },
+      { dayGroup: 'Day 3', day: '03:30 PM', title: 'ETD Back to Manila', details: 'Departure via van transfer back to Manila.' },
+      { dayGroup: 'Day 3', day: '07:30 PM', title: 'ETA in Manila', details: 'Safe arrival back in Manila.' }
+    ],
+    itineraryPackageB: [
+      { dayGroup: 'Day 1', day: '05:00 AM', title: 'Departure from Manila', details: 'Van transfer from Manila to Bataan.' },
+      { dayGroup: 'Day 1', day: '08:00 AM', title: 'Mt. Samat & Heritage Tour', details: 'Visit Mt. Samat Shrine of Valor and local heritage sites.' },
+      { dayGroup: 'Day 1', day: '12:00 PM', title: 'Lunch Break', details: 'Lunch break.' },
+      { dayGroup: 'Day 1', day: '01:30 PM', title: 'Mariveles & Balanga City Tour', details: 'Explore Balanga City tourist spots, museums, and Plaza Mayor.' },
+      { dayGroup: 'Day 1', day: '06:00 PM', title: 'Resort Check-in & Dinner', details: 'Check-in to 2-night resort stay.' },
+      { dayGroup: 'Day 2', day: '07:00 AM', title: 'Breakfast at Resort', details: 'Daily breakfast provided.' },
+      { dayGroup: 'Day 2', day: '08:30 AM', title: 'Mariveles Five Fingers & Laki Beach Tour', details: 'Scenic cove boat tour, cliff jumping, rock formations, and swimming at Laki Beach.' },
+      { dayGroup: 'Day 2', day: '12:30 PM', title: 'Island Picnic Lunch', details: 'Fresh seafood picnic lunch by the beach.' },
+      { dayGroup: 'Day 2', day: '04:00 PM', title: 'Return to Resort & Rest', details: 'Freshen up and leisure time at the resort.' },
+      { dayGroup: 'Day 2', day: '07:00 PM', title: 'Dinner Time', details: 'Dinner at local restaurant.' },
+      { dayGroup: 'Day 3', day: '07:00 AM', title: 'Breakfast & Checkout', details: 'Breakfast and hotel checkout.' },
+      { dayGroup: 'Day 3', day: '09:00 AM', title: 'Camaya Coast Day Tour & Activities', details: 'Full morning beach resort experience and water activities at Camaya Coast.' },
+      { dayGroup: 'Day 3', day: '01:30 PM', title: 'Lunch & Souvenirs', details: 'Lunch and local shopping.' },
+      { dayGroup: 'Day 3', day: '03:30 PM', title: 'ETD Back to Manila', details: 'Departure back to Manila.' },
+      { dayGroup: 'Day 3', day: '07:30 PM', title: 'ETA in Manila', details: 'Safe arrival in Manila.' }
+    ],
+    itineraryPackageC: [
+      { dayGroup: 'Day 1', day: '05:00 AM', title: 'Departure from Manila', details: 'Van transfer to Bataan.' },
+      { dayGroup: 'Day 1', day: '08:00 AM', title: 'Mt. Samat & Heritage Tour', details: 'Explore Mt. Samat shrine and Bataan historical landmarks.' },
+      { dayGroup: 'Day 1', day: '12:00 PM', title: 'Lunch Break', details: 'Lunch break.' },
+      { dayGroup: 'Day 1', day: '01:30 PM', title: 'Corregidor Historical Tour', details: 'Ferry and guided historical tour of Corregidor Island.' },
+      { dayGroup: 'Day 1', day: '06:00 PM', title: 'Las Casas Overnight Check-in', details: 'Exclusive overnight stay inside Las Casas Filipinas de Acuzar heritage resort.' },
+      { dayGroup: 'Day 2', day: '07:00 AM', title: 'Heritage Breakfast', details: 'Breakfast at Las Casas.' },
+      { dayGroup: 'Day 2', day: '08:30 AM', title: 'Las Casas Heritage Tour & Activities', details: 'Comprehensive guided walking tour, artisan workshops, and balsa river cruise.' },
+      { dayGroup: 'Day 2', day: '12:30 PM', title: 'Lunch at Las Casas', details: 'Set lunch at heritage restaurant.' },
+      { dayGroup: 'Day 2', day: '02:30 PM', title: 'Beach & Tranvia Leisure', details: 'Tranvia rides and private beach access.' },
+      { dayGroup: 'Day 2', day: '07:00 PM', title: 'Dinner & Cultural Night', details: 'Dinner and cultural fountain show.' },
+      { dayGroup: 'Day 3', day: '07:00 AM', title: 'Breakfast & Checkout', details: 'Breakfast and checkout from Las Casas.' },
+      { dayGroup: 'Day 3', day: '09:00 AM', title: 'Camaya Coast Day Tour & Activities', details: 'Morning coastal tour and beach relaxation at Camaya Coast.' },
+      { dayGroup: 'Day 3', day: '01:00 PM', title: 'Lunch & Pasalubong', details: 'Lunch and pasalubong shopping.' },
+      { dayGroup: 'Day 3', day: '03:30 PM', title: 'ETD Back to Manila', details: 'Departure back to Manila.' },
+      { dayGroup: 'Day 3', day: '07:30 PM', title: 'ETA in Manila', details: 'Safe arrival in Manila.' }
     ],
     addons: [
-      { id: 'hiking', name: 'Tappiya Waterfalls Hiking', price: 500 },
-      { id: 'attire', name: 'Cultural Attire Experience ', price: 450 },
-      { id: 'trekking', name: 'Local Mountain Guide for Terraces Trekking', price: 1100 }
-    ]
-  },
-  'siargao': {
-    id: 'siargao',
-    name: 'Siargao Island',
-    location: 'Surigao del Norte, Philippines',
-    stars: '★★★★★',
-    price: '₱10,850',
-    numericPrice: 10850,
-    duration: '3D / 2N',
-    badge: 'Surf',
-    discount: 25,
-    category: 'Surf',
-    packageType: 'Full Stay',
-    image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=1600&auto=format&fit=crop',
-    description: 'The surfing capital of the Philippines, known for its iconic Cloud 9 wave, vast coconut palm groves, rock pools, and laid-back island vibes.',
-    amenities: ['Surfboard Rental', 'Motorbike Rental Option', 'Beach Bar Access', 'Free Wi-Fi', 'Coffee Station'],
-    landmarks: [
-      { name: 'Cloud 9 Boardwalk', price: 500, image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop' , desc: 'Cloud 9 in Siargao was named after the popular Cloud 9 chocolate bar.' },
-      { name: 'Sugba Lagoon', price: 600, image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop' , desc: 'A turquoise blue-green natural pool surrounded by dense mangrove forests and limestone hills.' },
-      { name: 'Magpupungko Pools', price: 700, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' , desc: 'Stunning natural rock and coral lagoons in Pilar.' }
-    ],
-    itinerary: [
-      { day: 'Day 1', title: 'Cloud 9 Surfing', details: 'Board rental and surf lesson.' }
-    ],
-    addons: [
-      { id: 'island', name: 'Three-Island Hopping Tour', price: 1700 },
-      { id: 'surfing', name: 'Cloud 9 Surfing', price: 700 },
-      { id: 'scooter', name: 'Land Tour Scooter Rental', price: 400 }
-    ]
-  },
-  'mount-fuji': {
-    id: 'mount-fuji',
-    name: 'Mount Fuji',
-    location: 'Tokyo, Japan',
-    stars: '★★★★★',
-    price: '₱29,750',
-    numericPrice: 29750,
-    duration: '3D / 2N',
-    badge: 'Popular',
-    discount: 15,
-    category: 'Popular',
-    packageType: 'Full Stay',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCYKO0dz_0_ZDlcspv6yL1hnAefc6Eg7hzQEl6J9bUr09fFO1akXpPLcza&s=10',
-    description: 'Mount Fuji is an iconic active volcano located about 100 kilometers southwest of Tokyo. Commonly referred to as "Fuji-san," it stands as Japan\'s tallest peak and holds deep cultural significance.',
-    amenities: ['Onsen Access', 'Traditional Yukata', 'Kaiseki Dinner', 'High-speed Wi-Fi', 'Luggage Transfer'],
-    landmarks: [
-      { name: 'Chureito Pagoda', price: 500, image: 'https://images.unsplash.com/photo-1528164344705-47542687990d?q=80&w=400&auto=format&fit=crop' , desc: 'Iconic pagoda on a hilltop facing Mt. Fuji in Arakurayama Sengen Park, reached via 398 steps.' },
-      { name: 'Lake Kawaguchiko', price: 600, image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=400&auto=format&fit=crop' , desc: 'It is the second largest of the Fuji Five Lakes in terms of surface area, and is located at the lowest elevation.c' },
-      { name: 'Fuji-Q Highland', price: 700, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' , desc: "A free amusement park at the foot of Mount Fuji that offers many of the world's attractions." }
-    ],
-    itinerary: [
-      { day: 'Day 1', title: 'Lake View & Onsen', details: 'Check-in and hot springs relaxation.' }
-    ],
-    addons: [
-      { id: 'ropeway', name: 'Panoramic Ropeway Ticket', price: 500 },
-      { id: 'lake', name: 'GoPro Underwater Rental', price: 900 },
-      { id: 'springs', name: 'Traditional Springs Exploration', price: 500 }
-    ]
-  },
-  'santorini': {
-    id: 'santorini',
-    name: 'Santorini',
-    location: 'Thira, Greece',
-    stars: '★★★★★',
-    price: '₱49,700',
-    numericPrice: 49700,
-    duration: '5D / 4N',
-    badge: 'Luxury',
-    discount: 10,
-    category: 'Luxury',
-    packageType: 'Full Stay',
-    image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1600&auto=format&fit=crop',
-    description: 'Perched on steep volcanic cliffs in the Aegean Sea, Santorini features iconic whitewashed houses, blue-domed churches, and world-famous sunsets over caldera views.',
-    amenities: ['Infinity Pool', 'Caldera View Balcony', 'Wine Tasting Pass', 'Complimentary Champagne', 'Air Conditioning'],
-    landmarks: [
-      { name: 'Oia Castle', price: 500, image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' , desc: 'Sea views from the surviving watchtower of a Renaissance-era castle built to guard against pirates.' },
-      { name: 'Red Beach', price: 600, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'A famous volcanic sand beach on the southern coast.' },
-      { name: 'Akrotiri Ruins', price: 700, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' , desc: 'Akrotiri is a Cycladic Bronze Age settlement site on the volcanic Greek island of Santorini.' }
-    ],
-    itinerary: [
-      { day: 'Day 1', title: 'Sunset in Oia', details: 'Caldera view check-in and evening walk.' }
-    ],
-    addons: [
-      { id: 'cruise', name: 'Sunset Cruise', price: 8000 },
-      { id: 'photoshoot', name: 'Professional Photoshoot', price: 7600 },
-      { id: 'cable', name: 'Cable Car', price: 500 }
-    ]
-  },
-  'eiffel-tower': {
-    id: 'eiffel-tower',
-    name: 'Eiffel Tower',
-    location: 'Paris, France',
-    stars: '★★★★☆',
-    price: '₱44,800',
-    numericPrice: 44800,
-    duration: '4D / 3N',
-    badge: 'Europe',
-    discount: 5,
-    category: 'Europe',
-    packageType: 'Full Stay',
-    image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=1600&auto=format&fit=crop',
-    description: 'The wrought-iron lattice tower on the Champ de Mars in Paris, France. Named after engineer Gustave Eiffel, it is a global cultural icon of France.',
-    amenities: ['Museum Fast-Pass', 'City Metro Card', 'Croissant Breakfast', 'Concierge Service', 'Free Wi-Fi'],
-    landmarks: [
-      { name: 'Louvre Museum', price: 500, image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' , desc: 'Home to some of the most canonical works of Western art, including the Mona Lisa, Venus de Milo, and Winged Victory.' },
-      { name: 'Arc de Triomphe', price: 600, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' , desc: 'One of the most famous monuments in Paris, France.' },
-      { name: 'Seine River', price: 700, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' , desc: 'A major 777-kilometer-long (483 mi) waterway in northern France that flows through the heart of Paris before emptying into the English Channel at Le Havre.' }
-    ],
-    itinerary: [
-      { day: 'Day 1', title: 'City Tour', details: 'Eiffel tower fast-pass entry.' }
-    ],
-    addons: [
-      { id: 'elevator', name: 'Stairs and Summit Elevator', price: 1750 },
-      { id: 'bar', name: 'Champagne Bar Experience', price: 7600 },
-      { id: 'cruise', name: 'River Evening Sightseeing Cruise', price: 1500 }
-    ]
-  },
-  'colosseum': {
-    id: 'colosseum',
-    name: 'Colosseum',
-    location: 'Rome, Italy',
-    stars: '★★★★★',
-    price: '₱40,250',
-    numericPrice: 40250,
-    duration: '4D / 3N',
-    badge: 'History',
-    discount: 10,
-    category: 'History',
-    packageType: 'Full Stay',
-    image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=1600&auto=format&fit=crop',
-    description: 'An ancient amphitheatre in the centre of the city of Rome, Italy. Built of travertine limestone, tuff, and brick-faced concrete, it was the largest amphitheatre ever built.',
-    landmarks: [
-      { name: 'Roman Forum', price: 500, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&auto=format&fit=crop' , desc: 'A rectangular forum surrounded by the ruins of several important ancient government buildings at the centre of the city of Rome. ' },
-      { name: 'Pantheon', price: 600, image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400&auto=format&fit=crop' , desc: 'An ancient Roman architectural marvel featuring a massive, unreinforced concrete dome and a central open-air opening called the oculus.' },
-      { name: 'Trevi Fountain', price: 700, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400&auto=format&fit=crop' , desc: 'An 18th-century fountain in the Trevi district in Rome, Italy.' }
-    ],
-    itinerary: [
-      { day: 'Day 1', title: 'Ancient Rome', details: 'Colosseum and Roman Forum tour.' }
-    ],
-    addons: [
-      { id: 'underground', name: 'Underground and Arena Ticket', price: 1500 },
-      { id: 'roman', name: 'Roman Forum Guided Walking Tour', price: 5500 },
-      { id: 'tour', name: 'Night Tour with Underground Access', price: 9500 }
+      { id: 'kayak', name: 'Camaya Coast Kayak Rental', price: 500 },
+      { id: 'gopro', name: 'GoPro Underwater Rental', price: 900 }
     ]
   }
 };
@@ -292,58 +456,55 @@ export const blogsData = [
     date: "July 2026",
     image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop",
     excerpt: "Maximize your weekend quick-getaways with detailed hourly city schedules."
-  },
-  {
-    title: "Solo Travel Safety Tips",
-    category: "Safety & Tips",
-    date: "July 2026",
-    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=400&auto=format&fit=crop",
-    excerpt: "Essential guidelines and digital tools to keep you safe and confident while exploring alone."
-  },
-  {
-    title: "Budget-Friendly International Getaways",
-    category: "Smart Spending",
-    date: "June 2026",
-    image: "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=400&auto=format&fit=crop",
-    excerpt: "How to see world-class wonders without breaking the bank using early bird deals and promo codes."
   }
 ];
 
 export const availableAddons = [
   { id: 'addon-1', name: 'Lorem ipsum dolor sit amet', price: 1200 },
   { id: 'addon-2', name: 'Consectetur adipiscing elit', price: 800 },
-  { id: 'addon-3', name: 'Sed do eiusmod tempor', price: 650 },
-  { id: 'addon-4', name: 'Incididunt ut labore et dolore', price: 2500 },
-  { id: 'addon-5', name: 'Magna aliqua ut enim ad minim', price: 1500 }
+  { id: 'addon-3', name: 'Sed do eiusmod tempor', price: 650 }
 ];
 
 export const reviewsData = [
   {
     name: "Frieren",
-    location: "Visited Mount Fuji",
+    location: "Visited Baguio City",
     rating: "★★★★★",
-    comment: "It was a pleasant ten-year detour. Found a rare grimoire in a small shop nearby that turns shaved ice into sweet berry syrup.",
+    comment: "It was a pleasant trip. Found a rare spot that serves great coffee and cool mountain air.",
     date: "August 2026",
     avatar: "https://images6.alphacoders.com/135/thumb-1920-1355045.jpeg"
   },
   {
     name: "Fern",
-    location: "Visited El Nido",
+    location: "Visited Bataan Tour",
     rating: "★★★★★",
-    comment: "Mistress Frieren kept lingering at the local potion stalls, but the scenery was beautiful. The booking process was very efficient.",
+    comment: "The historical landmarks and coastal views were stunning. The booking process was very efficient.",
     date: "July 2026",
     avatar: "https://images.thedirect.com/media/article_full/fern_frieren.jpg?imgeng=/cmpr_60/w_1280"
-  },
-  {
-    name: "Übel",
-    location: "Visited Santorini",
-    rating: "★★★★★",
-    comment: "Pretty cliffside views. I managed to cut through the crowds quite easily. I'd love to copy the travel magic used here.",
-    date: "August 2026",
-    avatar: "https://preview.redd.it/is-ubel-more-of-a-genius-or-an-exception-among-mages-v0-60e9h32ldbxd1.jpeg?auto=webp&s=ada2cda45c00f76c9b7449f4382e30f242cacb5c"
   }
 ];
 
-export const topPlaces = [allPlacesData['mount-fuji'], allPlacesData['el-nido'], allPlacesData['santorini'], allPlacesData['boracay']];
-export const domesticPlaces = [allPlacesData['el-nido'], allPlacesData['boracay'], allPlacesData['chocolate-hills'], allPlacesData['banaue'], allPlacesData['siargao']];
-export const internationalPlaces = [allPlacesData['mount-fuji'], allPlacesData['santorini'], allPlacesData['eiffel-tower'], allPlacesData['colosseum']];
+export const topPlaces = [
+  allPlacesData['baguio'], 
+  allPlacesData['bnpp-mount-samat'], 
+  allPlacesData['camaya-five-fingers-laki'], 
+  allPlacesData['five-fingers-laki-camping'], 
+  allPlacesData['playa-la-caleta-overnight'], 
+  allPlacesData['la-jolla-bataan'], 
+  allPlacesData['mount-samat-corregidor'], 
+  allPlacesData['bataan-3d2n']
+];
+
+export const domesticPlaces = [
+  allPlacesData['baguio'], 
+  allPlacesData['las-casas'], 
+  allPlacesData['bnpp-mount-samat'], 
+  allPlacesData['camaya-five-fingers-laki'], 
+  allPlacesData['five-fingers-laki-camping'], 
+  allPlacesData['playa-la-caleta-overnight'], 
+  allPlacesData['la-jolla-bataan'], 
+  allPlacesData['mount-samat-corregidor'], 
+  allPlacesData['bataan-3d2n']
+];
+
+export const internationalPlaces = [];

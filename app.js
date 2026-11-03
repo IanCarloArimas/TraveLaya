@@ -1,8 +1,9 @@
 import { allPlacesData, topPlaces, domesticPlaces, internationalPlaces, heroImages } from './data.js';
 import { views } from './views.js';
 
-let selectedPlace = allPlacesData['el-nido'];
+let selectedPlace = allPlacesData['bataan-3d2n'];
 let selectedPackageType = 'day';
+let selectedBataanPackage = 'A';
 let slideshowInterval = null;
 let detailSlideInterval = null;
 let currentDetailSlideIndex = 0;
@@ -12,7 +13,9 @@ let isLoggedIn = false;
 let currentUserEmail = null; 
 let isAdmin = false;
 
-// Sample accounts including an Admin account
+// Per-destination blocked dates object (e.g. { 'bataan-3d2n': ['2026-12-25'], 'baguio': [] })
+let blockedDates = {};
+
 const sampleAccounts = [
   { email: 'admin@travelaya.com', password: 'admin123', name: 'System Administrator', bookings: [], isAdmin: true },
   { email: 'BeatrizMarie@gmail.com', password: 'password123', name: 'Beatriz Marie Bautista', bookings: [], isAdmin: false },
@@ -38,8 +41,35 @@ window.switchToRegister = switchToRegister;
 window.switchToLogin = switchToLogin;
 window.handleRegisterSubmit = handleRegisterSubmit;
 window.handleAuthAction = handleAuthAction;
-window.toggleLandmark = toggleLandmark;
 window.approveBooking = approveBooking;
+window.switchItinerary = switchItinerary;
+window.switchBataanPackage = switchBataanPackage;
+window.toggleDateAvailability = toggleDateAvailability;
+
+function toggleDateAvailability(placeId, dateStr) {
+  if (!placeId) {
+    alert('Please select a destination first.');
+    return;
+  }
+  if (!dateStr) {
+    alert('Please select a valid date.');
+    return;
+  }
+
+  if (!blockedDates[placeId]) {
+    blockedDates[placeId] = [];
+  }
+
+  const index = blockedDates[placeId].indexOf(dateStr);
+  if (index > -1) {
+    blockedDates[placeId].splice(index, 1);
+    alert(`Date ${dateStr} is now AVAILABLE for ${placeId}.`);
+  } else {
+    blockedDates[placeId].push(dateStr);
+    alert(`Date ${dateStr} has been BLOCKED for ${placeId} (Fully Booked/Unavailable).`);
+  }
+  navigateTo('admin');
+}
 
 function openLoginModal(e) {
   if (e) e.preventDefault();
@@ -104,7 +134,7 @@ function handleLoginSubmit(e) {
       navigateTo('home');
     }
   } else {
-    alert('Invalid email or password.\nTry Admin: admin@travelaya.com / admin123\nOr User: BeatrizMarie@gmail.com / password123');
+    alert('Invalid email or password.');
   }
 }
 
@@ -120,7 +150,7 @@ function handleRegisterSubmit(e) {
   currentUserEmail = email;
   isAdmin = false;
   updateNavAuthLabel();
-  alert(`🎉 Account successfully created and logged in for ${name} (${email})!`);
+  alert(`🎉 Account successfully created and logged in for ${name}!`);
   closeLoginModal();
   navigateTo('home');
 }
@@ -152,8 +182,119 @@ function changeBookingDestination(placeId) {
 }
 
 function viewPlaceDetail(placeId) {
-  selectedPlace = allPlacesData[placeId] || allPlacesData['el-nido'];
+  selectedPlace = allPlacesData[placeId] || allPlacesData['bataan-3d2n'];
   navigateTo('detail');
+}
+
+function switchBataanPackage(pkg) {
+  selectedBataanPackage = pkg;
+  const container = document.getElementById('itinerary-container');
+  const btnA = document.getElementById('btn-pkg-a');
+  const btnB = document.getElementById('btn-pkg-b');
+  const btnC = document.getElementById('btn-pkg-c');
+
+  const cardA = document.getElementById('sidebar-card-a');
+  const cardB = document.getElementById('sidebar-card-b');
+  const cardC = document.getElementById('sidebar-card-c');
+
+  [btnA, btnB, btnC].forEach((b, idx) => {
+    if (!b) return;
+    const match = (idx === 0 && pkg === 'A') || (idx === 1 && pkg === 'B') || (idx === 2 && pkg === 'C');
+    b.style.background = match ? '#ff7582' : '#e2e8f0';
+    b.style.color = match ? '#fff' : '#4a5568';
+  });
+
+  [cardA, cardB, cardC].forEach((c, idx) => {
+    if (!c) return;
+    const match = (idx === 0 && pkg === 'A') || (idx === 1 && pkg === 'B') || (idx === 2 && pkg === 'C');
+    c.style.border = match ? '2px solid #ff7582' : '1px solid #cbd5e0';
+  });
+
+  let itineraryData = selectedPlace.itineraryPackageA;
+  if (pkg === 'B') itineraryData = selectedPlace.itineraryPackageB;
+  if (pkg === 'C') itineraryData = selectedPlace.itineraryPackageC;
+
+  if (!container || !itineraryData) return;
+
+  const daysMap = {};
+  itineraryData.forEach((item) => {
+    const dayKey = item.dayGroup || 'Day 1';
+    if (!daysMap[dayKey]) daysMap[dayKey] = [];
+    daysMap[dayKey].push(item);
+  });
+
+  const activeDays = Object.entries(daysMap);
+  const colCount = activeDays.length;
+
+  container.style.display = 'grid';
+  container.style.gridTemplateColumns = `repeat(${colCount}, minmax(0, 1fr))`;
+  container.style.gap = '16px';
+  container.style.alignItems = 'start';
+  container.style.marginTop = '12px';
+
+  container.innerHTML = activeDays.map(([dayName, items]) => `
+    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #ff7582; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 14px;">
+      <h4 style="font-size: 15px; font-weight: 800; color: #ff7582; text-transform: uppercase; margin: 0; padding-bottom: 8px; border-bottom: 1px solid #edf2f7; letter-spacing: 0.5px;">${dayName}</h4>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        ${items.map(sub => `
+          <div style="background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #edf2f7;">
+            <span style="font-size: 10px; font-weight: 700; color: #e53e3e; display: block; margin-bottom: 2px;">${sub.day}</span>
+            <strong style="font-size: 13px; color: #131c38; display: block; margin-bottom: 2px;">${sub.title}</strong>
+            <p style="font-size: 12px; color: #4a5568; margin: 0; line-height: 1.4;">${sub.details}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchItinerary(type) {
+  const container = document.getElementById('itinerary-container');
+  const btn2d = document.getElementById('itinerary-btn-2d');
+  const btn3d = document.getElementById('itinerary-btn-3d');
+  if (!container) return;
+
+  const itineraryData = type === '3D2N' ? selectedPlace.itinerary3D2N : selectedPlace.itinerary2D1N;
+  if (!itineraryData) return;
+
+  if (type === '3D2N') {
+    if (btn3d) { btn3d.style.background = '#ff7582'; btn3d.style.color = '#fff'; btn3d.style.boxShadow = '0 2px 6px rgba(255,117,130,0.3)'; }
+    if (btn2d) { btn2d.style.background = '#e2e8f0'; btn2d.style.color = '#4a5568'; btn2d.style.boxShadow = 'none'; }
+  } else {
+    if (btn2d) { btn2d.style.background = '#ff7582'; btn2d.style.color = '#fff'; btn2d.style.boxShadow = '0 2px 6px rgba(255,117,130,0.3)'; }
+    if (btn3d) { btn3d.style.background = '#e2e8f0'; btn3d.style.color = '#4a5568'; btn3d.style.boxShadow = 'none'; }
+  }
+
+  const daysMap = {};
+  itineraryData.forEach((item) => {
+    const dayKey = item.dayGroup || (item.day.includes('Day') ? item.day.split('(')[0].trim() : 'Day 1');
+    if (!daysMap[dayKey]) daysMap[dayKey] = [];
+    daysMap[dayKey].push(item);
+  });
+
+  const activeDays = Object.entries(daysMap);
+  const colCount = activeDays.length;
+
+  container.style.display = 'grid';
+  container.style.gridTemplateColumns = `repeat(${colCount}, minmax(0, 1fr))`;
+  container.style.gap = '16px';
+  container.style.alignItems = 'start';
+  container.style.marginTop = '12px';
+
+  container.innerHTML = activeDays.map(([dayName, items]) => `
+    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #ff7582; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 14px;">
+      <h4 style="font-size: 15px; font-weight: 800; color: #ff7582; text-transform: uppercase; margin: 0; padding-bottom: 8px; border-bottom: 1px solid #edf2f7; letter-spacing: 0.5px;">${dayName}</h4>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        ${items.map(sub => `
+          <div style="background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #edf2f7;">
+            <span style="font-size: 10px; font-weight: 700; color: #e53e3e; display: block; margin-bottom: 2px;">${sub.day}</span>
+            <strong style="font-size: 13px; color: #131c38; display: block; margin-bottom: 2px;">${sub.title}</strong>
+            <p style="font-size: 12px; color: #4a5568; margin: 0; line-height: 1.4;">${sub.details}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
 }
 
 function navigateTo(pageKey) {
@@ -162,14 +303,14 @@ function navigateTo(pageKey) {
 
   if (pageKey === 'booking' && !isLoggedIn) {
     alert('⚠️ Please log in or register an account before proceeding to booking.');
-    navigateTo('places'); // Redirects to Places page when unauthenticated
+    navigateTo('places');
     openLoginModal();
     return;
   }
 
   if (pageKey === 'myBookings' && !isLoggedIn) {
     alert('⚠️ Please log in to view your bookings.');
-    navigateTo('places'); // Redirects to Places page when unauthenticated
+    navigateTo('places');
     openLoginModal();
     return;
   }
@@ -192,7 +333,7 @@ function navigateTo(pageKey) {
     const myBookingsList = activeUser ? activeUser.bookings : [];
     content = views.getMyBookingsView(myBookingsList);
   } else if (pageKey === 'admin') {
-    content = views.getAdminView(sampleAccounts);
+    content = views.getAdminView(sampleAccounts, blockedDates);
   } else {
     content = views[pageKey];
   }
@@ -381,44 +522,6 @@ function basePackagePriceForUpdate() {
   return selectedPackageType === 'full' ? basePrice * 1.25 : basePrice;
 }
 
-function toggleLandmark(index) {
-  const cards = document.querySelectorAll('.landmark-choice-card');
-  const card = cards[index];
-  if (!card) return;
-
-  const checkbox = card.querySelector('input[type="checkbox"]');
-  if (!checkbox) return;
-
-  if (selectedPackageType === 'day') {
-    document.querySelectorAll('input[name="landmark_choice"]').forEach((cb, i) => {
-      cb.checked = (i === index);
-      const cCard = cards[i];
-      if (i === index) {
-        cCard.classList.add('active');
-        cCard.style.background = '#fff5f6';
-        cCard.style.borderColor = '#ff7582';
-      } else {
-        cCard.classList.remove('active');
-        cCard.style.background = '#f8fafc';
-        cCard.style.borderColor = '#cbd5e0';
-      }
-    });
-  } else {
-    checkbox.checked = !checkbox.checked;
-    if (checkbox.checked) {
-      card.classList.add('active');
-      card.style.background = '#fff5f6';
-      card.style.borderColor = '#ff7582';
-    } else {
-      card.classList.remove('active');
-      card.style.background = '#f8fafc';
-      card.style.borderColor = '#cbd5e0';
-    }
-  }
-
-  updateBookingTotal(basePackagePriceForUpdate());
-}
-
 function selectPackageType(type, basePrice) {
   selectedPackageType = type;
   const fullPrice = basePrice * 1.25;
@@ -494,7 +597,7 @@ function applyPromoCode() {
   const validCodes = {
     'SIXSEVENNN': 0.67,
     'TRAVELAYA': 0.10,     
-    'TRIP2026': 0.15,  
+    'TRIP2026': 0.15,   
     'WELCOME5': 0.05   
   };
 
@@ -502,10 +605,10 @@ function applyPromoCode() {
     appliedPromoDiscount = validCodes[code];
     appliedPromoName = code;
     feedback.style.color = '#38a169';
-    feedback.textContent = `✓ Promo code "${code}" applied successfully (${appliedPromoDiscount * 100}% OFF)!`;
+    feedback.textContent = `✓ Promo code "${code}" applied successfully (${Math.round(appliedPromoDiscount * 100)}% OFF)!`;
     if (breakdown) {
       breakdown.style.display = 'block';
-      breakdown.innerHTML = `Promo Discount (${code}): <span style="color: #38a169;">-${(appliedPromoDiscount * 100)}%</span>`;
+      breakdown.innerHTML = `Promo Discount (${code}): <span style="color: #38a169;">-${Math.round(appliedPromoDiscount * 100)}%</span>`;
     }
   } else {
     appliedPromoDiscount = 0;
@@ -539,50 +642,20 @@ function updateBookingTotal(effectiveBasePrice) {
     addonsTotal += parseInt(checkbox.dataset.price, 10) || 0;
   });
 
-  let landmarkTotal = 0;
-  document.querySelectorAll('input[name="landmark_choice"]:checked').forEach(checkbox => {
-    landmarkTotal += parseInt(checkbox.dataset.price, 10) || 0;
-  });
-
-  const subtotal = adultSubtotal + childTotal + addonsTotal + landmarkTotal;
+  const subtotal = adultSubtotal + childTotal + addonsTotal;
   const promoDiscountAmount = subtotal * appliedPromoDiscount;
   const grandTotal = subtotal - promoDiscountAmount;
 
   const bAdultLabel = document.getElementById('breakdown-adult-label');
   const bAdultPrice = document.getElementById('breakdown-adult-price');
   if (bAdultLabel && bAdultPrice) {
-    bAdultLabel.textContent = `Adult Package (${adults} ${adults === 1 ? 'pax' : 'pax'}):`;
+    bAdultLabel.textContent = `Adult Package (${adults} pax):`;
     bAdultPrice.textContent = `₱${adultSubtotal.toLocaleString()}`;
-  }
-
-  const bChildLabel = document.getElementById('breakdown-child-label');
-  const bChildPrice = document.getElementById('breakdown-child-price');
-  if (bChildLabel && bChildPrice) {
-    bChildLabel.textContent = `Child Guests (${children} ${children === 1 ? 'pax' : 'pax'}):`;
-    bChildPrice.textContent = `₱${childTotal.toLocaleString()}`;
-  }
-
-  const bLandmarkPrice = document.getElementById('breakdown-landmark-price');
-  if (bLandmarkPrice) {
-    bLandmarkPrice.textContent = landmarkTotal > 0 ? `+₱${landmarkTotal.toLocaleString()}` : '₱0';
   }
 
   const bAddonsPrice = document.getElementById('breakdown-addons-price');
   if (bAddonsPrice) {
     bAddonsPrice.textContent = addonsTotal > 0 ? `+₱${addonsTotal.toLocaleString()}` : '₱0';
-  }
-
-  const bPromoRow = document.getElementById('breakdown-promo-row');
-  const bPromoLabel = document.getElementById('breakdown-promo-label');
-  const bPromoPrice = document.getElementById('breakdown-promo-price');
-  if (bPromoRow && bPromoLabel && bPromoPrice) {
-    if (appliedPromoDiscount > 0) {
-      bPromoRow.style.display = 'flex';
-      bPromoLabel.textContent = `Promo Discount (${appliedPromoName}):`;
-      bPromoPrice.textContent = `-₱${Math.round(promoDiscountAmount).toLocaleString()} (${appliedPromoDiscount * 100}%)`;
-    } else {
-      bPromoRow.style.display = 'none';
-    }
   }
 
   const display = document.getElementById('total-price-display');
@@ -611,6 +684,12 @@ function handleBookingSubmit() {
     return;
   }
 
+  const travelDate = dateInput.value;
+  if (blockedDates[selectedPlace.id] && blockedDates[selectedPlace.id].includes(travelDate)) {
+    alert(`⚠️ Sorry, the date ${travelDate} has been blocked by the administrator for ${selectedPlace.name}.`);
+    return;
+  }
+
   const referenceId = 'TRV-' + Math.floor(100000 + Math.random() * 900000);
 
   const newBooking = {
@@ -618,11 +697,11 @@ function handleBookingSubmit() {
     destination: `${selectedPlace.name} (${selectedPlace.location})`,
     name: `${firstName} ${lastName}`,
     contact,
-    date: dateInput.value,
+    date: travelDate,
     adults,
     paymentMethod,
     total: totalDisplay,
-    packageType: selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package',
+    packageType: selectedPlace.id === 'bataan-3d2n' ? `Package ${selectedBataanPackage}` : (selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package'),
     status: 'Pending Payment Confirmation'
   };
 
@@ -704,6 +783,14 @@ function attachBookingListeners() {
   if (dateInput) {
     const today = new Date().toISOString().split('T')[0];
     dateInput.setAttribute('min', today);
+
+    dateInput.addEventListener('input', (e) => {
+      const selected = e.target.value;
+      if (blockedDates[selectedPlace.id] && blockedDates[selectedPlace.id].includes(selected)) {
+        alert(`⚠️ Sorry, this date has been blocked by the administrator for ${selectedPlace.name}.`);
+        e.target.value = '';
+      }
+    });
   }
 
   document.querySelectorAll('.counter').forEach(counterGroup => {
