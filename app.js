@@ -1,8 +1,9 @@
 import { allPlacesData, topPlaces, domesticPlaces, internationalPlaces, heroImages } from './data.js';
 import { views } from './views.js';
 
-let selectedPlace = allPlacesData['el-nido'];
+let selectedPlace = allPlacesData['bataan-3d2n'];
 let selectedPackageType = 'day';
+let selectedBataanPackage = 'A';
 let slideshowInterval = null;
 let detailSlideInterval = null;
 let currentDetailSlideIndex = 0;
@@ -10,15 +11,18 @@ let appliedPromoDiscount = 0;
 let appliedPromoName = '';
 let isLoggedIn = false;
 let currentUserEmail = null; 
+let isAdmin = false;
 
-// MGA ACCOUNTS NA SAMPLE LANG, WALA KASI DB KAYA GANITO NALANG MUNA
+// Per-destination blocked dates object (e.g. { 'bataan-3d2n': ['2026-12-25'], 'baguio': [] })
+let blockedDates = {};
+
 const sampleAccounts = [
-  { email: 'BeatrizMarie@gmail.com', password: 'password123', name: 'Beatriz Marie Bautista', bookings: [] },
-  { email: 'KarlaMae@gmail.com', password: 'password123', name: 'Karla Mae Ibuig', bookings: [] },
-  { email: 'RhonaAngelica@gmail.com', password: 'password123', name: 'Rhona Angelica Cailao', bookings: [] }
+  { email: 'admin@travelaya.com', password: 'admin123', name: 'System Administrator', bookings: [], isAdmin: true },
+  { email: 'BeatrizMarie@gmail.com', password: 'password123', name: 'Beatriz Marie Bautista', bookings: [], isAdmin: false },
+  { email: 'KarlaMae@gmail.com', password: 'password123', name: 'Karla Mae Ibuig', bookings: [], isAdmin: false },
+  { email: 'RhonaAngelica@gmail.com', password: 'password123', name: 'Rhona Angelica Cailao', bookings: [], isAdmin: false }
 ];
 
-//WALA KASI DB GANITO NALANG MUNA TAYO DIBA
 window.navigateTo = navigateTo;
 window.changeBookingDestination = changeBookingDestination;
 window.viewPlaceDetail = viewPlaceDetail;
@@ -37,6 +41,35 @@ window.switchToRegister = switchToRegister;
 window.switchToLogin = switchToLogin;
 window.handleRegisterSubmit = handleRegisterSubmit;
 window.handleAuthAction = handleAuthAction;
+window.approveBooking = approveBooking;
+window.switchItinerary = switchItinerary;
+window.switchBataanPackage = switchBataanPackage;
+window.toggleDateAvailability = toggleDateAvailability;
+
+function toggleDateAvailability(placeId, dateStr) {
+  if (!placeId) {
+    alert('Please select a destination first.');
+    return;
+  }
+  if (!dateStr) {
+    alert('Please select a valid date.');
+    return;
+  }
+
+  if (!blockedDates[placeId]) {
+    blockedDates[placeId] = [];
+  }
+
+  const index = blockedDates[placeId].indexOf(dateStr);
+  if (index > -1) {
+    blockedDates[placeId].splice(index, 1);
+    alert(`Date ${dateStr} is now AVAILABLE for ${placeId}.`);
+  } else {
+    blockedDates[placeId].push(dateStr);
+    alert(`Date ${dateStr} has been BLOCKED for ${placeId} (Fully Booked/Unavailable).`);
+  }
+  navigateTo('admin');
+}
 
 function openLoginModal(e) {
   if (e) e.preventDefault();
@@ -68,8 +101,14 @@ function switchToLogin(e) {
 
 function updateNavAuthLabel() {
   const loginBtn = document.querySelector('.login-btn, #nav-login-btn');
+  const adminNavBtn = document.getElementById('nav-admin-btn');
+
   if (loginBtn) {
     loginBtn.textContent = isLoggedIn ? 'Logout' : 'Login';
+  }
+
+  if (adminNavBtn) {
+    adminNavBtn.style.display = (isLoggedIn && isAdmin) ? 'inline-block' : 'none';
   }
 }
 
@@ -80,19 +119,22 @@ function handleLoginSubmit(e) {
 
   const foundUser = sampleAccounts.find(acc => acc.email.toLowerCase() === emailInput && acc.password === passwordInput);
 
-  if (foundUser || (emailInput && passwordInput)) {
+  if (foundUser) {
     isLoggedIn = true;
-    currentUserEmail = emailInput;
-
-    if (!foundUser) {
-      sampleAccounts.push({ email: emailInput, password: passwordInput, name: emailInput.split('@')[0], bookings: [] });
-    }
+    currentUserEmail = foundUser.email;
+    isAdmin = !!foundUser.isAdmin;
 
     updateNavAuthLabel();
-    alert(`Successfully logged in as ${foundUser ? foundUser.name : emailInput}! You can now proceed with your bookings.`);
+    alert(`Successfully logged in as ${foundUser.name} (${isAdmin ? 'Admin' : 'User'})!`);
     closeLoginModal();
+
+    if (isAdmin) {
+      navigateTo('admin');
+    } else {
+      navigateTo('home');
+    }
   } else {
-    alert('Invalid email or password. You can use the sample account: BeatrizMarie@gmail.com / password123');
+    alert('Invalid email or password.');
   }
 }
 
@@ -102,13 +144,15 @@ function handleRegisterSubmit(e) {
   const email = document.getElementById('reg-email').value.trim().toLowerCase();
   const password = document.getElementById('reg-password').value;
 
-  sampleAccounts.push({ email, password, name, bookings: [] });
+  sampleAccounts.push({ email, password, name, bookings: [], isAdmin: false });
 
   isLoggedIn = true;
   currentUserEmail = email;
+  isAdmin = false;
   updateNavAuthLabel();
-  alert(`🎉 Account successfully created and logged in for ${name} (${email})!`);
+  alert(`🎉 Account successfully created and logged in for ${name}!`);
   closeLoginModal();
+  navigateTo('home');
 }
 
 function handleAuthAction(e) {
@@ -117,6 +161,7 @@ function handleAuthAction(e) {
     if (confirm('Are you sure you want to log out?')) {
       isLoggedIn = false;
       currentUserEmail = null;
+      isAdmin = false;
       updateNavAuthLabel();
       alert('You have been logged out.');
       navigateTo('home');
@@ -137,8 +182,119 @@ function changeBookingDestination(placeId) {
 }
 
 function viewPlaceDetail(placeId) {
-  selectedPlace = allPlacesData[placeId] || allPlacesData['el-nido'];
+  selectedPlace = allPlacesData[placeId] || allPlacesData['bataan-3d2n'];
   navigateTo('detail');
+}
+
+function switchBataanPackage(pkg) {
+  selectedBataanPackage = pkg;
+  const container = document.getElementById('itinerary-container');
+  const btnA = document.getElementById('btn-pkg-a');
+  const btnB = document.getElementById('btn-pkg-b');
+  const btnC = document.getElementById('btn-pkg-c');
+
+  const cardA = document.getElementById('sidebar-card-a');
+  const cardB = document.getElementById('sidebar-card-b');
+  const cardC = document.getElementById('sidebar-card-c');
+
+  [btnA, btnB, btnC].forEach((b, idx) => {
+    if (!b) return;
+    const match = (idx === 0 && pkg === 'A') || (idx === 1 && pkg === 'B') || (idx === 2 && pkg === 'C');
+    b.style.background = match ? '#ff7582' : '#e2e8f0';
+    b.style.color = match ? '#fff' : '#4a5568';
+  });
+
+  [cardA, cardB, cardC].forEach((c, idx) => {
+    if (!c) return;
+    const match = (idx === 0 && pkg === 'A') || (idx === 1 && pkg === 'B') || (idx === 2 && pkg === 'C');
+    c.style.border = match ? '2px solid #ff7582' : '1px solid #cbd5e0';
+  });
+
+  let itineraryData = selectedPlace.itineraryPackageA;
+  if (pkg === 'B') itineraryData = selectedPlace.itineraryPackageB;
+  if (pkg === 'C') itineraryData = selectedPlace.itineraryPackageC;
+
+  if (!container || !itineraryData) return;
+
+  const daysMap = {};
+  itineraryData.forEach((item) => {
+    const dayKey = item.dayGroup || 'Day 1';
+    if (!daysMap[dayKey]) daysMap[dayKey] = [];
+    daysMap[dayKey].push(item);
+  });
+
+  const activeDays = Object.entries(daysMap);
+  const colCount = activeDays.length;
+
+  container.style.display = 'grid';
+  container.style.gridTemplateColumns = `repeat(${colCount}, minmax(0, 1fr))`;
+  container.style.gap = '16px';
+  container.style.alignItems = 'start';
+  container.style.marginTop = '12px';
+
+  container.innerHTML = activeDays.map(([dayName, items]) => `
+    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #ff7582; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 14px;">
+      <h4 style="font-size: 15px; font-weight: 800; color: #ff7582; text-transform: uppercase; margin: 0; padding-bottom: 8px; border-bottom: 1px solid #edf2f7; letter-spacing: 0.5px;">${dayName}</h4>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        ${items.map(sub => `
+          <div style="background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #edf2f7;">
+            <span style="font-size: 10px; font-weight: 700; color: #e53e3e; display: block; margin-bottom: 2px;">${sub.day}</span>
+            <strong style="font-size: 13px; color: #131c38; display: block; margin-bottom: 2px;">${sub.title}</strong>
+            <p style="font-size: 12px; color: #4a5568; margin: 0; line-height: 1.4;">${sub.details}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchItinerary(type) {
+  const container = document.getElementById('itinerary-container');
+  const btn2d = document.getElementById('itinerary-btn-2d');
+  const btn3d = document.getElementById('itinerary-btn-3d');
+  if (!container) return;
+
+  const itineraryData = type === '3D2N' ? selectedPlace.itinerary3D2N : selectedPlace.itinerary2D1N;
+  if (!itineraryData) return;
+
+  if (type === '3D2N') {
+    if (btn3d) { btn3d.style.background = '#ff7582'; btn3d.style.color = '#fff'; btn3d.style.boxShadow = '0 2px 6px rgba(255,117,130,0.3)'; }
+    if (btn2d) { btn2d.style.background = '#e2e8f0'; btn2d.style.color = '#4a5568'; btn2d.style.boxShadow = 'none'; }
+  } else {
+    if (btn2d) { btn2d.style.background = '#ff7582'; btn2d.style.color = '#fff'; btn2d.style.boxShadow = '0 2px 6px rgba(255,117,130,0.3)'; }
+    if (btn3d) { btn3d.style.background = '#e2e8f0'; btn3d.style.color = '#4a5568'; btn3d.style.boxShadow = 'none'; }
+  }
+
+  const daysMap = {};
+  itineraryData.forEach((item) => {
+    const dayKey = item.dayGroup || (item.day.includes('Day') ? item.day.split('(')[0].trim() : 'Day 1');
+    if (!daysMap[dayKey]) daysMap[dayKey] = [];
+    daysMap[dayKey].push(item);
+  });
+
+  const activeDays = Object.entries(daysMap);
+  const colCount = activeDays.length;
+
+  container.style.display = 'grid';
+  container.style.gridTemplateColumns = `repeat(${colCount}, minmax(0, 1fr))`;
+  container.style.gap = '16px';
+  container.style.alignItems = 'start';
+  container.style.marginTop = '12px';
+
+  container.innerHTML = activeDays.map(([dayName, items]) => `
+    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #ff7582; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 14px;">
+      <h4 style="font-size: 15px; font-weight: 800; color: #ff7582; text-transform: uppercase; margin: 0; padding-bottom: 8px; border-bottom: 1px solid #edf2f7; letter-spacing: 0.5px;">${dayName}</h4>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        ${items.map(sub => `
+          <div style="background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #edf2f7;">
+            <span style="font-size: 10px; font-weight: 700; color: #e53e3e; display: block; margin-bottom: 2px;">${sub.day}</span>
+            <strong style="font-size: 13px; color: #131c38; display: block; margin-bottom: 2px;">${sub.title}</strong>
+            <p style="font-size: 12px; color: #4a5568; margin: 0; line-height: 1.4;">${sub.details}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
 }
 
 function navigateTo(pageKey) {
@@ -147,13 +303,20 @@ function navigateTo(pageKey) {
 
   if (pageKey === 'booking' && !isLoggedIn) {
     alert('⚠️ Please log in or register an account before proceeding to booking.');
+    navigateTo('places');
     openLoginModal();
     return;
   }
 
   if (pageKey === 'myBookings' && !isLoggedIn) {
     alert('⚠️ Please log in to view your bookings.');
+    navigateTo('places');
     openLoginModal();
+    return;
+  }
+
+  if (pageKey === 'admin' && !isAdmin) {
+    alert('⚠️ Access denied. Administrator privileges required.');
     return;
   }
 
@@ -166,9 +329,11 @@ function navigateTo(pageKey) {
   } else if (pageKey === 'booking') {
     content = views.getBookingView(selectedPlace, selectedPackageType, appliedPromoName, appliedPromoDiscount);
   } else if (pageKey === 'myBookings') {
-    const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail);
+    const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail?.toLowerCase());
     const myBookingsList = activeUser ? activeUser.bookings : [];
     content = views.getMyBookingsView(myBookingsList);
+  } else if (pageKey === 'admin') {
+    content = views.getAdminView(sampleAccounts, blockedDates);
   } else {
     content = views[pageKey];
   }
@@ -191,6 +356,18 @@ function navigateTo(pageKey) {
 
   updateNavAuthLabel();
   window.scrollTo(0, 0);
+}
+
+function approveBooking(userEmail, referenceId) {
+  const user = sampleAccounts.find(acc => acc.email.toLowerCase() === userEmail.toLowerCase());
+  if (user) {
+    const booking = user.bookings.find(b => b.referenceId === referenceId);
+    if (booking) {
+      booking.status = 'Approved / Paid Confirmed';
+      alert(`Booking ${referenceId} has been successfully approved!`);
+      navigateTo('admin');
+    }
+  }
 }
 
 function applyFilters() {
@@ -420,7 +597,7 @@ function applyPromoCode() {
   const validCodes = {
     'SIXSEVENNN': 0.67,
     'TRAVELAYA': 0.10,     
-    'TRIP2026': 0.15,  
+    'TRIP2026': 0.15,   
     'WELCOME5': 0.05   
   };
 
@@ -428,10 +605,10 @@ function applyPromoCode() {
     appliedPromoDiscount = validCodes[code];
     appliedPromoName = code;
     feedback.style.color = '#38a169';
-    feedback.textContent = `✓ Promo code "${code}" applied successfully (${appliedPromoDiscount * 100}% OFF)!`;
+    feedback.textContent = `✓ Promo code "${code}" applied successfully (${Math.round(appliedPromoDiscount * 100)}% OFF)!`;
     if (breakdown) {
       breakdown.style.display = 'block';
-      breakdown.innerHTML = `Promo Discount (${code}): <span style="color: #38a169;">-${(appliedPromoDiscount * 100)}%</span>`;
+      breakdown.innerHTML = `Promo Discount (${code}): <span style="color: #38a169;">-${Math.round(appliedPromoDiscount * 100)}%</span>`;
     }
   } else {
     appliedPromoDiscount = 0;
@@ -448,11 +625,16 @@ function applyPromoCode() {
 
 function updateBookingTotal(effectiveBasePrice) {
   const adults = parseInt(document.getElementById('adult-count')?.textContent || '2', 10);
+  const children = parseInt(document.getElementById('child-count')?.textContent || '0', 10);
   const ageSelects = document.querySelectorAll('.child-age-select');
   
+  const adultSubtotal = adults * effectiveBasePrice;
+
   let childTotal = 0;
-  ageSelects.forEach(() => {
-    childTotal += effectiveBasePrice * 0.5;
+  ageSelects.forEach(select => {
+    if (select.value !== '0') {
+      childTotal += effectiveBasePrice * 0.5;
+    }
   });
 
   let addonsTotal = 0;
@@ -460,12 +642,26 @@ function updateBookingTotal(effectiveBasePrice) {
     addonsTotal += parseInt(checkbox.dataset.price, 10) || 0;
   });
 
-  const subtotal = (adults * effectiveBasePrice) + childTotal + addonsTotal;
+  const subtotal = adultSubtotal + childTotal + addonsTotal;
   const promoDiscountAmount = subtotal * appliedPromoDiscount;
-  const total = subtotal - promoDiscountAmount;
+  const grandTotal = subtotal - promoDiscountAmount;
+
+  const bAdultLabel = document.getElementById('breakdown-adult-label');
+  const bAdultPrice = document.getElementById('breakdown-adult-price');
+  if (bAdultLabel && bAdultPrice) {
+    bAdultLabel.textContent = `Adult Package (${adults} pax):`;
+    bAdultPrice.textContent = `₱${adultSubtotal.toLocaleString()}`;
+  }
+
+  const bAddonsPrice = document.getElementById('breakdown-addons-price');
+  if (bAddonsPrice) {
+    bAddonsPrice.textContent = addonsTotal > 0 ? `+₱${addonsTotal.toLocaleString()}` : '₱0';
+  }
 
   const display = document.getElementById('total-price-display');
-  if (display) display.textContent = `₱${Math.round(total).toLocaleString()}`;
+  if (display) {
+    display.textContent = `₱${Math.round(grandTotal).toLocaleString()}`;
+  }
 }
 
 function handleBookingSubmit() {
@@ -477,8 +673,20 @@ function handleBookingSubmit() {
   const adults = document.getElementById('adult-count')?.textContent || '0';
   const totalDisplay = document.getElementById('total-price-display')?.textContent || '';
 
+  if (!isLoggedIn || !currentUserEmail) {
+    alert('⚠️ Please log in to complete your booking.');
+    openLoginModal();
+    return;
+  }
+
   if (!firstName || !lastName || !contact || !dateInput || !dateInput.value) {
     alert('Please fill out all required fields (First Name, Last Name, Contact Number, and Travel Date).');
+    return;
+  }
+
+  const travelDate = dateInput.value;
+  if (blockedDates[selectedPlace.id] && blockedDates[selectedPlace.id].includes(travelDate)) {
+    alert(`⚠️ Sorry, the date ${travelDate} has been blocked by the administrator for ${selectedPlace.name}.`);
     return;
   }
 
@@ -489,26 +697,31 @@ function handleBookingSubmit() {
     destination: `${selectedPlace.name} (${selectedPlace.location})`,
     name: `${firstName} ${lastName}`,
     contact,
-    date: dateInput.value,
+    date: travelDate,
     adults,
     paymentMethod,
     total: totalDisplay,
-    packageType: selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package'
+    packageType: selectedPlace.id === 'bataan-3d2n' ? `Package ${selectedBataanPackage}` : (selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package'),
+    status: 'Pending Payment Confirmation'
   };
 
-  const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail);
+  const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail.toLowerCase());
+
   if (activeUser) {
+    if (!activeUser.bookings) activeUser.bookings = [];
     activeUser.bookings.push(newBooking);
+  } else {
+    alert('⚠️ Please log in to complete your booking.');
+    openLoginModal();
+    return;
   }
 
   const confirmationMessage = 
-    `🎉 Booking Confirmed Successfully!\n\n` +
+    `🎉 Booking Submitted Successfully!\n\n` +
     `Reference ID: ${referenceId}\n` +
-    `Name: ${firstName} ${lastName}\n` +
-    `Destination: ${selectedPlace.name}\n` +
-    `Travel Date: ${dateInput.value}\n` +
+    `Status: Pending Payment Confirmation\n` +
     `Total Amount: ${totalDisplay}\n\n` +
-    `You can view this reservation anytime under the "My Bookings" tab.`;
+    `You can view your booking status under "My Bookings".`;
 
   if (confirm(confirmationMessage)) {
     navigateTo('myBookings');
@@ -570,6 +783,14 @@ function attachBookingListeners() {
   if (dateInput) {
     const today = new Date().toISOString().split('T')[0];
     dateInput.setAttribute('min', today);
+
+    dateInput.addEventListener('input', (e) => {
+      const selected = e.target.value;
+      if (blockedDates[selectedPlace.id] && blockedDates[selectedPlace.id].includes(selected)) {
+        alert(`⚠️ Sorry, this date has been blocked by the administrator for ${selectedPlace.name}.`);
+        e.target.value = '';
+      }
+    });
   }
 
   document.querySelectorAll('.counter').forEach(counterGroup => {
@@ -589,6 +810,7 @@ function attachBookingListeners() {
       updateBookingTotal(basePackagePriceForUpdate());
     });
   });
+  updateBookingTotal(basePackagePriceForUpdate());
 }
 
 document.addEventListener('DOMContentLoaded', () => {

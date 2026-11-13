@@ -676,9 +676,31 @@ nav.navbar-nav, .nav-links {
 }
 
 /* --- Booking Form View --- */
+.landmark-options {
+  background: var(--white);
+  padding-top: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  margin-bottom: 20px;
+}
+
+.landmark-options h2{
+  font-size: 20px;
+  color: var(--secondary);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
 .reservation-box {
   background: var(--white);
-  padding: 30px;
+  padding-top: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
   border-radius: 16px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 4px 20px rgba(0,0,0,0.04);
