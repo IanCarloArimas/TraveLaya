@@ -112,11 +112,9 @@ export function renderCompareTable(places, ratings = {}) {
     ['Optional add-ons', p => ((p.addons || []).length ? p.addons.map(a => escapeHtml(a.name)).join(', ') : 'None')],
     ['', p => `<button type="button" class="btn btn-continue" data-id="${escapeHtml(p.id)}" onclick="viewPlaceDetail(this.dataset.id)">View details</button>`]
   ];
-  const edge = '2px solid #e0415a';
-  const col = (first, last) => `border-left:${edge};border-right:${edge};${first ? `border-top:${edge};border-radius:12px 12px 0 0;` : ''}${last ? `border-bottom:${edge};border-radius:0 0 12px 12px;` : ''}`;
-  return `<div style="overflow-x:auto"><table style="width:100%;table-layout:fixed;border-collapse:separate;border-spacing:12px 0;font-size:13px;color:#1b263b;min-width:${places.length * 240 + 140}px"><colgroup><col style="width:140px">${places.map(() => '<col>').join('')}</colgroup>
-    <thead><tr><th scope="col"><span class="sr-only">Feature</span></th>${places.map(p => `<th scope="col" style="text-align:left;padding:12px;vertical-align:bottom;font-size:14px;${col(true, false)}"><div role="img" aria-label="${escapeHtml(p.name)}" style="height:90px;border-radius:8px;background:url('${escapeHtml(p.image)}') center/cover;margin-bottom:8px"></div>${escapeHtml(p.name)}</th>`).join('')}</tr></thead>
-    <tbody>${rows.map(([label, f], i) => `<tr><th scope="row" style="text-align:left;padding:8px;color:#64748b;font-weight:600;border-top:1px solid #edf2f7;white-space:nowrap;vertical-align:top">${label}</th>${places.map(p => `<td style="padding:8px 12px${i === rows.length - 1 ? ' 14px' : ''};border-top:1px solid #edf2f7;vertical-align:top;line-height:1.5;${col(false, i === rows.length - 1)}">${f(p)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  return `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px;color:#1b263b;min-width:${places.length * 220 + 130}px">
+    <thead><tr><th scope="col"><span class="sr-only">Feature</span></th>${places.map(p => `<th scope="col" style="text-align:left;padding:8px;vertical-align:bottom;font-size:14px"><div role="img" aria-label="${escapeHtml(p.name)}" style="height:90px;border-radius:8px;background:url('${escapeHtml(p.image)}') center/cover;margin-bottom:8px"></div>${escapeHtml(p.name)}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map(([label, f]) => `<tr><th scope="row" style="text-align:left;padding:8px;color:#64748b;font-weight:600;border-top:1px solid #edf2f7;white-space:nowrap;vertical-align:top">${label}</th>${places.map(p => `<td style="padding:8px;border-top:1px solid #edf2f7;vertical-align:top;line-height:1.5">${f(p)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
 
 function renderBarChart(title, labels, values, money) {
