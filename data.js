@@ -35,6 +35,7 @@ export const allPlacesData = {
     stars: '★★★★★',
     price: '₱2,500',
     numericPrice: 2500,
+    price3D2N: 3500, 
     duration: '2D1N / 3D2N',
     badge: 'Popular',
     discount: 10,
@@ -93,7 +94,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 3', day: '02:00 PM', title: 'ETD Back to Manila', details: 'Departure from Baguio back to Manila.' },
       { dayGroup: 'Day 3', day: '08:00 PM', title: 'ETA in Manila', details: 'Safe arrival back in Manila.' }
     ],
-    addons: [{ id: 'souvenir', name: 'Special Pasalubong Box', price: 450 }]
+    addons: [{ id: 'souvenir', name: 'Special Pasalubong Box', price: 450 },{ id: 'souvenir', name: 'GengGeng', price: 450 }]
   },
 
   'las-casas': {
@@ -504,6 +505,13 @@ export const reviewsData = [
     comment: "The historical landmarks and coastal views were stunning. The booking process was very efficient.",
     date: "July 2026",
     avatar: "https://images.thedirect.com/media/article_full/fern_frieren.jpg?imgeng=/cmpr_60/w_1280"
+  },  {
+    name: "Michael Jackson",
+    location: "Visited Baguio City",
+    rating: "★★★★★",
+    comment: "HEE HEE",
+    date: "August 2026",
+    avatar: "https://s.france24.com/media/display/95d8e080-0ec3-11e9-85db-005056a964fe/w:1280/p:1x1/jackson-top-m.jpg"
   }
 ];
 

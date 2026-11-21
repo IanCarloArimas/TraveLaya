@@ -877,9 +877,10 @@ header.navbar { position: relative; }
   #app-modal { position: static !important; background: none !important; display: block !important; padding: 0 !important; }
   #app-modal .no-print { display: none !important; }
 }
-.field-error { display: flex; gap: 6px; align-items: flex-start; margin: -6px 0 12px; font-size: 12px; font-weight: 600; line-height: 1.4; color: #b42318; }
+.field-error { display: flex; gap: 6px; align-items: flex-start; margin: 4px 0 12px; font-size: 12px; font-weight: 600; line-height: 1.4; color: #b42318; }
 .field-error::before { content: "\26A0"; }
 [aria-invalid="true"] { border-color: #b42318 !important; box-shadow: 0 0 0 1px #b42318; }
+[aria-invalid="true"]:focus-visible { outline-color: #b42318; outline-offset: 1px; }
 .has-error { outline: 2px solid #b42318; outline-offset: 3px; border-radius: 12px; }
 .footer :focus-visible { outline-color: #fff; }
 

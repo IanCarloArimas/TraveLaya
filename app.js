@@ -4,6 +4,7 @@ import { views, escapeHtml, renderPlaceRow, renderFilterableCard, renderFooter, 
 let selectedPlace = allPlacesData['bataan-3d2n'];
 let selectedPackageType = 'day';
 let selectedBataanPackage = 'A';
+let selectedItinerary = '2D1N';
 let slideshowInterval = null;
 let detailSlideInterval = null;
 let currentDetailSlideIndex = 0;
@@ -54,8 +55,12 @@ window.handleAuthAction = handleAuthAction;
 window.approveBooking = approveBooking;
 window.switchItinerary = switchItinerary;
 window.switchBataanPackage = switchBataanPackage;
+window.selectBookingItinerary = selectBookingItinerary;
 window.toggleDateAvailability = toggleDateAvailability;
 window.cancelBooking = cancelBooking;
+window.markRefunded = markRefunded;
+window.viewBookingDetails = viewBookingDetails;
+window.togglePassword = togglePassword;
 window.modifyBookingDate = modifyBookingDate;
 window.withdrawDateChange = withdrawDateChange;
 window.resolveDateChange = resolveDateChange;
@@ -147,7 +152,7 @@ function showFieldError(id, message) {
   err.textContent = message;
   el.setAttribute('aria-invalid', 'true');
   el.setAttribute('aria-describedby', id + '-error');
-  if (anchor !== el) anchor.classList.add('has-error');
+  if (ERR_ANCHOR[el.id] && anchor !== el) anchor.classList.add('has-error');
 }
 function clearFieldError(id) {
   const el = document.getElementById(id);
@@ -279,6 +284,39 @@ function showVoucher(ref) {
     <div class="action-buttons no-print"><button class="btn btn-cancel" onclick="closeModal()">Close</button><button class="btn btn-continue" onclick="window.print()">Print / Save as PDF</button></div>`);
 }
 
+function viewBookingDetails(ref) {
+  if (!isAdmin) return;
+  const f = findBooking(ref);
+  if (!f) return;
+  const { user, b } = f;
+  const e = escapeHtml;
+  const fmt = iso => iso ? new Date(iso).toLocaleString('en-PH', { dateStyle: 'medium', timeStyle: 'short' }) : '';
+  const adults = Number(b.adults) || 0;
+  const kids = Number(b.children) || 0;
+  const ages = Array.isArray(b.childAges) ? b.childAges : [];
+  const under3 = ages.filter(x => x === '0-2 yrs').length;
+  const kidsLine = kids ? `${kids} child${kids === 1 ? '' : 'ren'}` + (ages.length ? ` (${kids - under3} aged 3-11, ${under3} aged 0-2)` : '') : '';
+  const row = (label, value) => value ? `<tr><td style="padding:7px 12px 7px 0;color:#64748b;font-size:13px;vertical-align:top;white-space:nowrap">${label}</td><td style="padding:7px 0;color:#1b263b;font-size:13px;font-weight:600">${value}</td></tr>` : '';
+  const section = (title, rows) => `<h4 style="margin:18px 0 4px;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#c0293f">${title}</h4><table style="border-collapse:collapse;width:100%">${rows}</table>`;
+  const refund = b.refund ? (b.refund.status === 'Refunded'
+    ? `Refunded ₱${Number(b.refund.amount).toLocaleString()} on ${e(fmt(b.refund.refundedAt))}`
+    : `Pending: ₱${Number(b.refund.amount).toLocaleString()} (${e(String(b.refund.percent ?? ''))}% of amount paid)`) : '';
+  const html = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div><span style="background:#131c38;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px">${e(b.referenceId)}</span>
+      <h2 style="margin:8px 0 2px;font-size:20px;color:#131c38">${e(b.destination)}</h2></div>
+      <strong style="font-size:22px;color:#c0293f">${e(b.total)}</strong>
+    </div>
+    <p style="margin:4px 0 0;font-size:13px;font-weight:700;color:#b7791f">${e(b.completed ? 'Completed' : b.status)}</p>
+    ${section('Customer', row('Account name', e(user.name)) + row('Account email', e(user.email)) + row('Guest name', e(b.name)) + row('Contact number', e(b.contact)))}
+    ${section('Trip', row('Package', e(b.packageType)) + row('Travel date', e(b.date)) + row('Guests', `${adults} adult${adults === 1 ? '' : 's'}${kidsLine ? ', ' + e(kidsLine) : ''}`) + row('Pickup', b.pickupPoint ? `${e(b.pickupPoint)} at ${e(b.pickupTime)}` : '') + row('Add-ons', Array.isArray(b.addons) && b.addons.length ? e(b.addons.join(', ')) : '') + row('Promo code', e(b.promo)) + (b.changeRequest ? row('Date change requested', `${e(b.changeRequest.date)} (awaiting approval)`) : ''))}
+    ${section('Payment', row('Method', e(b.paymentMethod)) + row('Reference no.', e(b.paymentRef)) + row('Total', e(b.total)) + row('Refund', refund))}
+    ${b.paymentProof ? `<img src="${e(b.paymentProof)}" alt="Payment receipt" data-ref="${e(b.referenceId)}" onclick="viewProof(this.dataset.ref)" style="display:block;max-width:160px;margin-top:10px;border-radius:8px;border:1px solid #cbd5e0;cursor:zoom-in" />` : ''}
+    ${section('Timeline', row('Booked', e(fmt(b.createdAt))) + row('Cancelled', e(fmt(b.cancelledAt))) + row('Completed', e(fmt(b.completedAt))))}
+    <div class="action-buttons"><button class="btn btn-cancel" onclick="closeModal()">Close</button></div>`;
+  openModal(html, '560px');
+}
+
 function viewProof(ref) {
   const f = findBooking(ref);
   if (!f || !f.b.paymentProof || !(isAdmin || ownBooking(ref))) return;
@@ -287,10 +325,10 @@ function viewProof(ref) {
 
 function exportBookingsCsv() {
   if (!isAdmin) return;
-  const cols = ['referenceId', 'name', 'userEmail', 'contact', 'destination', 'packageType', 'date', 'adults', 'children', 'addons', 'promo', 'total', 'pickupPoint', 'pickupTime', 'paymentMethod', 'paymentRef', 'status', 'completed'];
+  const cols = ['referenceId', 'name', 'userEmail', 'contact', 'destination', 'packageType', 'date', 'adults', 'children', 'addons', 'promo', 'total', 'pickupPoint', 'pickupTime', 'paymentMethod', 'paymentRef', 'status', 'completed', 'refundStatus', 'refundAmount'];
   const esc = val => { let s = Array.isArray(val) ? val.join('; ') : String(val ?? ''); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
   const rows = [cols.join(',')];
-  sampleAccounts.forEach(u => (u.bookings || []).forEach(b => rows.push(cols.map(c => esc(c === 'userEmail' ? u.email : c === 'completed' ? (b.completed ? 'Yes' : 'No') : b[c])).join(','))));
+  sampleAccounts.forEach(u => (u.bookings || []).forEach(b => rows.push(cols.map(c => esc(c === 'userEmail' ? u.email : c === 'completed' ? (b.completed ? 'Yes' : 'No') : c === 'refundStatus' ? (b.refund ? b.refund.status : '') : c === 'refundAmount' ? (b.refund ? b.refund.amount : '') : b[c])).join(','))));
   const url = URL.createObjectURL(new Blob(['\ufeff' + rows.join('\r\n')], { type: 'text/csv;charset=utf-8' }));
   const link = document.createElement('a');
   link.href = url; link.download = `travelaya-bookings-${getLocalDateString()}.csv`;
@@ -427,13 +465,51 @@ async function deletePlace(id) {
   navigateTo('admin');
 }
 
+// Share of the amount paid that is returned on cancellation. Edit to match your refund policy.
+const REFUND_PERCENT = 70;
+
 async function cancelBooking(ref) {
   const f = ownBooking(ref);
   if (!f) return;
-  if (!(await confirmDialog(`Cancel booking ${ref}? This cannot be undone.`, 'Cancel booking', true))) return;
+  const paid = String(f.b.status).includes('Approved') || String(f.b.status).startsWith('Payment');
+  const paidAmount = parseInt(String(f.b.total).replace(/[^0-9]/g, ''), 10) || 0;
+  const refundAmount = Math.round(paidAmount * REFUND_PERCENT / 100);
+  const msg = paid && refundAmount > 0
+    ? `Cancel booking ${ref}? This cannot be undone. A refund request of ₱${refundAmount.toLocaleString()} will be sent to our admin team for processing.`
+    : `Cancel booking ${ref}? This cannot be undone.`;
+  if (!(await confirmDialog(msg, 'Cancel booking', true))) return;
   f.b.status = 'Cancelled';
+  f.b.cancelledAt = new Date().toISOString();
   delete f.b.changeRequest;
+  if (paid && refundAmount > 0) {
+    f.b.refund = { status: 'Pending', amount: refundAmount, percent: REFUND_PERCENT, requestedAt: new Date().toISOString() };
+  }
+  persist();
   navigateTo('myBookings');
+  toast(f.b.refund ? 'Booking cancelled. Your refund request was sent to the admin team.' : 'Booking cancelled.');
+}
+
+function togglePassword(id, btn) {
+  const input = document.getElementById(id);
+  if (!input) return;
+  const show = input.type === 'password';
+  input.type = show ? 'text' : 'password';
+  btn.textContent = show ? 'Hide' : 'Show';
+  btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  btn.setAttribute('aria-pressed', String(show));
+}
+
+async function markRefunded(email, ref) {
+  if (!isAdmin) return;
+  const user = sampleAccounts.find(acc => acc.email.toLowerCase() === String(email).toLowerCase());
+  const b = user && (user.bookings || []).find(x => x.referenceId === ref);
+  if (!b || !b.refund || b.refund.status !== 'Pending') return;
+  if (!(await confirmDialog(`Mark the ₱${b.refund.amount.toLocaleString()} refund for ${ref} as sent to ${user.name}?`, 'Mark as refunded', false))) return;
+  b.refund.status = 'Refunded';
+  b.refund.refundedAt = new Date().toISOString();
+  persist();
+  navigateTo('admin');
+  toast(`Refund for ${ref} marked as completed.`);
 }
 
 function placeIdOf(b) {
@@ -840,6 +916,7 @@ function changeBookingDestination(placeId) {
     selectedPlace = allPlacesData[placeId];
     selectedPackageType = 'day';
     selectedBataanPackage = 'A';
+    selectedItinerary = '2D1N';
     appliedPromoDiscount = 0;
     appliedPromoName = '';
     navigateTo('booking');
@@ -849,7 +926,25 @@ function changeBookingDestination(placeId) {
 function viewPlaceDetail(placeId) {
   selectedPlace = allPlacesData[placeId] || allPlacesData['bataan-3d2n'];
   selectedBataanPackage = 'A';
+  selectedItinerary = '2D1N';
   navigateTo('detail');
+}
+
+function selectBookingItinerary(type) {
+  selectedItinerary = type === '3D2N' ? '3D2N' : '2D1N';
+  document.querySelectorAll('.itinerary-choice').forEach(btn => {
+    const active = btn.dataset.itinerary === selectedItinerary;
+    btn.style.borderColor = active ? '#e0415a' : '#cbd5e0';
+    btn.style.background = active ? '#fff5f6' : '#fff';
+  });
+  const price = basePackagePriceForUpdate();
+  const label = document.getElementById('booking-itinerary-label');
+  const rate = document.getElementById('booking-base-rate');
+  const adultLabel = document.getElementById('adult-label');
+  if (label) label.textContent = selectedItinerary === '3D2N' ? '3D 2N' : '2D 1N';
+  if (rate) rate.textContent = `₱${price.toLocaleString()} / Adult`;
+  if (adultLabel) adultLabel.textContent = `Adult (₱${price.toLocaleString()})`;
+  updateBookingTotal();
 }
 
 function switchBataanPackage(pkg) {
@@ -893,6 +988,7 @@ function switchItinerary(type) {
 
   const itineraryData = type === '3D2N' ? selectedPlace.itinerary3D2N : selectedPlace.itinerary2D1N;
   if (!itineraryData) return;
+  selectedItinerary = type === '3D2N' ? '3D2N' : '2D1N';
 
   if (type === '3D2N') {
     if (btn3d) { btn3d.style.background = '#e0415a'; btn3d.style.color = '#fff'; btn3d.style.boxShadow = '0 2px 6px rgba(224, 65, 90,0.3)'; }
@@ -939,7 +1035,7 @@ function navigateTo(pageKey) {
   if (pageKey === 'detail') {
     content = views.getDetailView(selectedPlace, reviews.filter(r => r.placeId === selectedPlace.id));
   } else if (pageKey === 'booking') {
-    content = views.getBookingView(selectedPlace, selectedPackageType, appliedPromoName, appliedPromoDiscount, selectedBataanPackage);
+    content = views.getBookingView(selectedPlace, selectedPackageType, appliedPromoName, appliedPromoDiscount, selectedBataanPackage, selectedItinerary);
   } else if (pageKey === 'myBookings') {
     const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail?.toLowerCase());
     const myBookingsList = activeUser ? activeUser.bookings : [];
@@ -1150,35 +1246,11 @@ function basePackagePriceForUpdate() {
   if (selectedPlace.id === 'bataan-3d2n') {
     return bataanPackagePrices[selectedBataanPackage] || bataanPackagePrices.A;
   }
-  const basePrice = parseInt(selectedPlace.price.replace(/[^0-9]/g, ''), 10) || 2000;
-  return selectedPackageType === 'full' ? basePrice * 1.25 : basePrice;
-}
-
-function renderChildAgeInputs(childCount) {
-  const container = document.getElementById('child-ages-container');
-  const fieldsContainer = document.getElementById('child-age-fields');
-  if (!container || !fieldsContainer) return;
-
-  if (childCount === 0) {
-    container.style.display = 'none';
-    fieldsContainer.innerHTML = '';
-    return;
+  let basePrice = parseInt(selectedPlace.price.replace(/[^0-9]/g, ''), 10) || 2000;
+  if (selectedPlace.itinerary2D1N && selectedPlace.itinerary3D2N && selectedItinerary === '3D2N') {
+    basePrice = Number(selectedPlace.price3D2N) || basePrice;
   }
-
-  const previous = Array.from(fieldsContainer.querySelectorAll('.child-age-select')).map(sel => sel.value);
-
-  container.style.display = 'block';
-  fieldsContainer.innerHTML = Array.from({ length: childCount }).map((_, i) => {
-    const value = previous[i] ?? '5';
-    return `
-    <div style="display: flex; flex-direction: column; gap: 2px;">
-      <label style="font-size: 11px; color: #718096; font-weight: 600;">Child ${i + 1} Age</label>
-      <select class="child-age-select" style="padding: 8px; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 13px;" onchange="updateBookingTotal()">
-        <option value="0" ${value === '0' ? 'selected' : ''}>0-2 years (Free)</option>
-        <option value="5" ${value !== '0' ? 'selected' : ''}>3-11 years (50% Off)</option>
-      </select>
-    </div>`;
-  }).join('');
+  return selectedPackageType === 'full' ? basePrice * 1.25 : basePrice;
 }
 
 function applyPromoCode() {
@@ -1211,14 +1283,12 @@ function applyPromoCode() {
 
 function updateBookingTotal(effectiveBasePrice = basePackagePriceForUpdate()) {
   const adults = parseInt(document.getElementById('adult-count')?.textContent || '2', 10);
-  const childCount = parseInt(document.getElementById('child-count')?.textContent || '0', 10);
+  const paidChildren = parseInt(document.getElementById('child-count')?.textContent || '0', 10);
+  const infants = parseInt(document.getElementById('infant-count')?.textContent || '0', 10);
+  const childCount = paidChildren + infants;
 
   const adultSubtotal = adults * effectiveBasePrice;
 
-  let paidChildren = 0;
-  document.querySelectorAll('.child-age-select').forEach(select => {
-    if (select.value !== '0') paidChildren++;
-  });
   const childTotal = paidChildren * effectiveBasePrice * 0.5;
 
   let addonsTotal = 0;
@@ -1242,7 +1312,7 @@ function updateBookingTotal(effectiveBasePrice = basePackagePriceForUpdate()) {
     childRow.style.display = childCount > 0 ? 'flex' : 'none';
     const childLabel = document.getElementById('breakdown-child-label');
     const childPrice = document.getElementById('breakdown-child-price');
-    if (childLabel) childLabel.textContent = `Children (${childCount}, ${childCount - paidChildren} free):`;
+    if (childLabel) childLabel.textContent = `Children (${childCount}, ${infants} free):`;
     if (childPrice) childPrice.textContent = `₱${Math.round(childTotal).toLocaleString()}`;
   }
 
@@ -1280,7 +1350,9 @@ function handleBookingSubmit(confirmed = false) {
   const pickupTime = document.getElementById('pickup-time')?.value || '';
   const dateInput = document.getElementById('booking-date');
   const adults = parseInt(document.getElementById('adult-count')?.textContent || '0', 10);
-  const children = parseInt(document.getElementById('child-count')?.textContent || '0', 10);
+  const paidChildren = parseInt(document.getElementById('child-count')?.textContent || '0', 10);
+  const infants = parseInt(document.getElementById('infant-count')?.textContent || '0', 10);
+  const children = paidChildren + infants;
   const totalDisplay = document.getElementById('total-price-display')?.textContent || '';
 
   if (!isLoggedIn || !currentUserEmail) {
@@ -1322,8 +1394,10 @@ function handleBookingSubmit(confirmed = false) {
     return;
   }
 
-  const childAges = Array.from(document.querySelectorAll('.child-age-select'))
-    .map(sel => (sel.value === '0' ? '0-2 yrs' : '3-11 yrs'));
+  const childAges = [
+    ...Array(paidChildren).fill('3-11 yrs'),
+    ...Array(infants).fill('0-2 yrs')
+  ];
   const addons = Array.from(document.querySelectorAll('.addon-checkbox:checked'))
     .map(cb => cb.dataset.name)
     .filter(Boolean);
@@ -1348,7 +1422,7 @@ function handleBookingSubmit(confirmed = false) {
     promo: appliedPromoName ? `${appliedPromoName} (${Math.round(appliedPromoDiscount * 100)}% off)` : '',
     paymentMethod,
     total: totalDisplay,
-    packageType: selectedPlace.id === 'bataan-3d2n' ? `Package ${selectedBataanPackage}` : (selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package'),
+    packageType: selectedPlace.id === 'bataan-3d2n' ? `Package ${selectedBataanPackage}` : (selectedPlace.itinerary2D1N && selectedPlace.itinerary3D2N ? (selectedItinerary === '3D2N' ? '3D 2N Package' : '2D 1N Package') : (selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package')),
     status: 'Pending Payment Confirmation'
   };
 
@@ -1501,9 +1575,6 @@ function attachBookingListeners() {
       else if (btn.dataset.action === 'minus' && currentVal > minimum) currentVal--;
       countDisplay.textContent = currentVal;
 
-      if (counterGroup.dataset.type === 'child') {
-        renderChildAgeInputs(currentVal);
-      }
       updateBookingTotal();
     });
   });

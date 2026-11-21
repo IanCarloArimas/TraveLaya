@@ -221,7 +221,7 @@ function renderLoginModal() {
           
           <div style="margin-bottom: 20px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 6px;">Password</label>
-            <input type="password" id="login-password" aria-label="Password" value="password123" placeholder="••••••••" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+            <span style="position: relative; display: block;"><input type="password" id="login-password" aria-label="Password" value="password123" placeholder="••••••••" required style="width: 100%; padding: 10px 62px 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" /><button type="button" class="pw-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword('login-password', this)" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #c0293f; font-weight: 700; font-size: 12px; cursor: pointer; padding: 6px 8px; font-family: inherit;">Show</button></span>
           </div>
           
           <button type="submit" style="width: 100%; background: #e0415a; color:#fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s;">Log In</button>
@@ -249,7 +249,7 @@ function renderLoginModal() {
           
           <div style="margin-bottom: 20px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 4px;">Password</label>
-            <input type="password" id="reg-password" aria-label="Password" placeholder="••••••••" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+            <span style="position: relative; display: block;"><input type="password" id="reg-password" aria-label="Password" placeholder="••••••••" required style="width: 100%; padding: 10px 62px 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" /><button type="button" class="pw-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword('reg-password', this)" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #c0293f; font-weight: 700; font-size: 12px; cursor: pointer; padding: 6px 8px; font-family: inherit;">Show</button></span>
           </div>
           
           <button type="submit" style="width: 100%; background: #e0415a; color:#fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s;">Sign Up</button>
@@ -324,7 +324,7 @@ function renderAdminInquiries(inquiries) {
 }
 
 const faqs = [
-  ['How do I cancel or modify my booking?', 'You can cancel your booking or request a date change from My Bookings up to 48 hours before your travel date. Date changes depend on availability and need admin approval; your original date stays valid until the change is approved.'],
+  ['How do I cancel or modify my booking?', 'You can cancel your booking or request a date change from My Bookings up to 48 hours before your travel date. Cancelling a paid booking refunds 70% of what you paid, and an unpaid booking can be cancelled for free. Date changes depend on availability and need admin approval; your original date stays valid until the change is approved.'],
   ['How do I pay?', 'After you confirm your booking, pay by GCash, Maya, card, or bank transfer using your booking reference, then enter the transaction number from your receipt. We verify it and mark your booking as approved.'],
   ['When is my booking confirmed?', 'A booking starts as "Pending Payment Confirmation". Once you submit your payment details and an admin verifies them, the status changes to "Approved / Paid Confirmed".'],
   ['How much do children pay?', 'Children aged 0-2 are free. Children aged 3-11 pay 50% of the adult rate.'],
@@ -569,15 +569,49 @@ export const views = {
 
   policies: `
     <div class="main-container policy">
-      <div class="page-header"><h1>Cancellation, Refunds, Terms &amp; Privacy</h1><p class="subtitle">Draft policies. Review and edit before launch.</p></div>
-      <h2>Cancellations and date changes</h2>
-      <p>You can cancel or request a new date from My Bookings up to 48 hours before travel. Date changes need admin approval and depend on availability.</p>
+      <div class="page-header"><h1>Cancellation, Refunds, Terms &amp; Privacy</h1><p class="subtitle">Please read this before you book. Last updated November 2026.</p></div>
+
+      <h2>Cancellations</h2>
+      <p>You can cancel a booking yourself from <strong>My Bookings</strong> up to <strong>48 hours before your travel date</strong>. Within 48 hours of travel, cancellations and changes are closed, and the booking can no longer be cancelled online or refunded.</p>
+      <p>If you have not paid yet, you can cancel for free and you will not be charged anything.</p>
+
       <h2>Refunds</h2>
-      <p>[Add your refund terms here, for example what percentage is returned and how long it takes.]</p>
+      <p>If you cancel a booking that you have already paid for (or whose payment is still being verified), we refund <strong>70% of the amount you paid</strong>. The other 30% covers reservations we have already made for your trip, such as transport, accommodation and guide fees.</p>
+      <ul>
+        <li>Your refund request is sent to our admin team as soon as you cancel. You can see its status in My Bookings.</li>
+        <li>We send refunds manually to the GCash, Maya or bank account you used to pay, or to an account you give us. Refunds are processed within [number] business days.</li>
+        <li>Promo discounts are already taken off the amount you paid, so the refund is 70% of the discounted total.</li>
+        <li>Optional add-ons are refunded together with the rest of the booking.</li>
+        <li>If we cancel a trip (for example because of severe weather or a road closure), you may choose a new date or receive a full refund.</li>
+      </ul>
+
+      <h2>Date changes</h2>
+      <p>You can request a new travel date from My Bookings up to 48 hours before travel. Date changes depend on availability and need admin approval. Your original date stays valid until the change is approved, and you can withdraw the request at any time before then. Blocked or fully booked dates cannot be chosen.</p>
+
       <h2>Payments</h2>
-      <p>Payments are verified manually using the transaction number you submit. Your booking is confirmed only after verification.</p>
+      <p>Payments are made by GCash, Maya or bank transfer. After paying, submit your transaction reference number and a screenshot of your receipt. We verify each payment manually, and your booking is confirmed only after verification. You will see the status change to <strong>Approved / Paid Confirmed</strong> and can then open your voucher.</p>
+
+      <h2>Rates and guests</h2>
+      <p>Rates are per person. Children aged 3-11 pay 50% of the adult rate, and children aged 0-2 travel free. At least one adult is required for every booking. Prices exclude items marked as not included in the package (such as meals marked "Pax account" and personal expenses) unless you add them as optional add-ons.</p>
+
+      <h2>Travel terms</h2>
+      <ul>
+        <li>Please arrive at your pickup point on time. We cannot wait for or refund guests who miss the departure.</li>
+        <li>Itineraries can change because of weather, traffic or road conditions. We will always try to give you an equal alternative.</li>
+        <li>Travelers are responsible for bringing valid identification and for their own belongings.</li>
+      </ul>
+
       <h2>Privacy</h2>
-      <p>We collect your name, email, and contact number to process bookings. [Add how data is stored, shared, and how to request deletion.]</p>
+      <p>We collect your name, email address and contact number to process your bookings, and the payment reference and receipt image you send us to verify payments. We use this information only to manage your booking, contact you about your trip, and process refunds.</p>
+      <ul>
+        <li>We do not sell your personal information.</li>
+        <li>We share it only with the drivers, hotels and tour partners who need it to carry out your trip.</li>
+        <li>Receipts and payment details are seen only by our admin team.</li>
+        <li>You can ask us to correct or delete your information at any time by contacting [your contact email].</li>
+      </ul>
+
+      <h2>Questions</h2>
+      <p>If you have questions about these terms, contact us at [your contact email] or [your contact number].</p>
     </div>
     ${renderLoginModal()}
   `,
@@ -657,7 +691,7 @@ export const views = {
                   <p style="font-size: 13px; color: #64748b; margin: 0;">Package: <strong>${escapeHtml(b.packageType)}</strong> | Travel Date: <strong>${escapeHtml(b.date)}</strong></p>
                   <p style="font-size: 13px; color: #64748b; margin: 4px 0 0 0;">Guests: <strong>${guests}</strong>${extras ? ' | ' + extras : ''}</p>
                   ${b.pickupPoint ? `<p style="font-size: 13px; color: #64748b; margin: 4px 0 0 0;">Pickup: <strong>${escapeHtml(b.pickupPoint)}</strong> at <strong>${escapeHtml(b.pickupTime)}</strong></p>` : ''}
-                  <p style="font-size: 12px; font-weight: 700; margin: 6px 0 0 0; color: ${approved ? '#22543d' : '#b7791f'};">${approved ? '✓' : cancelled ? '✕' : '⏳'} ${escapeHtml(completed ? 'Completed' : b.status)}</p>${renderTimeline(b)}${actions}
+                  <p style="font-size: 12px; font-weight: 700; margin: 6px 0 0 0; color: ${approved ? '#22543d' : '#b7791f'};">${approved ? '✓' : cancelled ? '✕' : '⏳'} ${escapeHtml(completed ? 'Completed' : b.status)}</p>${b.refund ? `<p style="font-size: 12px; font-weight: 600; margin: 4px 0 0 0; color: ${b.refund.status === 'Refunded' ? '#22543d' : '#b7791f'};">${b.refund.status === 'Refunded' ? '✓ Refund of ₱' + Number(b.refund.amount).toLocaleString() + ' has been sent' : '⏳ Refund of ₱' + Number(b.refund.amount).toLocaleString() + ' is being processed by our team'}</p>` : ''}${renderTimeline(b)}${actions}
                 </div>
                 <div style="text-align: right;">
                   <span style="font-size: 12px; color: #718096; display: block;">${approved ? 'Total Paid' : cancelled ? 'Cancelled' : 'Total Amount Due'}</span>
@@ -684,8 +718,11 @@ export const views = {
     });
     const num = b => parseInt(String(b.total).replace(/[^0-9]/g, ''), 10) || 0;
     const waiting = allBookings.filter(b => /^(Pending|Payment)/.test(b.status));
-    const stats = [['Total bookings', allBookings.length], ['Awaiting payment / verification', waiting.length], ['Revenue (approved)', '₱' + allBookings.filter(b => b.status.includes('Approved')).reduce((t, b) => t + num(b), 0).toLocaleString()], ['Cancelled', allBookings.filter(b => b.status === 'Cancelled').length], ['Date change requests', allBookings.filter(b => b.changeRequest && b.status !== 'Cancelled').length], ['New inquiries', inquiries.filter(i => i.status === 'New').length], ['Completed trips', allBookings.filter(b => b.completed).length]];
-    const shown = allBookings.filter(b => statusFilter === 'All' || (statusFilter === 'Waiting' ? /^(Pending|Payment)/.test(b.status) : statusFilter === 'Approved' ? b.status.includes('Approved') : b.status === 'Cancelled'));
+    const stats = [['Total bookings', allBookings.length], ['Awaiting payment / verification', waiting.length], ['Revenue (approved)', '₱' + allBookings.filter(b => b.status.includes('Approved')).reduce((t, b) => t + num(b), 0).toLocaleString()], ['Cancelled', allBookings.filter(b => b.status === 'Cancelled').length], ['Refunds to process', allBookings.filter(b => b.refund && b.refund.status === 'Pending').length], ['Date change requests', allBookings.filter(b => b.changeRequest && b.status !== 'Cancelled').length], ['New inquiries', inquiries.filter(i => i.status === 'New').length], ['Completed trips', allBookings.filter(b => b.completed).length]];
+    const shown = allBookings.filter(b => statusFilter === 'All' || (statusFilter === 'Waiting' ? /^(Pending|Payment)/.test(b.status) : statusFilter === 'Approved' ? b.status.includes('Approved') : statusFilter === 'Refunds' ? !!(b.refund && b.refund.status === 'Pending') : b.status === 'Cancelled'));
+    const refundUi = b => !b.refund ? '' : (b.refund.status === 'Pending'
+      ? `<span style="background:#fefcbf;color:#744210;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Refund due: ₱${Number(b.refund.amount).toLocaleString()}</span><button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="markRefunded(this.dataset.email, this.dataset.ref)" style="background:#e0415a;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">Mark as refunded</button>`
+      : `<span style="background:#c6f6d5;color:#22543d;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">✓ Refunded ₱${Number(b.refund.amount).toLocaleString()}</span>`);
 
 
     return `
@@ -739,7 +776,7 @@ export const views = {
         <div style="background: #fff; border-radius: 16px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-top: 20px;">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px"><h3 style="font-size:18px;font-weight:700;color:#131c38;margin:0">Customer Bookings (${shown.length})</h3>
             <button type="button" class="btn btn-cancel" onclick="exportBookingsCsv()">Export all (CSV)</button>
-            <select onchange="setAdminFilter(this.value)" style="padding:8px 12px;border:1px solid #cbd5e0;border-radius:8px">${[['All', 'All statuses'], ['Waiting', 'Awaiting payment'], ['Approved', 'Approved'], ['Cancelled', 'Cancelled']].map(([v, l]) => `<option value="${v}" ${v === statusFilter ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
+            <select onchange="setAdminFilter(this.value)" style="padding:8px 12px;border:1px solid #cbd5e0;border-radius:8px">${[['All', 'All statuses'], ['Waiting', 'Awaiting payment'], ['Approved', 'Approved'], ['Refunds', 'Refunds to process'], ['Cancelled', 'Cancelled']].map(([v, l]) => `<option value="${v}" ${v === statusFilter ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
           ${allBookings.length === 0 ? `<p style="color: #64748b; font-size: 14px; text-align: center; padding: 30px;">No bookings found yet.</p>` : `
             <div style="display: flex; flex-direction: column; gap: 16px;">
               ${shown.map(b => `
@@ -753,7 +790,8 @@ export const views = {
                   </div>
                   <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
                     <strong style="font-size: 18px; color: #c0293f;">${escapeHtml(b.total)}</strong>
-                    ${b.status === 'Cancelled' ? `<span style="background:#e2e8f0;color:#4a5568;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Cancelled</span>` : b.status.includes('Approved') ? `<span style="background: #c6f6d5; color: #22543d; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px;">${b.completed ? '✓ Completed' : '✓ Approved'}</span>${b.completed ? '' : `<button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="completeBooking(this.dataset.email, this.dataset.ref)" style="background: #fff; color: #131c38; border: 1.5px solid #131c38; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Mark completed</button>`}` : `<button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="approveBooking(this.dataset.email, this.dataset.ref)" style="background: #e0415a; color:#fff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Approve Payment</button>`}
+                    <button type="button" data-ref="${escapeHtml(b.referenceId)}" onclick="viewBookingDetails(this.dataset.ref)" style="background: #fff; color: #131c38; border: 1.5px solid #131c38; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">View details</button>
+                    ${b.status === 'Cancelled' ? `<span style="background:#e2e8f0;color:#4a5568;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Cancelled</span>${refundUi(b)}` : b.status.includes('Approved') ? `<span style="background: #c6f6d5; color: #22543d; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px;">${b.completed ? '✓ Completed' : '✓ Approved'}</span>${b.completed ? '' : `<button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="completeBooking(this.dataset.email, this.dataset.ref)" style="background: #fff; color: #131c38; border: 1.5px solid #131c38; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Mark completed</button>`}` : `<button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="approveBooking(this.dataset.email, this.dataset.ref)" style="background: #e0415a; color:#fff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Approve Payment</button>`}
                   </div>
                 </div>
               `).join('')}
@@ -894,11 +932,14 @@ export const views = {
     `;
   },
 
-  getBookingView: (selectedPlace, selectedPackageType, appliedPromoName, appliedPromoDiscount, selectedBataanPackage = 'A') => {
+  getBookingView: (selectedPlace, selectedPackageType, appliedPromoName, appliedPromoDiscount, selectedBataanPackage = 'A', selectedItinerary = '2D1N') => {
     const isBataan = selectedPlace.id === 'bataan-3d2n';
+    const hasItineraryChoice = !!(selectedPlace.itinerary2D1N && selectedPlace.itinerary3D2N);
+    const price2D = parseInt(String(selectedPlace.price).replace(/[^0-9]/g, ''), 10) || 7950;
+    const price3D = Number(selectedPlace.price3D2N) || price2D;
     const basePrice = isBataan
       ? bataanPackagePrices[selectedBataanPackage]
-      : (parseInt(selectedPlace.price.replace(/[^0-9]/g, ''), 10) || 7950);
+      : (hasItineraryChoice && selectedItinerary === '3D2N' ? price3D : price2D);
     const discountRate = selectedPlace.discount ? selectedPlace.discount / 100 : 0;
     const subtotal = basePrice * 2;
     const promoDiscountAmount = subtotal * appliedPromoDiscount;
@@ -909,7 +950,7 @@ export const views = {
         <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap;">
           <div>
             <h1 style="margin-bottom: 4px;">Booking Details</h1>
-            <p class="subtitle">Location: <strong>${selectedPlace.location}</strong> | ${isBataan ? `Package: <strong>${selectedBataanPackage}</strong> | ` : ''}Base Rate: <strong>₱${basePrice.toLocaleString()} / Adult</strong>${discountRate > 0 ? ` <span style="color:#38a169;font-weight:600">(${selectedPlace.discount}% off already applied)</span>` : ''}</p>
+            <p class="subtitle">Location: <strong>${selectedPlace.location}</strong> | ${isBataan ? `Package: <strong>${selectedBataanPackage}</strong> | ` : ''}${hasItineraryChoice ? `Package: <strong id="booking-itinerary-label">${selectedItinerary === '3D2N' ? '3D 2N' : '2D 1N'}</strong> | ` : ''}Base Rate: <strong id="booking-base-rate">₱${basePrice.toLocaleString()} / Adult</strong>${discountRate > 0 ? ` <span style="color:#38a169;font-weight:600">(${selectedPlace.discount}% off already applied)</span>` : ''}</p>
           </div>
           
           <div style="min-width: 260px;">
@@ -929,6 +970,16 @@ export const views = {
         <div class="reservation-box" style="margin-top: 20px;">
           <h2>Reservation Form - ${selectedPlace.name}</h2>
           
+          ${hasItineraryChoice ? `
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label>Choose Your Package</label>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button type="button" class="itinerary-choice" data-itinerary="2D1N" onclick="selectBookingItinerary('2D1N')" style="flex: 1; min-width: 140px; padding: 12px 14px; border-radius: 10px; cursor: pointer; text-align: left; font-family: inherit; border: 2px solid ${selectedItinerary === '2D1N' ? '#e0415a' : '#cbd5e0'}; background: ${selectedItinerary === '2D1N' ? '#fff5f6' : '#fff'};"><span style="display: block; font-size: 14px; font-weight: 700; color: #1b263b;">2 Days / 1 Night</span><span style="display: block; font-size: 12px; color: #64748b; margin-top: 2px;">₱${price2D.toLocaleString()} / adult</span></button>
+              <button type="button" class="itinerary-choice" data-itinerary="3D2N" onclick="selectBookingItinerary('3D2N')" style="flex: 1; min-width: 140px; padding: 12px 14px; border-radius: 10px; cursor: pointer; text-align: left; font-family: inherit; border: 2px solid ${selectedItinerary === '3D2N' ? '#e0415a' : '#cbd5e0'}; background: ${selectedItinerary === '3D2N' ? '#fff5f6' : '#fff'};"><span style="display: block; font-size: 14px; font-weight: 700; color: #1b263b;">3 Days / 2 Nights</span><span style="display: block; font-size: 12px; color: #64748b; margin-top: 2px;">₱${price3D.toLocaleString()} / adult</span></button>
+            </div>
+          </div>
+          ` : ''}
+
           <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
             <div class="form-group" style="margin-bottom: 0;">
               <label for="guest-firstname">First Name</label>
@@ -995,9 +1046,16 @@ export const views = {
               </div>
             </div>
 
-            <div id="child-ages-container" style="display: none; margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
-              <label style="font-size: 12px; font-weight: 700; color: #4a5568; display: block; margin-bottom: 8px;">Child Ages</label>
-              <div id="child-age-fields" style="display: flex; flex-direction: column; gap: 8px;"></div>
+            <div class="quantity-row" style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+              <div>
+                <span style="font-size: 14px; font-weight: 600; color: #1b263b; display: block;">Infant (0-2 yrs)</span>
+                <small style="font-size: 11px; color: #64748b;">Free</small>
+              </div>
+              <div class="counter" data-type="infant" style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" class="counter-btn" data-action="minus" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #cbd5e0; background: #fff; cursor: pointer; font-weight: bold;">−</button>
+                <span class="count" id="infant-count" style="font-weight: 700; font-size: 16px; min-width: 20px; text-align: center;">0</span>
+                <button type="button" class="counter-btn" data-action="plus" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #cbd5e0; background: #fff; cursor: pointer; font-weight: bold;">+</button>
+              </div>
             </div>
           </div>
 
