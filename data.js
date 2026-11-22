@@ -35,7 +35,7 @@ export const allPlacesData = {
     stars: '★★★★★',
     price: '₱2,500',
     numericPrice: 2500,
-    price3D2N: 3500, 
+    price3D2N: 3500, // per-adult price of the 3D2N package (2D1N uses the price above). Change this to your real 3D2N rate.
     duration: '2D1N / 3D2N',
     badge: 'Popular',
     discount: 10,
@@ -94,7 +94,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 3', day: '02:00 PM', title: 'ETD Back to Manila', details: 'Departure from Baguio back to Manila.' },
       { dayGroup: 'Day 3', day: '08:00 PM', title: 'ETA in Manila', details: 'Safe arrival back in Manila.' }
     ],
-    addons: [{ id: 'souvenir', name: 'Special Pasalubong Box', price: 450 },{ id: 'souvenir', name: 'GengGeng', price: 450 }]
+    addons: [{ id: 'souvenir', name: 'Special Pasalubong Box', price: 450 }, { id: 'genggeng', name: 'GengGeng', price: 450 }, { id: 'strawberry-picking', name: 'Strawberry Farm Picking Basket', price: 250 }, { id: 'burnham-boat', name: 'Burnham Lake Boat Ride', price: 150 }, { id: 'john-hay-guide', name: 'Camp John Hay Eco-Trail Guide', price: 200 }]
   },
 
   'las-casas': {
@@ -130,7 +130,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 1', day: '03:00 PM', title: 'Tranvia Ride to Beach', details: 'Tranvia ride to beach for self-guided leisure time.' },
       { dayGroup: 'Day 1', day: '05:00 PM', title: 'Going back to Manila', details: 'Return trip back to Manila.' }
     ],
-    addons: [{ id: 'souvenir', name: 'Cultural Souvenir Pack', price: 500 }]
+    addons: [{ id: 'souvenir', name: 'Cultural Souvenir Pack', price: 500 }, { id: 'costume', name: 'Heritage Costume Rental & Photo Session', price: 350 }, { id: 'calesa', name: 'Calesa Ride Around the Grounds', price: 250 }]
   },
 
   'mount-samat-corregidor': {
@@ -175,9 +175,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 1', day: '04:30 PM', title: 'St. Joseph Parish & Plaza Mayor', details: 'Quick stop at St. Joseph Parish Church and Plaza Mayor de Balanga.' },
       { dayGroup: 'Day 1', day: '05:00 PM', title: 'Pasalubong & Dinner', details: 'Pasalubong shopping and dinner stop at Best of Bataan Restaurant.' }
     ],
-    addons: [
-      { id: 'souvenir', name: 'Bataan Special Pasalubong Pack', price: 450 }
-    ]
+    addons: [{ id: 'souvenir', name: 'Bataan Special Pasalubong Pack', price: 450 }, { id: 'malinta-show', name: 'Malinta Tunnel Light & Sound Show', price: 250 }, { id: 'samat-deck', name: 'Mt. Samat Cross Viewing Deck', price: 100 }]
   },
 
   'bnpp-mount-samat': {
@@ -193,7 +191,7 @@ export const allPlacesData = {
     discount: 5,
     category: 'Heritage',
     packageType: 'Day Trip',
-    image: 'https://newsinfo.inquirer.net/files/2022/11/391896.jpeg',
+    image: 'images/BNPP.jpg',
     description: 'Explore the iconic Bataan Nuclear Power Plant, the historical Mount Samat Shrine, Japanese-Filipino Friendship Tower, Zero Kilometer marker, and Bataan WWII Museum on an action-packed day tour from Manila.',
     amenities: [
       'Van Transfer (Mnl-Bat-Mnl)',
@@ -205,9 +203,9 @@ export const allPlacesData = {
       'DOT-Accredited Travel Guide'
     ],
     landmarks: [
-      { name: 'Bataan Nuclear Power Plant', price: 0, image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=400&auto=format&fit=crop', desc: 'Insight tour of the historic nuclear facility.' },
+      { name: 'Bataan Nuclear Power Plant', price: 0, image: 'images/bataan.jpg' },
       { name: 'Mount Samat Shrine', price: 0, image: 'images/mount-samat-shrine.jpg', desc: 'Shrine of Valor and panoramic views.' },
-      { name: 'Japanese-Filipino Friendship Tower', price: 0, image: 'https://images.unsplash.com/photo-1548625149-fc4a29cf7092?q=80&w=400&auto=format&fit=crop', desc: 'Historic memorial landmark.' }
+      { name: 'Japanese-Filipino Friendship Tower', price: 0, image: 'images/japanese-filipino-friendship-tower.jpg', desc: 'Historic memorial landmark.' }
     ],
     itinerary: [
       { dayGroup: 'Day 1', day: '04:00 AM', title: 'Departure from Manila', details: 'Departure via van transfer to Bataan.' },
@@ -221,9 +219,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 1', day: '05:00 PM', title: 'Snack Time / Early Dinner', details: 'Food and rest stop.' },
       { dayGroup: 'Day 1', day: '06:00 PM', title: 'Back to Manila', details: 'Departure back to Manila.' }
     ],
-    addons: [
-      { id: 'buffet-lunch', name: 'Buffet Lunch (Filipino Dish)', price: 300 }
-    ]
+    addons: [{ id: 'buffet-lunch', name: 'Buffet Lunch (Filipino Dish)', price: 300 }, { id: 'samat-deck', name: 'Mt. Samat Cross Viewing Deck', price: 100 }, { id: 'souvenir', name: 'Bataan Pasalubong Pack', price: 450 }]
   },
 
   'camaya-five-fingers-laki': {
@@ -239,7 +235,7 @@ export const allPlacesData = {
     discount: 10,
     category: 'Nature',
     packageType: 'Full Stay',
-    image: 'https://images.squarespace-cdn.com/content/v1/5fa1522044bdda192713063c/1626670210718-1WISP48LOVD84O32699D/Laki+Beach+in+Mariveles%2C+Bataan',
+    image: 'images/fivefingers.jpg',
     description: 'Experience the ultimate 2D1N Bataan beach adventure! Explore Five Fingers coves, swim at Laki Beach, and enjoy Camaya Coast waterparks, infinity pools, and beachfront activities with overnight guesthouse stay.',
     amenities: [
       'Five Fingers Island Hopping & Boat Fee',
@@ -250,9 +246,9 @@ export const allPlacesData = {
       '2D1N Air-Conditioned Guesthouse Accommodation'
     ],
     landmarks: [
-      { name: 'Five Fingers Coves', price: 0, image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400&auto=format&fit=crop', desc: 'Scenic cove island hopping and rock formations.' },
-      { name: 'Laki Beach', price: 0, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'Pristine white sand beach and swimming.' },
-      { name: 'Camaya Coast', price: 0, image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=400&auto=format&fit=crop', desc: 'Waterpark, infinity pools, and evening fire dancing.' }
+      { name: 'Five Fingers Coves', price: 0, image: 'images/fivefingers.jpg', desc: 'Scenic cove island hopping and rock formations.' },
+      { name: 'Laki Beach', price: 0, image: 'images/lakibeach.jpg', desc: 'Pristine white sand beach and swimming.' },
+      { name: 'Camaya Coast', price: 0, image: 'images/camayacoast.jpg', desc: 'Waterpark, infinity pools, and evening fire dancing.' }
     ],
     itinerary: [
       { dayGroup: 'Day 1', day: '08:00 AM', title: 'Call Time & Five Fingers Hopping', details: 'Arrival and start of Five Fingers island hopping and boat tour.' },
@@ -261,7 +257,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 2', day: '07:00 AM', title: 'Camaya Coast Waterpark & Beach Day', details: 'Full access to Camaya Coast infinity pools and waterpark.' },
       { dayGroup: 'Day 2', day: '05:00 PM', title: 'Weekend Entertainment', details: 'Live band and fire dancing show.' }
     ],
-    addons: [{ id: 'breakfast', name: 'Add Breakfast Package', price: 500 }]
+    addons: [{ id: 'breakfast', name: 'Add Breakfast Package', price: 500 }, { id: 'snorkel', name: 'Snorkeling Gear Rental (Five Fingers)', price: 200 }, { id: 'kayak', name: 'Camaya Coast Kayak Rental', price: 500 }, { id: 'cottage', name: 'Laki Beach Cottage Rental (15 Pax)', price: 950 }]
   },
 
   'five-fingers-laki-camping': {
@@ -277,7 +273,7 @@ export const allPlacesData = {
     discount: 10,
     category: 'Nature',
     packageType: 'Full Stay',
-    image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1600&auto=format&fit=crop',
+    image: 'images/fivecamping.jpg',
     description: 'Experience an epic 2D1N camping adventure in Mariveles, Bataan! Explore Five Fingers rock formations, cliff dive at Nagbalite, swim at Laki Death Pool, and camp under the stars.',
     amenities: [
       'Five Fingers Island Hopping & Roundtrip Boat Fee',
@@ -287,9 +283,9 @@ export const allPlacesData = {
       'Guided Trekking, Caving & Cliff Jumping Activities'
     ],
     landmarks: [
-      { name: 'Nagbintana Rock Formation', price: 0, image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=400&auto=format&fit=crop', desc: 'Stunning iconic rock formations.' },
-      { name: 'Nagbalite Cliff Dive', price: 0, image: 'https://images.unsplash.com/photo-1502680390469-be75c86b636f?q=80&w=400&auto=format&fit=crop', desc: 'Thrilling 40ft cliff diving spot.' },
-      { name: 'Laki Beach & Death Pool', price: 0, image: 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae53?q=80&w=400&auto=format&fit=crop', desc: 'Pristine beach camping and natural tidal pool.' }
+      { name: 'Nagbintana Rock Formation', price: 0, image: 'images/nagbintana.jpg', desc: 'Stunning iconic rock formations.' },
+      { name: 'Nagbalite Cliff Dive', price: 0, image: 'images/nagbalite.jpg', desc: 'Thrilling 40ft cliff diving spot.' },
+      { name: 'Laki Beach & Death Pool', price: 0, image: 'images/lakibeach.jpg', desc: 'Pristine beach camping and natural tidal pool.' }
     ],
     itinerary: [
       { dayGroup: 'Day 1', day: '07:00 PM', title: 'Call Time & Port Arrival', details: 'Call time, registration, and waiver signing.' },
@@ -297,10 +293,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 1', day: '10:30 AM', title: 'Arrival at Laki Beach & Camping', details: 'Tent pitching, swimming, and exploring cliff side.' },
       { dayGroup: 'Day 2', day: '12:00 PM', title: 'Call Time & Back to Port', details: 'Return boat departure.' }
     ],
-    addons: [
-      { id: 'tent-rental', name: 'Camping Tent Rental', price: 400 },
-      { id: 'cottage', name: 'Cottage Rental (15 Pax)', price: 950 }
-    ]
+    addons: [{ id: 'tent-rental', name: 'Camping Tent Rental', price: 400 }, { id: 'cottage', name: 'Cottage Rental (15 Pax)', price: 950 }, { id: 'snorkel', name: 'Snorkeling Gear Rental', price: 200 }, { id: 'life-vest', name: 'Life Vest Rental (Nagbalite Cliff Dive)', price: 100 }, { id: 'bonfire', name: 'Firewood & Bonfire Set', price: 250 }]
   },
 
   'playa-la-caleta-overnight': {
@@ -316,7 +309,7 @@ export const allPlacesData = {
     discount: 10,
     category: 'Nature',
     packageType: 'Full Stay',
-    image: 'https://q-xx.bstatic.com/xdata/images/hotel/max500/493979183.jpg?k=8d207b63cd0ecbc18e73c501c42d539fe0c402b3208d88a25dd123752ed795e0&o=',
+    image: 'images/playa.jpg',
     description: 'Enjoy a relaxing 2D1N beach getaway at Playa La Caleta in Bagac, Bataan! Includes private round-trip boat transfers, island hopping, beach & pool access, and overnight fan-cooled nipa gazebo accommodation.',
     amenities: [
       'Round-trip private boat transfers',
@@ -327,15 +320,15 @@ export const allPlacesData = {
       'Shared shower, toilet & grilling facilities'
     ],
     landmarks: [
-      { name: 'Sugong Cave', price: 0, image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=400&auto=format&fit=crop', desc: 'Scenic island cave exploration.' },
-      { name: 'Miguelito Island', price: 0, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'Pristine island hopping destination.' }
+      { name: 'Sugong Cave', price: 0, image: 'images/sugongcave.jpg', desc: 'Scenic island cave exploration.' },
+      { name: 'Miguelito Island', price: 0, image: 'images/miguelito.jpg', desc: 'Pristine island hopping destination.' }
     ],
     itinerary: [
       { dayGroup: 'Day 1', day: '09:00 AM', title: 'Bagac Port Call Time', details: 'Meetup and briefing at Bagac Port.' },
       { dayGroup: 'Day 1', day: '09:30 AM', title: 'Island Hopping Tour', details: 'Visit Bataan Nuclear Power Plant, Sugong Cave, and Miguelito Island.' },
       { dayGroup: 'Day 2', day: '12:00 PM', title: 'Resort Check-out', details: 'Check-out and boat transfer back to Bagac Port.' }
     ],
-    addons: [{ id: 'glamping', name: 'Upgrade to Family Glamping Tent', price: 1200 }]
+    addons: [{ id: 'glamping', name: 'Upgrade to Family Glamping Tent', price: 1200 }, { id: 'snorkel', name: 'Snorkeling Gear Rental', price: 200 }, { id: 'cave-guide', name: 'Sugong Cave Local Guide', price: 150 }]
   },
 
   'la-jolla-bataan': {
@@ -369,7 +362,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 1', day: '02:00 PM', title: 'Resort Check-in & Leisure', details: 'Check-in and free time for beach/pool access.' },
       { dayGroup: 'Day 2', day: '12:00 PM', title: 'Resort Check-out', details: 'Check-out from family loft room and return to Manila.' }
     ],
-    addons: [{ id: 'spa', name: 'Resort Wellness Spa Session', price: 950 }]
+    addons: [{ id: 'spa', name: 'Resort Wellness Spa Session', price: 950 }, { id: 'cabana', name: 'Beachfront Cabana Rental', price: 800 }, { id: 'breakfast', name: 'Extra Resort Breakfast', price: 400 }]
   },
 
   'bataan-3d2n': {
@@ -396,10 +389,10 @@ export const allPlacesData = {
     ],
     landmarks: [
       { name: 'Las Casas Filipinas', price: 0, image: 'images/las-casas.jpg', desc: 'Heritage resort & open-air Spanish-Filipino colonial museum.' },
-      { name: 'Camaya Coast', price: 0, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop', desc: 'Premier beach destination with white sand and clear waters.' },
+      { name: 'Camaya Coast', price: 0, image: 'images/camayacoast.jpg', desc: 'Premier beach destination with white sand and clear waters.' },
       { name: 'Corregidor Island', price: 0, image: 'images/mile-long-barracks.jpg', desc: 'Historic fortress island with WWII ruins and memorials.' },
       { name: 'Mt. Samat', price: 0, image: 'images/mount-samat-shrine.jpg', desc: 'Shrine of Valor and panoramic viewpoint.' },
-      { name: 'Mariveles Five Fingers', price: 0, image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400&auto=format&fit=crop', desc: 'Scenic cove hiking and cliff-side rock formations.' }
+      { name: 'Mariveles Five Fingers', price: 0, image: 'images/fivefingers.jpg', desc: 'Scenic cove hiking and cliff-side rock formations.' }
     ],
     itineraryPackageA: [
       { dayGroup: 'Day 1', day: '05:00 AM', title: 'Departure from Manila & Arrival in Bataan', details: 'Van transfer from Manila to Bataan.' },
@@ -452,10 +445,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 3', day: '03:30 PM', title: 'ETD Back to Manila', details: 'Departure back to Manila.' },
       { dayGroup: 'Day 3', day: '07:30 PM', title: 'ETA in Manila', details: 'Safe arrival in Manila.' }
     ],
-    addons: [
-      { id: 'kayak', name: 'Camaya Coast Kayak Rental', price: 500 },
-      { id: 'gopro', name: 'GoPro Underwater Rental', price: 900 }
-    ]
+    addons: [{ id: 'kayak', name: 'Camaya Coast Kayak Rental', price: 500 }, { id: 'gopro', name: 'GoPro Underwater Rental', price: 900 }, { id: 'malinta-show', name: 'Corregidor Malinta Tunnel Light & Sound Show', price: 250 }, { id: 'costume', name: 'Las Casas Heritage Costume & Photo Session', price: 350 }, { id: 'calesa', name: 'Las Casas Calesa Ride', price: 250 }, { id: 'snorkel', name: 'Five Fingers Snorkeling Gear Rental', price: 200 }]
   }
 };
 

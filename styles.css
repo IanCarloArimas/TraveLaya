@@ -21,8 +21,8 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  min-height: calc(100vh - 68px);
-  min-height: 460px;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }

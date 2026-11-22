@@ -1,4 +1,5 @@
 import { allPlacesData, topPlaces, domesticPlaces, blogsData, heroImages, bataanPackagePrices } from './data.js';
+import * as cloud from './cloud.js';
 import { views, escapeHtml, renderPlaceRow, renderFilterableCard, renderFooter, renderItineraryColumns, renderCompareTable } from './views.js';
 
 let selectedPlace = allPlacesData['bataan-3d2n'];
@@ -27,12 +28,7 @@ let adminCalMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
 
 let blockedDates = {};
 
-const sampleAccounts = [
-  { email: 'admin@travelaya.com', password: 'admin123', name: 'System Administrator', bookings: [], isAdmin: true },
-  { email: 'BeatrizMarie@gmail.com', password: 'password123', name: 'Beatriz Marie Bautista', bookings: [], isAdmin: false },
-  { email: 'KarlaMae@gmail.com', password: 'password123', name: 'Karla Mae Ibuig', bookings: [], isAdmin: false },
-  { email: 'RhonaAngelica@gmail.com', password: 'password123', name: 'Rhona Angelica Cailao', bookings: [], isAdmin: false }
-];
+const sampleAccounts = []; // filled from Supabase after login
 
 window.navigateTo = navigateTo;
 window.changeBookingDestination = changeBookingDestination;
@@ -56,9 +52,11 @@ window.approveBooking = approveBooking;
 window.switchItinerary = switchItinerary;
 window.switchBataanPackage = switchBataanPackage;
 window.selectBookingItinerary = selectBookingItinerary;
+window.selectBookingBataanPackage = selectBookingBataanPackage;
 window.toggleDateAvailability = toggleDateAvailability;
 window.cancelBooking = cancelBooking;
 window.markRefunded = markRefunded;
+window.declineRefund = declineRefund;
 window.viewBookingDetails = viewBookingDetails;
 window.togglePassword = togglePassword;
 window.modifyBookingDate = modifyBookingDate;
@@ -88,28 +86,78 @@ window.openReviewForm = openReviewForm;
 window.submitReview = submitReview;
 window.completeBooking = completeBooking;
 
-const STORE_KEY = 'travelaya-state-v1';
+// ---------- Supabase persistence ----------
+const FAV_KEY = 'travelaya-favorites';
+let usage = [];
+let currentUser = null;
+let currentPageKey = 'home';
+let syncing = false, syncAgain = false, syncPromise = Promise.resolve();
+
+const cloudState = () => ({ accounts: sampleAccounts, blockedDates, favorites, placeEdits, deletedPlaces, inquiries, reviews, user: currentUser });
+const dataSig = () => JSON.stringify([sampleAccounts, blockedDates, usage, reviews, inquiries, placeEdits]);
+
 function persist() {
-  try {
-    localStorage.setItem(STORE_KEY, JSON.stringify({ accounts: sampleAccounts, blockedDates, favorites, placeEdits, deletedPlaces, inquiries, reviews, session: { isLoggedIn, currentUserEmail, isAdmin } }));
-  } catch (e) { if (!persist.warned) { persist.warned = true; toast('Browser storage is full or unavailable, so recent changes may not be saved.', 'warn'); } }
+  if (!currentUser) { try { localStorage.setItem(FAV_KEY, JSON.stringify(favorites)); } catch (e) {} }
+  if (!cloud.configured) return;
+  syncAgain = true;
+  if (!syncing) syncPromise = runSync();
 }
-function restore() {
+async function runSync() {
+  syncing = true;
   try {
-    const st = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
-    if (!st) return;
-    if (Array.isArray(st.accounts)) sampleAccounts.splice(0, sampleAccounts.length, ...st.accounts);
-    blockedDates = st.blockedDates || {};
-    favorites = st.favorites || [];
-    placeEdits = st.placeEdits || {};
-    deletedPlaces = st.deletedPlaces || [];
-    inquiries = st.inquiries || [];
-    reviews = st.reviews || [];
-    Object.entries(placeEdits).forEach(([id, p]) => { allPlacesData[id] = p; });
-    deletedPlaces.forEach(id => { delete allPlacesData[id]; });
-    if (!allPlacesData[selectedPlace.id]) selectedPlace = Object.values(allPlacesData)[0] || selectedPlace;
-    if (st.session && st.session.isLoggedIn) ({ isLoggedIn, currentUserEmail, isAdmin } = st.session);
-  } catch (e) {}
+    while (syncAgain) { syncAgain = false; await cloud.push(cloudState()); }
+  } catch (e) {
+    console.error(e);
+    syncAgain = false;
+    toast(`Could not save your changes: ${e.message || 'unknown error'}. Reloading the latest data.`, 'warn');
+    try { await loadAll(); navigateTo(currentPageKey, { fresh: true }); } catch (e2) { console.error(e2); }
+  } finally { syncing = false; }
+}
+async function flush() { syncAgain = true; if (!syncing) syncPromise = runSync(); await syncPromise; }
+
+function applyPublic(p) {
+  blockedDates = {};
+  p.blocked.forEach(r => { (blockedDates[r.place_id] = blockedDates[r.place_id] || []).push(r.blocked_on); });
+  placeEdits = {};
+  p.placeEdits.forEach(r => { placeEdits[r.place_id] = r.data; allPlacesData[r.place_id] = r.data; });
+  deletedPlaces = p.deleted;
+  deletedPlaces.forEach(id => { delete allPlacesData[id]; });
+  reviews = p.reviews;
+  usage = p.usage;
+  if (!allPlacesData[selectedPlace.id]) selectedPlace = Object.values(allPlacesData)[0] || selectedPlace;
+}
+function applyUser(u) {
+  sampleAccounts.splice(0, sampleAccounts.length);
+  let anonFavs = [];
+  try { anonFavs = JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch (e) {}
+  if (!u) {
+    isLoggedIn = false; currentUserEmail = null; isAdmin = false; currentUser = null;
+    inquiries = [];
+    favorites = Array.isArray(anonFavs) ? anonFavs : [];
+    cloud.setBaseline(cloudState());
+    return;
+  }
+  sampleAccounts.push(...u.accounts);
+  currentUser = { id: u.id, email: u.email, name: u.name, isAdmin: u.isAdmin };
+  isLoggedIn = true; currentUserEmail = u.email; isAdmin = u.isAdmin;
+  inquiries = u.inquiries;
+  favorites = u.favorites;
+  cloud.setBaseline(cloudState());
+  if (anonFavs.length) {
+    favorites = [...new Set([...u.favorites, ...anonFavs])];
+    try { localStorage.removeItem(FAV_KEY); } catch (e) {}
+  }
+}
+async function loadAll() {
+  const [p, u] = await Promise.all([cloud.fetchPublic(), cloud.fetchUser()]);
+  applyPublic(p);
+  applyUser(u);
+}
+async function bootstrap() {
+  const c = document.getElementById('app-content');
+  if (c) c.innerHTML = '<div class="main-container"><p style="padding:40px 0;color:#64748b">Loading…</p></div>';
+  if (!cloud.configured) { console.warn('Supabase is not configured. Edit config.js.'); return; }
+  try { await loadAll(); } catch (e) { console.error(e); toast('Could not reach the server. Check your connection and refresh the page.', 'warn'); }
 }
 
 function toast(message, type) {
@@ -132,7 +180,17 @@ function toast(message, type) {
 }
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-const ERR_ANCHOR = { 'booking-date': 'booking-calendar' };
+const ERR_ANCHOR = { 'booking-date': 'booking-calendar', 'guest-contact': 'guest-contact-wrap', 'inq-contact': 'inq-contact-wrap' };
+
+function readPhone(id) {
+  return { cc: document.getElementById(id + '-cc')?.value || '+63', n: (document.getElementById(id)?.value || '').replace(/\D/g, '') };
+}
+function phoneError(p) {
+  if (!p.n) return 'Enter your contact number.';
+  if (p.cc === '+63') return /^9\d{9}$/.test(p.n.replace(/^0/, '')) ? null : 'Enter a valid Philippine mobile number, like 9123456789.';
+  return p.n.length >= 6 && p.n.length <= 12 ? null : 'Enter a valid number (6 to 12 digits).';
+}
+const formatPhone = p => `${p.cc} ${p.cc === '+63' ? p.n.replace(/^0/, '') : p.n}`;
 
 function errAnchor(el) {
   return document.getElementById(ERR_ANCHOR[el.id]) || el.closest('label') || el;
@@ -311,22 +369,25 @@ function viewBookingDetails(ref) {
     ${section('Customer', row('Account name', e(user.name)) + row('Account email', e(user.email)) + row('Guest name', e(b.name)) + row('Contact number', e(b.contact)))}
     ${section('Trip', row('Package', e(b.packageType)) + row('Travel date', e(b.date)) + row('Guests', `${adults} adult${adults === 1 ? '' : 's'}${kidsLine ? ', ' + e(kidsLine) : ''}`) + row('Pickup', b.pickupPoint ? `${e(b.pickupPoint)} at ${e(b.pickupTime)}` : '') + row('Add-ons', Array.isArray(b.addons) && b.addons.length ? e(b.addons.join(', ')) : '') + row('Promo code', e(b.promo)) + (b.changeRequest ? row('Date change requested', `${e(b.changeRequest.date)} (awaiting approval)`) : ''))}
     ${section('Payment', row('Method', e(b.paymentMethod)) + row('Reference no.', e(b.paymentRef)) + row('Total', e(b.total)) + row('Refund', refund))}
-    ${b.paymentProof ? `<img src="${e(b.paymentProof)}" alt="Payment receipt" data-ref="${e(b.referenceId)}" onclick="viewProof(this.dataset.ref)" style="display:block;max-width:160px;margin-top:10px;border-radius:8px;border:1px solid #cbd5e0;cursor:zoom-in" />` : ''}
+    ${b.paymentProof ? `<img id="bd-proof" alt="Payment receipt" data-ref="${e(b.referenceId)}" onclick="viewProof(this.dataset.ref)" style="display:block;max-width:160px;margin-top:10px;border-radius:8px;border:1px solid #cbd5e0;cursor:zoom-in" />` : ''}
     ${section('Timeline', row('Booked', e(fmt(b.createdAt))) + row('Cancelled', e(fmt(b.cancelledAt))) + row('Completed', e(fmt(b.completedAt))))}
     <div class="action-buttons"><button class="btn btn-cancel" onclick="closeModal()">Close</button></div>`;
   openModal(html, '560px');
+  if (b.paymentProof) cloud.receiptUrl(b.paymentProof).then(u => { const im = document.getElementById('bd-proof'); if (im && u) im.src = u; });
 }
 
-function viewProof(ref) {
+async function viewProof(ref) {
   const f = findBooking(ref);
   if (!f || !f.b.paymentProof || !(isAdmin || ownBooking(ref))) return;
-  openModal(`<img src="${escapeHtml(f.b.paymentProof)}" alt="Payment receipt" style="max-width:100%;border-radius:8px" /><div class="action-buttons"><button class="btn btn-cancel" onclick="closeModal()">Close</button></div>`);
+  const url = await cloud.receiptUrl(f.b.paymentProof);
+  if (!url) { toast('Could not load the receipt image.', 'warn'); return; }
+  openModal(`<img src="${escapeHtml(url)}" alt="Payment receipt" style="max-width:100%;border-radius:8px" /><div class="action-buttons"><button class="btn btn-cancel" onclick="closeModal()">Close</button></div>`);
 }
 
 function exportBookingsCsv() {
   if (!isAdmin) return;
   const cols = ['referenceId', 'name', 'userEmail', 'contact', 'destination', 'packageType', 'date', 'adults', 'children', 'addons', 'promo', 'total', 'pickupPoint', 'pickupTime', 'paymentMethod', 'paymentRef', 'status', 'completed', 'refundStatus', 'refundAmount'];
-  const esc = val => { let s = Array.isArray(val) ? val.join('; ') : String(val ?? ''); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
+  const esc = val => { let s = Array.isArray(val) ? val.join('; ') : String(val ?? ''); if (/^[=+\-@\t\r]/.test(s) && !/^\+\d[\d ]+$/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
   const rows = [cols.join(',')];
   sampleAccounts.forEach(u => (u.bookings || []).forEach(b => rows.push(cols.map(c => esc(c === 'userEmail' ? u.email : c === 'completed' ? (b.completed ? 'Yes' : 'No') : c === 'refundStatus' ? (b.refund ? b.refund.status : '') : c === 'refundAmount' ? (b.refund ? b.refund.amount : '') : b[c])).join(','))));
   const url = URL.createObjectURL(new Blob(['\ufeff' + rows.join('\r\n')], { type: 'text/csv;charset=utf-8' }));
@@ -346,12 +407,12 @@ function adminCalNav(n) {
 function submitInquiry() {
   const g = k => document.getElementById('inq-' + k)?.value.trim() || '';
   const strip = s => s.replace(/[<>"]/g, '');
-  const name = strip(g('name')), email = g('email'), contact = strip(g('contact')), size = parseInt(g('size'), 10);
+  const name = strip(g('name')), email = g('email'), phone = readPhone('inq-contact'), contact = formatPhone(phone), size = parseInt(g('size'), 10);
   clearAllErrors(document.getElementById('app-content'));
   if (failFields([
     !name ? ['inq-name', 'Enter your full name.'] : null,
     !email ? ['inq-email', 'Enter your email address.'] : !EMAIL_RE.test(email) ? ['inq-email', 'Enter a valid email, like name@example.com.'] : null,
-    !contact ? ['inq-contact', 'Enter your contact number.'] : contact.replace(/\D/g, '').length < 7 ? ['inq-contact', 'Enter a valid contact number (at least 7 digits).'] : null,
+    phoneError(phone) ? ['inq-contact', phoneError(phone)] : null,
     !(size >= 1) ? ['inq-size', 'Enter how many people are traveling (at least 1).'] : null,
     g('date') && g('date') < getLocalDateString() ? ['inq-date', 'Choose a travel date that is today or later.'] : null,
     !g('message') ? ['inq-message', 'Tell us a little about the trip you have in mind.'] : null
@@ -474,15 +535,18 @@ async function cancelBooking(ref) {
   const paid = String(f.b.status).includes('Approved') || String(f.b.status).startsWith('Payment');
   const paidAmount = parseInt(String(f.b.total).replace(/[^0-9]/g, ''), 10) || 0;
   const refundAmount = Math.round(paidAmount * REFUND_PERCENT / 100);
+  const verified = String(f.b.status).includes('Approved');
   const msg = paid && refundAmount > 0
-    ? `Cancel booking ${ref}? This cannot be undone. A refund request of ₱${refundAmount.toLocaleString()} will be sent to our admin team for processing.`
+    ? (verified
+        ? `Cancel booking ${ref}? This cannot be undone. A refund request of ₱${refundAmount.toLocaleString()} (${REFUND_PERCENT}% of your payment) will be sent to our admin team for processing.`
+        : `Cancel booking ${ref}? This cannot be undone. Your payment is still being verified. Our team will check it first, and if it was received, ₱${refundAmount.toLocaleString()} (${REFUND_PERCENT}% of your payment) will be refunded.`)
     : `Cancel booking ${ref}? This cannot be undone.`;
   if (!(await confirmDialog(msg, 'Cancel booking', true))) return;
   f.b.status = 'Cancelled';
   f.b.cancelledAt = new Date().toISOString();
   delete f.b.changeRequest;
   if (paid && refundAmount > 0) {
-    f.b.refund = { status: 'Pending', amount: refundAmount, percent: REFUND_PERCENT, requestedAt: new Date().toISOString() };
+    f.b.refund = { status: 'Pending', amount: refundAmount, percent: REFUND_PERCENT, verified, requestedAt: new Date().toISOString() };
   }
   persist();
   navigateTo('myBookings');
@@ -497,6 +561,19 @@ function togglePassword(id, btn) {
   btn.textContent = show ? 'Hide' : 'Show';
   btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
   btn.setAttribute('aria-pressed', String(show));
+}
+
+async function declineRefund(email, ref) {
+  if (!isAdmin) return;
+  const user = sampleAccounts.find(acc => acc.email.toLowerCase() === String(email).toLowerCase());
+  const b = user && (user.bookings || []).find(x => x.referenceId === ref);
+  if (!b || !b.refund || b.refund.status !== 'Pending') return;
+  if (!(await confirmDialog(`No payment was received for ${ref}? The customer will see that no refund applies.`, 'Payment not received', true))) return;
+  b.refund.status = 'Declined';
+  b.refund.declinedAt = new Date().toISOString();
+  persist();
+  navigateTo('admin');
+  toast(`Refund request for ${ref} declined.`);
 }
 
 async function markRefunded(email, ref) {
@@ -524,6 +601,12 @@ function capacityOf(placeId) {
 }
 function takenByDate(placeId, excludeRef) {
   const map = {};
+  const local = new Set();
+  sampleAccounts.forEach(u => (u.bookings || []).forEach(b => local.add(b.referenceId)));
+  usage.forEach(r => {
+    if (local.has(r.reference_id) || r.reference_id === excludeRef || r.place_id !== placeId) return;
+    map[r.travel_date] = (map[r.travel_date] || 0) + (Number(r.guests) || 0);
+  });
   sampleAccounts.forEach(u => (u.bookings || []).forEach(b => {
     if (b.status === 'Cancelled' || b.referenceId === excludeRef || placeIdOf(b) !== placeId) return;
     map[b.date] = (map[b.date] || 0) + (Number(b.adults) || 0) + (Number(b.children) || 0);
@@ -716,7 +799,8 @@ function fileToDataUrl(file) {
 }
 
 async function submitPaymentProof() {
-  const f = ownBooking(activePaymentRef);
+  const ref = activePaymentRef;
+  const f = ownBooking(ref);
   const txn = document.getElementById('payment-txn-ref')?.value.trim();
   const file = document.getElementById('payment-proof')?.files[0];
   if (!f) return;
@@ -725,9 +809,17 @@ async function submitPaymentProof() {
     !txn || txn.length < 6 ? ['payment-txn-ref', 'Enter the transaction/reference number from your payment (at least 6 characters).'] : null,
     !file || !file.type.startsWith('image/') ? ['payment-proof', 'Attach a screenshot or photo of your payment receipt.'] : file.size > 10 * 1024 * 1024 ? ['payment-proof', 'That image is too large. Choose one under 10 MB.'] : null
   ])) return;
-  try { f.b.paymentProof = await fileToDataUrl(file); } catch (e) { failFields([['payment-proof', 'That image could not be read. Try another file.']]); return; }
-  f.b.paymentRef = txn;
-  f.b.status = 'Payment Submitted – Awaiting Verification';
+  let path;
+  try {
+    const dataUrl = await fileToDataUrl(file);
+    const blob = await (await fetch(dataUrl)).blob();
+    path = await cloud.uploadReceipt(`${f.user.id}/${ref}.jpg`, blob);
+  } catch (e) { console.error(e); failFields([['payment-proof', 'That image could not be uploaded. Try again or choose another file.']]); return; }
+  const g = ownBooking(ref);
+  if (!g) return;
+  g.b.paymentProof = path;
+  g.b.paymentRef = txn;
+  g.b.status = 'Payment Submitted – Awaiting Verification';
   toast('Thank you! Your payment details were submitted. We will verify them shortly.');
   navigateTo('myBookings');
 }
@@ -816,7 +908,7 @@ function switchToRegister(e) {
 }
 
 function switchToLogin(e) {
-  e.preventDefault();
+  e?.preventDefault();
   clearAllErrors(document.getElementById('login-modal'));
   document.getElementById('register-box').style.display = 'none';
   document.getElementById('login-box').style.display = 'block';
@@ -836,7 +928,7 @@ function updateNavAuthLabel() {
   }
 }
 
-function handleLoginSubmit(e) {
+async function handleLoginSubmit(e) {
   e.preventDefault();
   clearAllErrors(document.getElementById('login-modal'));
   const emailInput = document.getElementById('login-email').value.trim().toLowerCase();
@@ -847,19 +939,17 @@ function handleLoginSubmit(e) {
     !passwordInput ? ['login-password', 'Enter your password.'] : null
   ])) return;
 
-  const foundUser = sampleAccounts.find(acc => acc.email.toLowerCase() === emailInput && acc.password === passwordInput);
+  if (!cloud.configured) { failFields([['login-password', 'Login is not set up yet. Add your Supabase details to config.js.']]); return; }
 
-  if (!foundUser) {
-    failFields([['login-password', 'Incorrect email or password. Check both and try again.']]);
+  const { error } = await cloud.sb.auth.signInWithPassword({ email: emailInput, password: passwordInput });
+  if (error) {
+    failFields([['login-password', /confirm/i.test(error.message) ? 'Please confirm your email first. Check your inbox for the link.' : 'Incorrect email or password. Check both and try again.']]);
     return;
   }
-
-  isLoggedIn = true;
-  currentUserEmail = foundUser.email;
-  isAdmin = !!foundUser.isAdmin;
+  try { await loadAll(); } catch (err) { console.error(err); toast('Logged in, but we could not load your data. Please refresh the page.', 'warn'); return; }
 
   updateNavAuthLabel();
-  toast(`Successfully logged in as ${foundUser.name} (${isAdmin ? 'Admin' : 'User'})!`);
+  toast(`Successfully logged in as ${currentUser ? currentUser.name : emailInput} (${isAdmin ? 'Admin' : 'User'})!`);
   closeLoginModal();
 
   if (isAdmin) {
@@ -870,7 +960,7 @@ function handleLoginSubmit(e) {
   }
 }
 
-function handleRegisterSubmit(e) {
+async function handleRegisterSubmit(e) {
   e.preventDefault();
   clearAllErrors(document.getElementById('login-modal'));
   const name = document.getElementById('reg-name').value.trim();
@@ -879,15 +969,23 @@ function handleRegisterSubmit(e) {
 
   if (failFields([
     !name ? ['reg-name', 'Enter your full name.'] : null,
-    !email ? ['reg-email', 'Enter your email address.'] : !EMAIL_RE.test(email) ? ['reg-email', 'Enter a valid email, like name@example.com.'] : sampleAccounts.some(acc => acc.email.toLowerCase() === email) ? ['reg-email', 'An account with this email already exists. Try logging in instead.'] : null,
+    !email ? ['reg-email', 'Enter your email address.'] : !EMAIL_RE.test(email) ? ['reg-email', 'Enter a valid email, like name@example.com.'] : null,
     !password ? ['reg-password', 'Create a password.'] : password.length < 6 ? ['reg-password', 'Use at least 6 characters.'] : null
   ])) return;
 
-  sampleAccounts.push({ email, password, name, bookings: [], isAdmin: false });
+  if (!cloud.configured) { failFields([['reg-email', 'Registration is not set up yet. Add your Supabase details to config.js.']]); return; }
 
-  isLoggedIn = true;
-  currentUserEmail = email;
-  isAdmin = false;
+  const { data, error } = await cloud.sb.auth.signUp({ email, password, options: { data: { name } } });
+  const exists = (error && /already|registered/i.test(error.message)) || (data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0);
+  if (exists) { failFields([['reg-email', 'An account with this email already exists. Try logging in instead.']]); return; }
+  if (error) { failFields([['reg-email', error.message]]); return; }
+
+  if (!data.session) {
+    toast('Account created! Check your email and click the confirmation link, then log in.');
+    switchToLogin();
+    return;
+  }
+  try { await loadAll(); } catch (err) { console.error(err); }
   updateNavAuthLabel();
   toast(`🎉 Account successfully created and logged in for ${name}!`);
   closeLoginModal();
@@ -899,9 +997,9 @@ async function handleAuthAction(e) {
   e.preventDefault();
   if (isLoggedIn) {
     if (await confirmDialog('Are you sure you want to log out?', 'Log out')) {
-      isLoggedIn = false;
-      currentUserEmail = null;
-      isAdmin = false;
+      try { await flush(); } catch (err) {}
+      await cloud.sb.auth.signOut();
+      applyUser(null);
       updateNavAuthLabel();
       toast('You have been logged out.');
       navigateTo('home');
@@ -924,7 +1022,7 @@ function changeBookingDestination(placeId) {
 }
 
 function viewPlaceDetail(placeId) {
-  selectedPlace = allPlacesData[placeId] || allPlacesData['bataan-3d2n'];
+  selectedPlace = allPlacesData[placeId] || Object.values(allPlacesData)[0] || selectedPlace;
   selectedBataanPackage = 'A';
   selectedItinerary = '2D1N';
   navigateTo('detail');
@@ -942,6 +1040,24 @@ function selectBookingItinerary(type) {
   const rate = document.getElementById('booking-base-rate');
   const adultLabel = document.getElementById('adult-label');
   if (label) label.textContent = selectedItinerary === '3D2N' ? '3D 2N' : '2D 1N';
+  if (rate) rate.textContent = `₱${price.toLocaleString()} / Adult`;
+  if (adultLabel) adultLabel.textContent = `Adult (₱${price.toLocaleString()})`;
+  updateBookingTotal();
+}
+
+function selectBookingBataanPackage(pkg) {
+  selectedBataanPackage = ['A', 'B', 'C'].includes(pkg) ? pkg : 'A';
+  document.querySelectorAll('.bataan-choice').forEach(btn => {
+    const active = btn.dataset.pkg === selectedBataanPackage;
+    btn.style.borderColor = active ? '#e0415a' : '#cbd5e0';
+    btn.style.background = active ? '#fff5f6' : '#fff';
+    btn.setAttribute('aria-pressed', String(active));
+  });
+  const price = basePackagePriceForUpdate();
+  const label = document.getElementById('booking-bataan-label');
+  const rate = document.getElementById('booking-base-rate');
+  const adultLabel = document.getElementById('adult-label');
+  if (label) label.textContent = selectedBataanPackage;
   if (rate) rate.textContent = `₱${price.toLocaleString()} / Adult`;
   if (adultLabel) adultLabel.textContent = `Adult (₱${price.toLocaleString()})`;
   updateBookingTotal();
@@ -1001,7 +1117,7 @@ function switchItinerary(type) {
   container.innerHTML = renderItineraryColumns(itineraryData);
 }
 
-function navigateTo(pageKey) {
+function navigateTo(pageKey, opts = {}) {
   const container = document.getElementById('app-content');
   if (!container) return;
   closeModal();
@@ -1072,7 +1188,14 @@ function navigateTo(pageKey) {
   }
 
   updateNavAuthLabel();
+  currentPageKey = pageKey;
   persist();
+  if (!opts.fresh && cloud.configured && ['admin', 'myBookings', 'booking'].includes(pageKey)) {
+    const before = dataSig();
+    flush().then(loadAll).then(() => {
+      if (currentPageKey === pageKey && pageKey !== 'booking' && dataSig() !== before) navigateTo(pageKey, { fresh: true });
+    }).catch(err => console.error(err));
+  }
   const wantedHash = hashFor(pageKey);
   if (location.hash !== wantedHash) { suppressHash = true; location.hash = wantedHash; }
   window.scrollTo(0, 0);
@@ -1083,9 +1206,11 @@ function navigateTo(pageKey) {
 }
 
 function approveBooking(userEmail, referenceId) {
+  if (!isAdmin) return;
   const user = sampleAccounts.find(acc => acc.email.toLowerCase() === userEmail.toLowerCase());
   if (user) {
     const booking = user.bookings.find(b => b.referenceId === referenceId);
+    if (booking && !String(booking.status).startsWith('Payment')) { toast('Wait until the customer submits payment details before approving.', 'warn'); return; }
     if (booking && booking.status !== 'Cancelled') {
       booking.status = 'Approved / Paid Confirmed';
       toast(`Booking ${referenceId} has been successfully approved!`);
@@ -1344,7 +1469,8 @@ function getLocalDateString(date = new Date()) {
 function handleBookingSubmit(confirmed = false) {
   const firstName = document.getElementById('guest-firstname')?.value.trim();
   const lastName = document.getElementById('guest-lastname')?.value.trim();
-  const contact = document.getElementById('guest-contact')?.value.trim();
+  const phone = readPhone('guest-contact');
+  const contact = formatPhone(phone);
   const paymentMethod = document.getElementById('payment-method')?.value;
   const pickupPoint = document.getElementById('pickup-point')?.value || '';
   const pickupTime = document.getElementById('pickup-time')?.value || '';
@@ -1365,7 +1491,7 @@ function handleBookingSubmit(confirmed = false) {
   if (failFields([
     !firstName ? ['guest-firstname', 'Enter your first name.'] : null,
     !lastName ? ['guest-lastname', 'Enter your last name.'] : null,
-    !contact ? ['guest-contact', 'Enter your contact number.'] : contact.replace(/\D/g, '').length < 7 ? ['guest-contact', 'Enter a valid contact number (at least 7 digits).'] : null,
+    phoneError(phone) ? ['guest-contact', phoneError(phone)] : null,
     !pickupPoint ? ['pickup-point', 'Choose where you will be picked up.'] : null,
     !pickupTime ? ['pickup-time', 'Choose a departure time.'] : null,
     !(dateInput && dateInput.value) ? ['booking-date', 'Pick a travel date on the calendar.'] : null
@@ -1600,7 +1726,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const open = document.querySelector('.nav-links').classList.toggle('open');
     menuBtn.setAttribute('aria-expanded', String(open));
   });
-  restore();
   if (!location.hash || location.hash === '#') history.replaceState(null, '', '#/home');
   window.addEventListener('hashchange', () => {
     if (suppressHash) { suppressHash = false; return; }
@@ -1615,5 +1740,5 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('input', clearOnEdit);
   document.addEventListener('change', clearOnEdit);
   document.addEventListener('focusin', e => { const m = openDialogEl(); if (m && !m.contains(e.target)) (focusables(m)[0] || m).focus(); });
-  routeFromHash();
+  bootstrap().then(routeFromHash);
 });

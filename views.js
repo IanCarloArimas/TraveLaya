@@ -57,7 +57,7 @@ export function renderFooter() {
       <div class="footer-col"><div class="logo">TraveLaya</div><p>Connecting you to comfortable, affordable travel experiences worldwide.</p></div>
       <div class="footer-col"><h4>Navigation</h4><a href="#/home">Home</a><a href="#/places">Places</a><a href="#/booking">Booking</a><a href="#/blogs">Blogs</a><a href="#/inquiry">Group &amp; custom trips</a></div>
       <div class="footer-col"><h4>Support &amp; Legal</h4><a href="#/faq">Help Center / FAQs</a><a href="#/policies">Cancellation &amp; Refunds</a><a href="#/policies">Terms &amp; Privacy</a></div>
-      <div class="footer-col"><h4>Contact</h4><a href="mailto:support@travelaya.com">support@travelaya.com</a><a href="tel:+639170000000">0917 000 0000</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="mailto:support@travelaya.com">support@travelaya.com</a><a href="tel:+639931854879">0993 185 4879</a></div>
     </div>
     <div class="footer-bottom"><p>&copy; 2026 TraveLaya. All Rights Reserved.</p></div>`;
 }
@@ -78,8 +78,8 @@ function renderTimeline(b) {
     const current = i === cur && !done;
     const circle = done ? 'background:#e0415a;color:#fff;border:2px solid #e0415a' : current ? 'background:#fff;color:#c0293f;border:2px solid #e0415a' : 'background:#e2e8f0;color:#4a5568;border:2px solid #e2e8f0';
     return `<li ${current ? 'aria-current="step"' : ''} style="flex:1;text-align:center;position:relative;font-size:11px;font-weight:600;color:${done || current ? '#1b263b' : '#64748b'}">
-      ${i > 0 ? `<span aria-hidden="true" style="position:absolute;top:13px;left:-50%;width:100%;height:2px;background:${i <= cur ? '#e0415a' : '#e2e8f0'}"></span>` : ''}
-      <span style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:12px;font-weight:700;${circle}">${done ? '✓' : i + 1}</span>
+      ${i > 0 ? `<span aria-hidden="true" style="position:absolute;top:13px;left:-50%;width:100%;height:2px;z-index:0;background:${i <= cur ? '#e0415a' : '#e2e8f0'}"></span>` : ''}
+      <span style="position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:12px;font-weight:700;${circle}">${done ? '✓' : i + 1}</span>
       <div style="margin-top:4px">${s}<span class="sr-only"> (${done ? 'done' : current ? 'current step' : 'not yet'})</span></div></li>`;
   }).join('')}</ol>`;
 }
@@ -205,23 +205,15 @@ function renderLoginModal() {
         <h2 style="font-size: 22px; font-weight: 700; color: #131c38; margin-bottom: 8px;">Welcome Back</h2>
         <p style="font-size: 13px; color: #64748b; margin-bottom: 14px;">Log in to manage your bookings and access secret deals.</p>
         
-        <div style="background: #f8fafc; border: 1px dashed #cbd5e0; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 11px; color: #4a5568; line-height: 1.4;">
-          <strong>Sample Accounts for Testing:</strong><br>
-          • admin@travelaya.com / admin123 (Admin)<br>
-          • BeatrizMarie@gmail.com / password123 (Beatriz)<br>
-          • KarlaMae@gmail.com / password123 (Karla)<br>
-          • RhonaAngelica@gmail.com / password123 (Rhona)
-        </div>
-        
         <form onsubmit="handleLoginSubmit(event)" novalidate>
           <div style="margin-bottom: 16px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 6px;">Email Address</label>
-            <input type="email" id="login-email" aria-label="Email address" value="BeatrizMarie@gmail.com" placeholder="name@example.com" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+            <input type="email" id="login-email" aria-label="Email address" placeholder="name@example.com" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
           </div>
           
           <div style="margin-bottom: 20px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 6px;">Password</label>
-            <span style="position: relative; display: block;"><input type="password" id="login-password" aria-label="Password" value="password123" placeholder="••••••••" required style="width: 100%; padding: 10px 62px 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" /><button type="button" class="pw-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword('login-password', this)" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #c0293f; font-weight: 700; font-size: 12px; cursor: pointer; padding: 6px 8px; font-family: inherit;">Show</button></span>
+            <span style="position: relative; display: block;"><input type="password" id="login-password" aria-label="Password" placeholder="••••••••" required style="width: 100%; padding: 10px 62px 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" /><button type="button" class="pw-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword('login-password', this)" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #c0293f; font-weight: 700; font-size: 12px; cursor: pointer; padding: 6px 8px; font-family: inherit;">Show</button></span>
           </div>
           
           <button type="submit" style="width: 100%; background: #e0415a; color:#fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s;">Log In</button>
@@ -342,8 +334,13 @@ const renderFaqItem = ([q, a]) => `
           <div class="faq-answer" style="display: none; padding: 0 20px 16px 20px; font-size: 13px; color: #4a5568; line-height: 1.6;">${a}</div>
         </div>`;
 
+const COUNTRY_CODES = [['+63', 'PH +63'], ['+1', 'US/CA +1'], ['+44', 'UK +44'], ['+61', 'AU +61'], ['+65', 'SG +65'], ['+81', 'JP +81'], ['+82', 'KR +82'], ['+852', 'HK +852'], ['+86', 'CN +86'], ['+966', 'SA +966'], ['+971', 'AE +971']];
+function renderPhoneField(id) {
+  return `<div id="${id}-wrap" style="display:flex;gap:8px"><select id="${id}-cc" aria-label="Country code" style="${fieldStyle};width:auto;flex:0 0 auto;background:#fff;cursor:pointer">${COUNTRY_CODES.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><input type="tel" id="${id}" inputmode="numeric" autocomplete="tel-national" maxlength="12" placeholder="9123456789" oninput="this.value=this.value.replace(/\\D/g,'')" style="${fieldStyle};flex:1;min-width:0" /></div>`;
+}
+
 export const views = {
-  home: `
+  get home() { return `
     <section class="hero" id="hero-section">
       <div class="hero-bg active" style="background-image: url('${heroImages[0]}');"></div>
       <div class="hero-bg" style="background-image: url('${heroImages[1]}');"></div>
@@ -452,9 +449,9 @@ export const views = {
     </section>
 
     ${renderLoginModal()}
-  `,
+  `; },
 
-  places: `
+  get places() { return `
     <div class="main-container">
       <div class="page-header">
         <h1>All Destinations</h1>
@@ -480,7 +477,7 @@ export const views = {
       <button type="button" id="compare-go" class="btn btn-continue" onclick="showCompare()" disabled>Compare now</button>
     </div>
     ${renderLoginModal()}
-  `,
+  `; },
 
   blogs: `
     <div class="main-container">
@@ -549,7 +546,7 @@ export const views = {
           <div><label for="inq-email" style="font-size:13px;font-weight:600;color:#4a5568">Email</label><input id="inq-email" type="email" value="${escapeHtml(prefill.email || '')}" style="${fieldStyle}" /></div>
         </div>
         <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
-          <div><label for="inq-contact" style="font-size:13px;font-weight:600;color:#4a5568">Contact number</label><input id="inq-contact" type="tel" placeholder="e.g. 09123456789" style="${fieldStyle}" /></div>
+          <div><label for="inq-contact" style="font-size:13px;font-weight:600;color:#4a5568">Contact number</label>${renderPhoneField('inq-contact')}</div>
           <div><label for="inq-destination" style="font-size:13px;font-weight:600;color:#4a5568">Destination</label><select id="inq-destination" style="${fieldStyle};background:#fff">${places.map(p => `<option>${escapeHtml(p.name)}</option>`).join('')}<option>Custom itinerary / not sure yet</option></select></div>
         </div>
         <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
@@ -579,7 +576,7 @@ export const views = {
       <p>If you cancel a booking that you have already paid for (or whose payment is still being verified), we refund <strong>70% of the amount you paid</strong>. The other 30% covers reservations we have already made for your trip, such as transport, accommodation and guide fees.</p>
       <ul>
         <li>Your refund request is sent to our admin team as soon as you cancel. You can see its status in My Bookings.</li>
-        <li>We send refunds manually to the GCash, Maya or bank account you used to pay, or to an account you give us. Refunds are processed within [number] business days.</li>
+        <li>We send refunds manually to the GCash, Maya or bank account you used to pay, or to an account you give us. Refunds are processed within 10 business days.</li>
         <li>Promo discounts are already taken off the amount you paid, so the refund is 70% of the discounted total.</li>
         <li>Optional add-ons are refunded together with the rest of the booking.</li>
         <li>If we cancel a trip (for example because of severe weather or a road closure), you may choose a new date or receive a full refund.</li>
@@ -607,11 +604,11 @@ export const views = {
         <li>We do not sell your personal information.</li>
         <li>We share it only with the drivers, hotels and tour partners who need it to carry out your trip.</li>
         <li>Receipts and payment details are seen only by our admin team.</li>
-        <li>You can ask us to correct or delete your information at any time by contacting [your contact email].</li>
+        <li>You can ask us to correct or delete your information at any time by contacting support@travelaya.com.</li>
       </ul>
 
       <h2>Questions</h2>
-      <p>If you have questions about these terms, contact us at [your contact email] or [your contact number].</p>
+      <p>If you have questions about these terms, contact us at support@travelaya.com or 0993 185 4879.</p>
     </div>
     ${renderLoginModal()}
   `,
@@ -679,7 +676,7 @@ export const views = {
               const cancelled = b.status === 'Cancelled';
               const completed = !!b.completed;
               const reviewed = reviews.some(r => r.ref === b.referenceId);
-              const daysLeft = (new Date(b.date + 'T00:00:00') - new Date()) / 864e5;
+              const t0 = new Date(); t0.setHours(0, 0, 0, 0); const daysLeft = Math.round((new Date(b.date + 'T00:00:00') - t0) / 864e5);
               const canChange = !cancelled && !completed && daysLeft >= 2;
               const btn = (label, fn, bg) => `<button data-ref="${escapeHtml(b.referenceId)}" onclick="${fn}(this.dataset.ref)" style="${bg === 'ghost' ? 'background:#fff;color:#131c38;border:1.5px solid #c0293f' : 'background:#e0415a;color:#fff;border:1.5px solid #e0415a'};padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;margin:8px 6px 0 0">${label}</button>`;
               const actions = cancelled ? '' : `<div>${b.changeNote ? `<p style="font-size:12px;color:#4a5568;margin:8px 0 0">${escapeHtml(b.changeNote)}</p>` : ''}${approved ? btn('View voucher', 'showVoucher', '#e0415a') : ''}${completed ? (reviewed ? '<small style="color:#22543d;font-weight:600;margin:8px 6px 0 0;display:inline-block">★ You reviewed this trip</small>' : btn('Write a review', 'openReviewForm', '#e0415a')) : ''}${String(b.status).startsWith('Pending') ? btn('Pay now', 'payBooking', '#e0415a') : ''}${canChange ? (b.changeRequest ? `<small style="color:#b7791f;margin-right:6px">⏳ Date change to <strong>${escapeHtml(b.changeRequest.date)}</strong> awaiting admin approval.</small>` + btn('Withdraw request', 'withdrawDateChange', 'ghost') : btn('Request date change', 'modifyBookingDate', '#e0415a')) + btn('Cancel booking', 'cancelBooking', 'ghost') : (completed ? '' : '<small style="color:#a0aec0">Changes closed (within 48 hours of travel)</small>')}</div>`;
@@ -691,7 +688,7 @@ export const views = {
                   <p style="font-size: 13px; color: #64748b; margin: 0;">Package: <strong>${escapeHtml(b.packageType)}</strong> | Travel Date: <strong>${escapeHtml(b.date)}</strong></p>
                   <p style="font-size: 13px; color: #64748b; margin: 4px 0 0 0;">Guests: <strong>${guests}</strong>${extras ? ' | ' + extras : ''}</p>
                   ${b.pickupPoint ? `<p style="font-size: 13px; color: #64748b; margin: 4px 0 0 0;">Pickup: <strong>${escapeHtml(b.pickupPoint)}</strong> at <strong>${escapeHtml(b.pickupTime)}</strong></p>` : ''}
-                  <p style="font-size: 12px; font-weight: 700; margin: 6px 0 0 0; color: ${approved ? '#22543d' : '#b7791f'};">${approved ? '✓' : cancelled ? '✕' : '⏳'} ${escapeHtml(completed ? 'Completed' : b.status)}</p>${b.refund ? `<p style="font-size: 12px; font-weight: 600; margin: 4px 0 0 0; color: ${b.refund.status === 'Refunded' ? '#22543d' : '#b7791f'};">${b.refund.status === 'Refunded' ? '✓ Refund of ₱' + Number(b.refund.amount).toLocaleString() + ' has been sent' : '⏳ Refund of ₱' + Number(b.refund.amount).toLocaleString() + ' is being processed by our team'}</p>` : ''}${renderTimeline(b)}${actions}
+                  <p style="font-size: 12px; font-weight: 700; margin: 6px 0 0 0; color: ${approved ? '#22543d' : '#b7791f'};">${approved ? '✓' : cancelled ? '✕' : '⏳'} ${escapeHtml(completed ? 'Completed' : b.status)}</p>${b.refund ? `<p style="font-size: 12px; font-weight: 600; margin: 4px 0 0 0; color: ${b.refund.status === 'Refunded' ? '#22543d' : b.refund.status === 'Declined' ? '#c0293f' : '#b7791f'};">${b.refund.status === 'Refunded' ? '✓ Refund of ₱' + Number(b.refund.amount).toLocaleString() + ' has been sent' : b.refund.status === 'Declined' ? '✕ No refund applies because we could not find your payment. Please contact us if you think this is a mistake.' : b.refund.verified === false ? '⏳ Refund request received. We are checking your payment first. If it was received, ₱' + Number(b.refund.amount).toLocaleString() + ' will be sent to you.' : '⏳ Refund of ₱' + Number(b.refund.amount).toLocaleString() + ' is being processed by our team'}</p>` : ''}${renderTimeline(b)}${actions}
                 </div>
                 <div style="text-align: right;">
                   <span style="font-size: 12px; color: #718096; display: block;">${approved ? 'Total Paid' : cancelled ? 'Cancelled' : 'Total Amount Due'}</span>
@@ -721,8 +718,10 @@ export const views = {
     const stats = [['Total bookings', allBookings.length], ['Awaiting payment / verification', waiting.length], ['Revenue (approved)', '₱' + allBookings.filter(b => b.status.includes('Approved')).reduce((t, b) => t + num(b), 0).toLocaleString()], ['Cancelled', allBookings.filter(b => b.status === 'Cancelled').length], ['Refunds to process', allBookings.filter(b => b.refund && b.refund.status === 'Pending').length], ['Date change requests', allBookings.filter(b => b.changeRequest && b.status !== 'Cancelled').length], ['New inquiries', inquiries.filter(i => i.status === 'New').length], ['Completed trips', allBookings.filter(b => b.completed).length]];
     const shown = allBookings.filter(b => statusFilter === 'All' || (statusFilter === 'Waiting' ? /^(Pending|Payment)/.test(b.status) : statusFilter === 'Approved' ? b.status.includes('Approved') : statusFilter === 'Refunds' ? !!(b.refund && b.refund.status === 'Pending') : b.status === 'Cancelled'));
     const refundUi = b => !b.refund ? '' : (b.refund.status === 'Pending'
-      ? `<span style="background:#fefcbf;color:#744210;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Refund due: ₱${Number(b.refund.amount).toLocaleString()}</span><button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="markRefunded(this.dataset.email, this.dataset.ref)" style="background:#e0415a;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">Mark as refunded</button>`
-      : `<span style="background:#c6f6d5;color:#22543d;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">✓ Refunded ₱${Number(b.refund.amount).toLocaleString()}</span>`);
+      ? `<span style="background:#fefcbf;color:#744210;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">${b.refund.verified === false ? 'Verify payment, then refund' : 'Refund due'}: ₱${Number(b.refund.amount).toLocaleString()}</span><button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="markRefunded(this.dataset.email, this.dataset.ref)" style="background:#e0415a;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">Mark as refunded</button>${b.refund.verified === false ? `<button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="declineRefund(this.dataset.email, this.dataset.ref)" style="background:#fff;color:#c0293f;border:1.5px solid #c0293f;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">Payment not received</button>` : ''}`
+      : b.refund.status === 'Declined'
+        ? `<span style="background:#fed7d7;color:#9b2c2c;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">✕ Refund declined (no payment received)</span>`
+        : `<span style="background:#c6f6d5;color:#22543d;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">✓ Refunded ₱${Number(b.refund.amount).toLocaleString()}</span>`);
 
 
     return `
@@ -786,7 +785,7 @@ export const views = {
                     <h4 style="font-size: 16px; color: #1b263b; margin: 6px 0 2px 0;">${escapeHtml(b.destination)}</h4>
                     <p style="font-size: 12px; color: #4a5568; margin: 0;">User: <strong>${escapeHtml(b.userName)}</strong> (${escapeHtml(b.userEmail)})</p>
                     ${b.pickupPoint ? `<p style="font-size: 12px; color: #4a5568; margin: 2px 0 0 0;">Pickup: <strong>${escapeHtml(b.pickupPoint)}</strong> at <strong>${escapeHtml(b.pickupTime)}</strong></p>` : ''}
-                    <p style="font-size: 12px; color: #92400e; font-weight: 600; margin-top: 4px;">Status: ${escapeHtml(b.status)}</p>${b.changeRequest && b.status !== 'Cancelled' ? `<div style="background:#fffaf0;border:1px solid #fbd38d;border-radius:8px;padding:10px;margin-top:8px;font-size:12px;color:#744210">📅 Date change requested: <strong>${escapeHtml(b.date)}</strong> → <strong>${escapeHtml(b.changeRequest.date)}</strong><div style="margin-top:6px"><button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="resolveDateChange(this.dataset.email, this.dataset.ref, true)" style="background:#e0415a;color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;margin-right:6px">Approve</button><button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="resolveDateChange(this.dataset.email, this.dataset.ref, false)" style="background:#fff;color:#c0293f;border:1.5px solid #c0293f;padding:4px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer">Reject</button></div></div>` : ''}${b.paymentRef ? `<p style="font-size:12px;color:#4a5568;margin:4px 0 0">Payment ref: <strong>${escapeHtml(b.paymentRef)}</strong> via ${escapeHtml(b.paymentMethod)}</p>` : ''}${b.paymentProof ? `<img src="${escapeHtml(b.paymentProof)}" alt="Payment receipt" data-ref="${escapeHtml(b.referenceId)}" onclick="viewProof(this.dataset.ref)" style="display:block;max-width:140px;border-radius:8px;border:1px solid #cbd5e0;margin-top:8px;cursor:zoom-in" />` : ''}
+                    <p style="font-size: 12px; color: #92400e; font-weight: 600; margin-top: 4px;">Status: ${escapeHtml(b.status)}</p>${b.changeRequest && b.status !== 'Cancelled' ? `<div style="background:#fffaf0;border:1px solid #fbd38d;border-radius:8px;padding:10px;margin-top:8px;font-size:12px;color:#744210">📅 Date change requested: <strong>${escapeHtml(b.date)}</strong> → <strong>${escapeHtml(b.changeRequest.date)}</strong><div style="margin-top:6px"><button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="resolveDateChange(this.dataset.email, this.dataset.ref, true)" style="background:#e0415a;color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;margin-right:6px">Approve</button><button data-email="${escapeHtml(b.userEmail)}" data-ref="${escapeHtml(b.referenceId)}" onclick="resolveDateChange(this.dataset.email, this.dataset.ref, false)" style="background:#fff;color:#c0293f;border:1.5px solid #c0293f;padding:4px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer">Reject</button></div></div>` : ''}${b.paymentRef ? `<p style="font-size:12px;color:#4a5568;margin:4px 0 0">Payment ref: <strong>${escapeHtml(b.paymentRef)}</strong> via ${escapeHtml(b.paymentMethod)}</p>` : ''}${b.paymentProof ? `<button type="button" data-ref="${escapeHtml(b.referenceId)}" onclick="viewProof(this.dataset.ref)" style="background:#fff;color:#131c38;border:1.5px solid #131c38;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;margin-top:8px">View receipt</button>` : ''}
                   </div>
                   <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
                     <strong style="font-size: 18px; color: #c0293f;">${escapeHtml(b.total)}</strong>
@@ -950,7 +949,7 @@ export const views = {
         <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap;">
           <div>
             <h1 style="margin-bottom: 4px;">Booking Details</h1>
-            <p class="subtitle">Location: <strong>${selectedPlace.location}</strong> | ${isBataan ? `Package: <strong>${selectedBataanPackage}</strong> | ` : ''}${hasItineraryChoice ? `Package: <strong id="booking-itinerary-label">${selectedItinerary === '3D2N' ? '3D 2N' : '2D 1N'}</strong> | ` : ''}Base Rate: <strong id="booking-base-rate">₱${basePrice.toLocaleString()} / Adult</strong>${discountRate > 0 ? ` <span style="color:#38a169;font-weight:600">(${selectedPlace.discount}% off already applied)</span>` : ''}</p>
+            <p class="subtitle">Location: <strong>${selectedPlace.location}</strong> | ${isBataan ? `Package: <strong id="booking-bataan-label">${selectedBataanPackage}</strong> | ` : ''}${hasItineraryChoice ? `Package: <strong id="booking-itinerary-label">${selectedItinerary === '3D2N' ? '3D 2N' : '2D 1N'}</strong> | ` : ''}Base Rate: <strong id="booking-base-rate">₱${basePrice.toLocaleString()} / Adult</strong>${discountRate > 0 ? ` <span style="color:#38a169;font-weight:600">(${selectedPlace.discount}% off already applied)</span>` : ''}</p>
           </div>
           
           <div style="min-width: 260px;">
@@ -969,6 +968,16 @@ export const views = {
         <div id="review-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center;padding:16px"></div>
         <div class="reservation-box" style="margin-top: 20px;">
           <h2>Reservation Form - ${selectedPlace.name}</h2>
+
+          ${isBataan ? `
+          <div class="form-group" role="group" aria-labelledby="bataan-pkg-label" style="margin-bottom: 20px;">
+            <label id="bataan-pkg-label">Choose Your Package</label>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              ${[['A', 'Las Casas, Camaya Coast, Corregidor &amp; Mt. Samat'], ['B', 'Mariveles Five Fingers, Laki Beach, Camaya Coast &amp; Mt. Samat'], ['C', '1-Night Las Casas Stay + Corregidor, Camaya Coast &amp; Mt. Samat']].map(([k, desc]) => `
+              <button type="button" class="bataan-choice" data-pkg="${k}" aria-pressed="${selectedBataanPackage === k}" onclick="selectBookingBataanPackage('${k}')" style="flex: 1; min-width: 180px; padding: 12px 14px; border-radius: 10px; cursor: pointer; text-align: left; font-family: inherit; border: 2px solid ${selectedBataanPackage === k ? '#e0415a' : '#cbd5e0'}; background: ${selectedBataanPackage === k ? '#fff5f6' : '#fff'};"><span style="display: block; font-size: 14px; font-weight: 700; color: #1b263b;">Package ${k} &middot; ₱${bataanPackagePrices[k].toLocaleString()} / adult</span><span style="display: block; font-size: 12px; color: #64748b; margin-top: 2px;">${desc}</span></button>`).join('')}
+            </div>
+          </div>
+          ` : ''}
           
           ${hasItineraryChoice ? `
           <div class="form-group" style="margin-bottom: 20px;">
@@ -994,7 +1003,7 @@ export const views = {
           <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
             <div class="form-group" style="margin-bottom: 0;">
               <label for="guest-contact">Contact Number</label>
-              <input type="tel" id="guest-contact" placeholder="e.g. 09123456789" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" required />
+              ${renderPhoneField('guest-contact')}
             </div>
             <div class="form-group" style="margin-bottom: 0;">
               <label for="payment-method">Mode of Payment</label>
