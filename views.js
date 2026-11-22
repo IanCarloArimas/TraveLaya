@@ -315,7 +315,7 @@ function renderAdminInquiries(inquiries) {
       <select data-id="${escapeHtml(i.id)}" aria-label="Inquiry status" onchange="setInquiryStatus(this.dataset.id, this.value)" style="padding:6px 10px;border:1px solid #cbd5e0;border-radius:8px">${statuses.map(s => `<option ${s === i.status ? 'selected' : ''}>${s}</option>`).join('')}</select></div>`).join('') : '<p style="font-size:13px;color:#a0aec0;margin-top:10px">No inquiries yet.</p>'}</div>`;
 }
 
-const faqs = [
+export const faqs = [
   ['How do I cancel or modify my booking?', 'You can cancel your booking or request a date change from My Bookings up to 48 hours before your travel date. Cancelling a paid booking refunds 70% of what you paid, and an unpaid booking can be cancelled for free. Date changes depend on availability and need admin approval; your original date stays valid until the change is approved.'],
   ['How do I pay?', 'After you confirm your booking, pay by GCash, Maya, card, or bank transfer using your booking reference, then enter the transaction number from your receipt. We verify it and mark your booking as approved.'],
   ['When is my booking confirmed?', 'A booking starts as "Pending Payment Confirmation". Once you submit your payment details and an admin verifies them, the status changes to "Approved / Paid Confirmed".'],

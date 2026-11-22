@@ -1,6 +1,7 @@
 import { allPlacesData, topPlaces, domesticPlaces, blogsData, heroImages, bataanPackagePrices } from './data.js';
 import * as cloud from './cloud.js';
-import { views, escapeHtml, renderPlaceRow, renderFilterableCard, renderFooter, renderItineraryColumns, renderCompareTable } from './views.js';
+import { views, escapeHtml, renderPlaceRow, renderFilterableCard, renderFooter, renderItineraryColumns, renderCompareTable, faqs } from './views.js';
+import { initChatbot } from './chatbot.js';
 
 let selectedPlace = allPlacesData['bataan-3d2n'];
 let selectedPackageType = 'day';
@@ -1747,6 +1748,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('app-footer').innerHTML = renderFooter();
+  initChatbot({ getPlaces: () => Object.values(allPlacesData), faqs, navigate: navigateTo, openPlace: viewPlaceDetail });
   const menuBtn = document.querySelector('.menu-toggle');
   menuBtn?.addEventListener('click', () => {
     const open = document.querySelector('.nav-links').classList.toggle('open');
