@@ -208,12 +208,12 @@ function renderLoginModal() {
         <form onsubmit="handleLoginSubmit(event)" novalidate>
           <div style="margin-bottom: 16px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 6px;">Email Address</label>
-            <input type="email" id="login-email" aria-label="Email address" placeholder="name@example.com" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+            <input type="email" id="login-email" autocomplete="email" autocapitalize="none" spellcheck="false" aria-label="Email address" placeholder="name@example.com" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
           </div>
           
           <div style="margin-bottom: 20px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 6px;">Password</label>
-            <span style="position: relative; display: block;"><input type="password" id="login-password" aria-label="Password" placeholder="••••••••" required style="width: 100%; padding: 10px 62px 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" /><button type="button" class="pw-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword('login-password', this)" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #c0293f; font-weight: 700; font-size: 12px; cursor: pointer; padding: 6px 8px; font-family: inherit;">Show</button></span>
+            <span style="position: relative; display: block;"><input type="password" id="login-password" autocomplete="current-password" aria-label="Password" placeholder="••••••••" required style="width: 100%; padding: 10px 62px 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" /><button type="button" class="pw-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword('login-password', this)" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #c0293f; font-weight: 700; font-size: 12px; cursor: pointer; padding: 6px 8px; font-family: inherit;">Show</button></span>
           </div>
           
           <button type="submit" style="width: 100%; background: #e0415a; color:#fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s;">Log In</button>
@@ -232,16 +232,16 @@ function renderLoginModal() {
         <form onsubmit="handleRegisterSubmit(event)" novalidate>
           <div style="margin-bottom: 14px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 4px;">Full Name</label>
-            <input type="text" id="reg-name" aria-label="Full name" placeholder="John Doe" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+            <input type="text" id="reg-name" autocomplete="name" aria-label="Full name" placeholder="John Doe" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
           </div>
           <div style="margin-bottom: 14px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 4px;">Email Address</label>
-            <input type="email" id="reg-email" aria-label="Email address" placeholder="name@example.com" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
+            <input type="email" id="reg-email" autocomplete="email" autocapitalize="none" spellcheck="false" aria-label="Email address" placeholder="name@example.com" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" />
           </div>
           
           <div style="margin-bottom: 20px;">
             <label style="font-size: 12px; font-weight: 600; color: #4a5568; display: block; margin-bottom: 4px;">Password</label>
-            <span style="position: relative; display: block;"><input type="password" id="reg-password" aria-label="Password" placeholder="••••••••" required style="width: 100%; padding: 10px 62px 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" /><button type="button" class="pw-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword('reg-password', this)" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #c0293f; font-weight: 700; font-size: 12px; cursor: pointer; padding: 6px 8px; font-family: inherit;">Show</button></span>
+            <span style="position: relative; display: block;"><input type="password" id="reg-password" autocomplete="new-password" aria-label="Password" placeholder="••••••••" required style="width: 100%; padding: 10px 62px 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" /><button type="button" class="pw-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword('reg-password', this)" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #c0293f; font-weight: 700; font-size: 12px; cursor: pointer; padding: 6px 8px; font-family: inherit;">Show</button></span>
           </div>
           
           <button type="submit" style="width: 100%; background: #e0415a; color:#fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s;">Sign Up</button>
@@ -388,12 +388,12 @@ export const views = {
 
         <div>
           <label style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 4px;">Min Price</label>
-          <input type="number" id="filter-min-price" aria-label="Minimum price" value="0" min="0" oninput="applyFilters()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #cbd5e0; background: #fff; font-size: 12px;" />
+          <input type="number" id="filter-min-price" inputmode="numeric" aria-label="Minimum price" value="0" min="0" oninput="applyFilters()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #cbd5e0; background: #fff; font-size: 12px;" />
         </div>
 
         <div>
           <label style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 4px;">Max Price</label>
-          <input type="number" id="filter-max-price" aria-label="Maximum price" value="60000" min="0" oninput="applyFilters()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #cbd5e0; background: #fff; font-size: 12px;" />
+          <input type="number" id="filter-max-price" inputmode="numeric" aria-label="Maximum price" value="60000" min="0" oninput="applyFilters()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #cbd5e0; background: #fff; font-size: 12px;" />
         </div>
 
         <div style="padding-top: 14px;">
@@ -542,8 +542,8 @@ export const views = {
       <div class="reservation-box">
         <h2>Trip inquiry</h2>
         <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
-          <div><label for="inq-name" style="font-size:13px;font-weight:600;color:#4a5568">Full name</label><input id="inq-name" value="${escapeHtml(prefill.name || '')}" style="${fieldStyle}" /></div>
-          <div><label for="inq-email" style="font-size:13px;font-weight:600;color:#4a5568">Email</label><input id="inq-email" type="email" value="${escapeHtml(prefill.email || '')}" style="${fieldStyle}" /></div>
+          <div><label for="inq-name" style="font-size:13px;font-weight:600;color:#4a5568">Full name</label><input id="inq-name" autocomplete="name" value="${escapeHtml(prefill.name || '')}" style="${fieldStyle}" /></div>
+          <div><label for="inq-email" style="font-size:13px;font-weight:600;color:#4a5568">Email</label><input id="inq-email" type="email" autocomplete="email" autocapitalize="none" value="${escapeHtml(prefill.email || '')}" style="${fieldStyle}" /></div>
         </div>
         <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
           <div><label for="inq-contact" style="font-size:13px;font-weight:600;color:#4a5568">Contact number</label>${renderPhoneField('inq-contact')}</div>
@@ -992,11 +992,11 @@ export const views = {
           <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
             <div class="form-group" style="margin-bottom: 0;">
               <label for="guest-firstname">First Name</label>
-              <input type="text" id="guest-firstname" placeholder="Enter first name" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" required />
+              <input type="text" id="guest-firstname" autocomplete="given-name" placeholder="Enter first name" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" required />
             </div>
             <div class="form-group" style="margin-bottom: 0;">
               <label for="guest-lastname">Last Name</label>
-              <input type="text" id="guest-lastname" placeholder="Enter last name" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" required />
+              <input type="text" id="guest-lastname" autocomplete="family-name" placeholder="Enter last name" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; box-sizing: border-box;" required />
             </div>
           </div>
 

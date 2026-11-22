@@ -1,0 +1,155 @@
+:root {
+  --primary: #c8334c;
+  --primary-dark: #a82a3f;
+  --text-muted: #475569;
+}
+.review-date { color: #64748b; }
+button[style*="background: #e0415a"],
+button[style*="background:#e0415a"] { background: var(--primary) !important; }
+.footer-col p, .footer-col a, .footer-bottom { color: #cbd5e0; }
+
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
+a, button, [role="button"], input, select, label, summary {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(200, 51, 76, .18);
+}
+button:active, [role="button"]:active { transform: scale(.98); }
+.skip-link {
+  position: absolute; left: 8px; top: -60px; z-index: 5000;
+  background: var(--secondary); color: #fff; padding: 12px 16px;
+  border-radius: 8px; font-weight: 700; text-decoration: none;
+}
+.skip-link:focus { top: 8px; }
+
+@media (hover: none) {
+  .place-card:hover, .place-row-card:hover, .login-btn:hover, .hero-travel-btn:hover { transform: none; }
+  .nav-btn:hover { text-decoration: none; }
+  .nav-btn.active { text-decoration: underline; }
+}
+
+@media (pointer: coarse), (max-width: 640px) {
+
+  button, .btn, .nav-btn, .login-btn, .book-now-btn, .hero-travel-btn,
+  .back-btn, .copy-btn, .counter-btn, .nav-arrow, .fav-btn, .pw-toggle,
+  .menu-toggle, .faq-question, .logo, select,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]) {
+    min-height: 44px;
+  }
+  .nav-arrow, .counter-btn, .fav-btn, .menu-toggle, .pw-toggle { min-width: 44px; }
+  .counter { gap: 8px; }
+  .book-now-btn { padding: 8px 16px; font-size: 13px; }
+  .copy-btn { padding: 8px 14px; }
+  .btn { padding: 12px 24px; }
+
+  input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; }
+  .compare-chip, label:has(> #saved-only) {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 4px;
+  }
+  .compare-chip input { width: 22px; height: 22px; }
+  input[type="range"] { height: 44px; }
+
+  .footer-col a { padding: 11px 0; margin: 0; min-height: 44px; box-sizing: border-box; display: flex; align-items: center; }
+
+  input, select, textarea { font-size: 16px !important; font-family: inherit; }
+  .faq-search, .search-bar input { font-size: 16px; }
+
+  [style*="font-size: 10px"], [style*="font-size:10px"],
+  [style*="font-size: 11px"], [style*="font-size:11px"] { font-size: 12px !important; }
+  [style*="font-size:8px"], [style*="font-size: 8px"] { font-size: 10px !important; }
+  [style*="font-size: 12px"], [style*="font-size:12px"] { font-size: 13px !important; }
+  .card-badge, .card-duration, .stars, .location, .price-label, .review-trip-tag, .review-date { font-size: 12px; }
+  .price, .section-header .subtitle, .page-header .subtitle { font-size: 14px; }
+  .card-body .location { font-size: 13px; }
+  .card-body .description, .review-comment, .detail-description-box p, .info-note, .policy p { font-size: 15px; }
+  .card-title-row h3, .card-body h3 { font-size: 16px; }
+  .form-group label, .filter-bar label, #login-modal label, #app-modal label { font-size: 14px !important; }
+  .star-input label { font-size: 34px !important; }
+  .filter-bar label { text-transform: none !important; color: #334155 !important; }
+
+  header.navbar {
+    position: sticky; top: 0; z-index: 100;
+    padding: 6px max(16px, env(safe-area-inset-right)) 6px max(16px, env(safe-area-inset-left));
+  }
+  .logo { display: inline-flex; align-items: center; }
+  .menu-toggle { display: inline-flex; align-items: center; justify-content: center; font-size: 28px; }
+  .menu-toggle[aria-expanded="true"] { font-size: 0; }
+  .menu-toggle[aria-expanded="true"]::after { content: "\2715"; font-size: 24px; }
+  .nav-links {
+    gap: 0; padding: 4px 0 12px; align-items: stretch;
+    max-height: calc(100dvh - 60px); overflow-y: auto;
+  }
+  .nav-links .nav-btn, .nav-links .login-btn {
+    display: flex; align-items: center; width: 100%; box-sizing: border-box;
+    min-height: 48px; padding: 0 20px; text-align: left; font-size: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, .22);
+  }
+  .nav-links .nav-btn.active { background: rgba(0, 0, 0, .18); text-decoration: none; box-shadow: inset 4px 0 0 #fff; }
+  .nav-links .login-btn { justify-content: center; margin: 12px 20px 0; width: calc(100% - 40px); border: 0; border-radius: 24px; }
+  #nav-admin-btn { padding: 0 20px !important; border-radius: 0 !important; }
+
+  .hero { height: 80vh; height: 80svh; min-height: 420px; }
+  .hero-content h1 { font-size: 30px; line-height: 1.2; }
+  .hero-content p { font-size: 16px; }
+  .hero-travel-btn { padding: 12px 36px; font-size: 16px; }
+
+  .places-section .filter-bar { grid-template-columns: 1fr 1fr !important; }
+  .filter-bar > div:nth-child(-n+3), .filter-bar > div:last-child { grid-column: 1 / -1; }
+  .filter-bar > div:last-child { padding-top: 0 !important; }
+  .filter-bar > div:last-child button { width: 100%; }
+  .filter-bar select, .filter-bar input[type="number"] { padding: 10px 12px !important; }
+
+  .cards-wrapper { scroll-snap-type: x mandatory; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+  .cards-wrapper .place-card { scroll-snap-align: start; flex: 0 0 min(260px, 78%); }
+  .cards-wrapper.grid { scroll-snap-type: none; }
+  .cards-wrapper.grid .place-card { flex: none; }
+  .left-arrow { left: 4px; }
+  .right-arrow { right: 4px; }
+  .nav-arrow { width: 44px; height: 44px; }
+  .detail-banner-slideshow .nav-arrow { left: 8px; }
+  .detail-banner-slideshow .nav-arrow.right-arrow { right: 8px !important; left: auto; }
+
+  .place-row-card .card-header { flex-wrap: wrap; gap: 4px 8px; }
+  .compare-bar { bottom: calc(12px + env(safe-area-inset-bottom)); width: calc(100% - 24px); }
+  main { padding-bottom: 0; }
+
+  .detail-bottom-bar {
+    position: sticky; bottom: 0; z-index: 5; background: #fff;
+    margin: 30px -16px -16px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, .08); border-radius: 0 0 16px 16px;
+  }
+  .book-now-main-btn { width: 100%; min-height: 48px; font-size: 16px; }
+
+  .action-buttons { flex-direction: column-reverse; align-items: stretch; }
+  .action-buttons .btn { width: 100%; }
+  .reservation-box, .landmark-options { padding-left: 16px; padding-right: 16px; }
+  .quantity-row { padding: 8px 12px; }
+  .count { min-width: 28px; font-size: 16px; }
+
+  #login-modal { align-items: flex-start !important; padding: 12px; }
+  #login-box, #register-box { margin: auto !important; padding: 24px 20px !important; }
+  #login-box > button[aria-label="Close"], #register-box > button[aria-label="Close"] {
+    top: 6px !important; right: 6px !important; width: 44px; height: 44px; font-size: 26px !important;
+  }
+  #login-box h2, #register-box h2 { padding-right: 36px; }
+  #app-modal { padding: 12px !important; padding-bottom: max(12px, env(safe-area-inset-bottom)) !important; }
+  #app-modal > div { max-height: 92vh !important; max-height: 92dvh !important; padding: 20px !important; -webkit-overflow-scrolling: touch; }
+
+  #toast-container { top: 12px !important; left: 12px !important; right: 12px !important; max-width: none !important; }
+  #toast-container > div { font-size: 15px !important; padding: 14px 16px !important; }
+
+  .footer { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 360px) {
+  .hero-content h1 { font-size: 26px; }
+  .places-section, .reviews-section { margin-left: 8px; margin-right: 8px; padding-left: 12px; padding-right: 12px; }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero { height: auto; min-height: 100svh; padding: 48px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cards-wrapper { scroll-snap-type: x proximity; }
+  button:active, [role="button"]:active { transform: none; }
+}

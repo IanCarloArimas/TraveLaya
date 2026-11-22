@@ -176,7 +176,7 @@ function toast(message, type) {
   t.textContent = message;
   t.onclick = () => t.remove();
   box.appendChild(t);
-  setTimeout(() => t.remove(), warn ? 6000 : 4000);
+  setTimeout(() => t.remove(), warn ? 9000 : 5000);
 }
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -1362,6 +1362,7 @@ function plusDetailSlide(n) {
 
 function resetDetailSlideTimer() {
   if (detailSlideInterval) clearInterval(detailSlideInterval);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   detailSlideInterval = setInterval(() => {
     plusDetailSlide(1);
   }, 5000);
@@ -1616,7 +1617,8 @@ function attachHomeListeners() {
   setupCarousel('dom-prev', 'dom-next', 'dom-carousel', 'dom-dots', domesticPlaces);
 
   const bgElements = document.querySelectorAll('.hero-bg');
-  if (bgElements.length >= 2) {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (bgElements.length >= 2 && !reduceMotion) {
     let currentIndex = 0;
     slideshowInterval = setInterval(() => {
       const nextIndex = (currentIndex + 1) % heroImages.length;
@@ -1726,6 +1728,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const open = document.querySelector('.nav-links').classList.toggle('open');
     menuBtn.setAttribute('aria-expanded', String(open));
   });
+  // Mobile menu: close on outside tap, Escape (focus returns to the button), or when the viewport grows
+  const closeMenu = (refocus) => {
+    const nav = document.querySelector('.nav-links');
+    if (!nav || !nav.classList.contains('open')) return;
+    nav.classList.remove('open');
+    menuBtn?.setAttribute('aria-expanded', 'false');
+    if (refocus) menuBtn?.focus();
+  };
+  document.addEventListener('click', e => { if (!e.target.closest('.navbar')) closeMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(true); });
+  window.matchMedia('(min-width: 641px)').addEventListener('change', e => { if (e.matches) closeMenu(false); });
   if (!location.hash || location.hash === '#') history.replaceState(null, '', '#/home');
   window.addEventListener('hashchange', () => {
     if (suppressHash) { suppressHash = false; return; }
