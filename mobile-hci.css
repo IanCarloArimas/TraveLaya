@@ -161,3 +161,17 @@ button:active, [role="button"]:active { transform: scale(.98); }
 .policy ul { margin: 0 0 12px; padding-left: 22px; }
 .policy li { font-size: 14px; color: #4a5568; line-height: 1.7; margin-bottom: 6px; }
 .policy h1 { line-height: 1.25; }
+
+/* Place row cards: right-aligned, larger stars + heart */
+.place-row-card .card-header { justify-content: flex-start; gap: 12px; }
+.place-row-card .card-header h3 { flex: 1 1 auto; min-width: 0; margin: 0; }
+.place-row-card .card-header .stars {
+  flex: 0 0 auto; margin-left: auto;
+  font-size: 20px !important; letter-spacing: 2px; line-height: 1; white-space: nowrap;
+}
+.place-row-card .card-header .fav-btn {
+  flex: 0 0 auto;
+  font-size: 32px !important; line-height: 1;
+  min-width: 44px; min-height: 44px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+}
