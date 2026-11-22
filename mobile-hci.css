@@ -8,6 +8,11 @@ button[style*="background: #e0415a"],
 button[style*="background:#e0415a"] { background: var(--primary) !important; }
 .footer-col p, .footer-col a, .footer-bottom { color: #cbd5e0; }
 
+.main-container, .detail-container, .search-bar input, select, textarea,
+input:not([type="checkbox"]):not([type="radio"]) { box-sizing: border-box; }
+.main-container { max-width: 1080px; }
+.main-container.detail-container { max-width: 1102px; }
+
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
 a, button, [role="button"], input, select, label, summary {
   touch-action: manipulation;
