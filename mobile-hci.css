@@ -183,3 +183,9 @@ button:active, [role="button"]:active { transform: scale(.98); }
     flex: 0 0 calc((100% - 60px) / 4);
   }
 }
+
+/* Wider pages on large screens: places, blogs, faq, booking, my bookings, admin, destination detail */
+@media (min-width: 1100px) {
+  .main-container.wide, .main-container.detail-container.wide { max-width: 1320px; }
+  .footer-content, .footer-bottom { max-width: 1320px; }
+}

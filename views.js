@@ -471,7 +471,7 @@ export const views = {
   `; },
 
   get places() { return `
-    <div class="main-container">
+    <div class="main-container wide">
       <div class="page-header">
         <h1>All Destinations</h1>
         <p class="subtitle">Scroll, search, or click a destination to view details.</p>
@@ -499,7 +499,7 @@ export const views = {
   `; },
 
   blogs: `
-    <div class="main-container">
+    <div class="main-container wide">
       <div class="page-header">
         <h1>Travel Guides & Tips</h1>
         <p class="subtitle">Inspiration, itineraries, and local food recommendations from our experts.</p>
@@ -524,7 +524,7 @@ export const views = {
   `,
 
   faq: `
-    <div class="main-container">
+    <div class="main-container wide">
       <div class="page-header">
         <h1>Frequently Asked Questions</h1>
         <p class="subtitle">Got questions? Everything you need to know about booking with TraveLaya.</p>
@@ -674,7 +674,7 @@ export const views = {
 
   getMyBookingsView: (bookings, reviews = []) => {
     return `
-      <div class="main-container">
+      <div class="main-container wide">
         <div class="page-header">
           <h1>My Bookings</h1>
           <p class="subtitle">View all your confirmed reservations and reference IDs.</p>
@@ -745,7 +745,7 @@ export const views = {
 
 
     return `
-      <div class="main-container">
+      <div class="main-container wide">
         <div class="page-header">
           <h1>Admin Dashboard</h1>
           <p class="subtitle">Manage user bookings and control per-destination tour date availability.</p>
@@ -828,7 +828,7 @@ export const views = {
     const isBaguio = selectedPlace.id === 'baguio';
     
     return `
-      <div class="main-container detail-container">
+      <div class="main-container wide detail-container">
         <button class="back-btn" onclick="navigateTo('places')">← Back to Destinations</button>
 
         <div class="detail-banner-slideshow" style="position: relative; width: 100%; height: 360px; border-radius: 16px; overflow: hidden; margin-bottom: 24px; background: #131c38;">
@@ -965,7 +965,7 @@ export const views = {
     const initialTotal = subtotal - promoDiscountAmount;
 
     return `
-      <div class="main-container">
+      <div class="main-container wide">
         <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap;">
           <div>
             <h1 style="margin-bottom: 4px;">Booking Details</h1>
