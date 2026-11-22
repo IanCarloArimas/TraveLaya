@@ -589,8 +589,9 @@ export const views = {
   `,
 
   policies: `
-    <div class="main-container policy">
+    <div class="main-container wide policy">
       <div class="page-header"><h1>Cancellation, Refunds, Terms &amp; Privacy</h1><p class="subtitle">Please read this before you book. Last updated November 2026.</p></div>
+      <div class="policy-card">
 
       <h2>Cancellations</h2>
       <p>You can cancel a booking yourself from <strong>My Bookings</strong> up to <strong>48 hours before your travel date</strong>. Within 48 hours of travel, cancellations and changes are closed, and the booking can no longer be cancelled online or refunded.</p>
@@ -633,6 +634,7 @@ export const views = {
 
       <h2>Questions</h2>
       <p>If you have questions about these terms, contact us at support@travelaya.com or 0993 185 4879.</p>
+      </div>
     </div>
     ${renderLoginModal()}
   `,
