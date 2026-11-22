@@ -65,7 +65,7 @@ button:active, [role="button"]:active { transform: scale(.98); }
   .card-badge, .card-duration, .stars, .location, .price-label, .review-trip-tag, .review-date { font-size: 12px; }
   .price, .section-header .subtitle, .page-header .subtitle { font-size: 14px; }
   .card-body .location { font-size: 13px; }
-  .card-body .description, .review-comment, .detail-description-box p, .info-note, .policy p { font-size: 15px; }
+  .card-body .description, .review-comment, .detail-description-box p, .info-note, .policy p, .policy li { font-size: 15px; }
   .card-title-row h3, .card-body h3 { font-size: 16px; }
   .form-group label, .filter-bar label, #login-modal label, #app-modal label { font-size: 14px !important; }
   .star-input label { font-size: 34px !important; }
@@ -158,3 +158,6 @@ button:active, [role="button"]:active { transform: scale(.98); }
   .cards-wrapper { scroll-snap-type: x proximity; }
   button:active, [role="button"]:active { transform: none; }
 }
+.policy ul { margin: 0 0 12px; padding-left: 22px; }
+.policy li { font-size: 14px; color: #4a5568; line-height: 1.7; margin-bottom: 6px; }
+.policy h1 { line-height: 1.25; }

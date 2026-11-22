@@ -339,6 +339,22 @@ function renderPhoneField(id) {
   return `<div id="${id}-wrap" style="display:flex;gap:8px"><select id="${id}-cc" aria-label="Country code" style="${fieldStyle};width:auto;flex:0 0 auto;background:#fff;cursor:pointer">${COUNTRY_CODES.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><input type="tel" id="${id}" inputmode="numeric" autocomplete="tel-national" maxlength="12" placeholder="9123456789" oninput="this.value=this.value.replace(/\\D/g,'')" style="${fieldStyle};flex:1;min-width:0" /></div>`;
 }
 
+const renderBlogPart = p => Array.isArray(p)
+  ? `<ul>${p.map(li => `<li>${escapeHtml(li)}</li>`).join('')}</ul>`
+  : String(p).startsWith('## ') ? `<h2>${escapeHtml(String(p).slice(3))}</h2>` : `<p>${escapeHtml(p)}</p>`;
+
+const renderMoreBlogs = blog => {
+  const i = blogsData.indexOf(blog);
+  if (i < 0 || blogsData.length < 2) return '';
+  const picks = [...new Set([1, 2, 3].map(n => (i + n) % blogsData.length))].filter(j => j !== i);
+  return `<section aria-labelledby="more-guides-title" style="margin-top:32px;border-top:1px solid #e2e8f0;padding-top:8px">
+    <h2 id="more-guides-title">Keep reading</h2>
+    <div style="display:grid;gap:10px;margin-top:8px">${picks.map(j => `<a href="#/blog/${j}" style="display:block;text-decoration:none;color:inherit;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px">
+      <span style="display:block;font-size:12px;font-weight:700;color:#c0293f;text-transform:uppercase">${escapeHtml(blogsData[j].category)}</span>
+      <strong style="display:block;font-size:15px;color:#1b263b;margin-top:2px">${escapeHtml(blogsData[j].title)}</strong></a>`).join('')}</div>
+  </section>`;
+};
+
 export const views = {
   get home() { return `
     <section class="hero" id="hero-section">
@@ -529,8 +545,9 @@ export const views = {
       <div role="img" aria-label="${escapeHtml(blog.title)}" style="height:280px;border-radius:16px;background-size:cover;background-position:center;background-image:url('${blog.image}')"></div>
       <p style="font-size:12px;font-weight:700;color:#c0293f;margin:16px 0 4px"><span>${escapeHtml(blog.category)}</span> <span style="color:#718096;font-weight:500">${escapeHtml(blog.date)}</span></p>
       <h1 style="font-size:26px;font-weight:800;color:#131c38;margin:0 0 12px">${escapeHtml(blog.title)}</h1>
-      ${paras.map(p => `<p>${escapeHtml(p)}</p>`).join('')}
+      ${paras.map(renderBlogPart).join('')}
       <button class="book-now-main-btn" style="margin-top:16px" onclick="navigateTo('places')">Explore destinations</button>
+      ${renderMoreBlogs(blog)}
     </div>
     ${renderLoginModal()}
   `;

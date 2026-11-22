@@ -455,21 +455,296 @@ export const blogsData = [
     category: "Travel Guide",
     date: "August 2026",
     image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop",
-    excerpt: "Pack light and travel smart with these essential beach hacks for your next tropical escape."
+    excerpt: "Pack light and travel smart with these essential beach hacks for your next tropical escape.",
+    body: [
+      "Island trips reward travelers who pack light. Boat transfers, sandy paths and small rooms all get harder with a big suitcase, so a soft duffel or backpack is usually the smarter choice.",
+      "## 1. Roll, then cube",
+      "Rolling clothes saves space, and packing cubes keep sandy or damp items away from clean ones. Use one cube for tops, one for bottoms and one for swimwear.",
+      "## 2. Dress in layers that dry fast",
+      "Quick-dry shirts and shorts dry overnight and weigh almost nothing. Two swimsuits and three or four tops are plenty for a 2D1N trip.",
+      "## 3. Protect your electronics",
+      "A waterproof pouch or a few zip-top bags can save a phone during boat rides and sudden showers. Bring a power bank too, because outlets at beach spots are often limited.",
+      "## 4. Choose reef-safe sunscreen",
+      "Look for mineral sunscreen and apply it before you leave your room. Add a hat, sunglasses and a light long-sleeve cover-up for the midday sun.",
+      "## 5. Keep a small essentials pouch",
+      [
+        "Reusable water bottle",
+        "Motion-sickness tablets if boats make you queasy",
+        "Basic first-aid items and insect repellent",
+        "Small towel and water shoes for rocky shores",
+        "Cash in small bills for tips and fees"
+      ],
+      "Before you zip up, lay everything out and remove one third of it. You will almost never miss it."
+    ]
   },
   {
     title: "Must-Try Local Food Spots",
     category: "Go Taste",
     date: "August 2026",
     image: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=400&auto=format&fit=crop",
-    excerpt: "A culinary journey into regional food cultures, night markets, and local delicacies."
+    excerpt: "A culinary journey into regional food cultures, night markets, and local delicacies.",
+    body: [
+      "Food is half the reason to travel. Whether you are in the cool mountains of Benguet or on the coast of Bataan, the most memorable meals are usually simple, local and shared.",
+      "## Baguio: sweet treats and warm cups",
+      "Start with strawberry taho, a popular Baguio snack of soft tofu, sweet syrup and fresh strawberries. Pasalubong shops sell ube jam and peanut brittle, and the cool climate makes a hot cup of Benguet coffee a treat at any hour.",
+      "After dark, the night market fills with street food, bargain clothes and secondhand finds. Go hungry and graze your way through it.",
+      "## Bataan: seafood by the shore",
+      "On Bataan's coast the menu follows the catch. Expect grilled fish, shrimp and squid cooked simply and served with rice, calamansi and a dip of vinegar or soy sauce. Eat seafood at lunchtime when it is freshest, and ask what came in that morning.",
+      "## How to eat well anywhere",
+      [
+        "Follow the locals: a short menu and a busy counter usually mean fresh food",
+        "Carry small bills and ask for the price before you order at stalls",
+        "Try one regional specialty per meal instead of the familiar favorite",
+        "Bring a light snack and water for long travel days",
+        "Mention allergies early, in simple words"
+      ],
+      "Finally, do not forget pasalubong. Bringing home jars, boxes and treats for the people who stayed behind is part of the trip."
+    ]
   },
   {
     title: "Top 48-Hour City Itineraries",
     category: "Weekend Away",
     date: "July 2026",
     image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop",
-    excerpt: "Maximize your weekend quick-getaways with detailed hourly city schedules."
+    excerpt: "Maximize your weekend quick-getaways with detailed hourly city schedules.",
+    body: [
+      "Two days is enough to see the heart of Baguio if you plan the route by area instead of rushing between stops. Here is a simple plan that works for first-timers.",
+      "## Day 1: Downtown and sunset",
+      "Arrive early, drop your bags and walk through Burnham Park. Rent a bike or a rowboat on the lake, then stroll up Session Road for coffee and bakeries. In the late afternoon, head to Mirador Heritage for quiet paths and city views, then spend the evening at the night market and a hot dinner.",
+      "## Day 2: Strawberries and pine trees",
+      "Go to the strawberry farm early, before the crowds, and pick your own. Return to the city for lunch, then spend the afternoon among the tall pines of Camp John Hay. Finish with the colorful Stobosa houses for photos and a pasalubong run before the ride home.",
+      "## Make it work",
+      [
+        "Leave very early on your travel day to beat traffic on the way up",
+        "Wear walking shoes, because Baguio is built on steep hills",
+        "Bring a light jacket, since evenings are cold",
+        "Book your stay and transport ahead during holidays",
+        "Keep your last hour free for pasalubong shopping"
+      ],
+      "Prefer not to plan every hour? Our Baguio City Getaway package covers the stay and the main stops for you."
+    ]
+  },
+  {
+    title: "Baguio on a Budget: Enjoying the City of Pines for Less",
+    category: "Budget Tips",
+    date: "June 2026",
+    image: "images/mirador-heritage.jpg",
+    excerpt: "Smart ways to save on food, transport and stays without missing the best of Baguio.",
+    body: [
+      "Baguio is easy on the wallet when you know where to spend and where to save. The cool weather also means you can skip air-conditioned rides and walk for much of the day.",
+      "## Pick your dates carefully",
+      "December and Holy Week bring crowds and higher prices. Midweek trips and the rainy months from June to October are quieter and often cheaper. Just pack a rain jacket.",
+      "## Eat where locals eat",
+      "Public market eateries and small carinderias serve filling meals for far less than tourist cafes. Save the coffee shop splurge for one special afternoon.",
+      "## Walk first, ride second",
+      "Many top spots, including Burnham Park, Session Road and the public market, are close to each other. For farther stops, jeepneys and shared rides cost a fraction of a private taxi.",
+      "## Free and low-cost things to do",
+      [
+        "Stroll and people-watch at Burnham Park",
+        "Browse the night market and the public market",
+        "Pick strawberries at the farm and pay only for what you pick",
+        "Walk among the pines at Camp John Hay",
+        "Take photos at the colorful Stobosa houses"
+      ],
+      "## Bundle where it makes sense",
+      "A package that combines the stay and activities, like TraveLaya's Baguio City Getaway, can make your total easier to predict. Compare what is included before you decide."
+    ]
+  },
+  {
+    title: "Mount Samat and Corregidor: A First-Timer's Guide to Bataan's War History",
+    category: "Heritage",
+    date: "June 2026",
+    image: "images/mount-samat-shrine.jpg",
+    excerpt: "Two of the Philippines' most moving historical sites, explained simply, with tips for a respectful visit.",
+    body: [
+      "Few trips in the Philippines are as moving as a visit to the places where World War II was fought in Bataan and Corregidor. Both fit into one day from Manila, but they deserve unhurried attention.",
+      "## Mount Samat Shrine of Valor",
+      "Known as Dambana ng Kagitingan, the shrine honors the Filipino and American soldiers who defended Bataan in 1942. A giant memorial cross crowns the mountain, and the grounds include a museum and viewing areas with wide views of the land and sea. Go in the morning for clearer views and cooler air.",
+      "## Corregidor Island",
+      "Corregidor, nicknamed The Rock, guarded the entrance to Manila Bay. Ruins of barracks and gun batteries still stand, and places like the Malinta Tunnel and the Mile Long Barracks tell the story of the island's defenders. Boat trips can be canceled when the sea is rough, which is more common in the rainy season from June to October.",
+      "## A little history",
+      "Bataan fell in April 1942, and the Death March that followed became one of the most remembered chapters of the war. Corregidor surrendered the following month. Araw ng Kagitingan, or the Day of Valor, is observed every April 9.",
+      "## Tips for visiting",
+      [
+        "November to March is the most comfortable time to go",
+        "Wear a hat and comfortable shoes, and bring water",
+        "Start early, because both sites involve a lot of walking",
+        "Keep your voice low and follow posted rules at memorials",
+        "Check the weather before you book, since boat trips depend on the sea"
+      ],
+      "Our Mount Samat & Corregidor Day Tour combines both stops in one day from Manila."
+    ]
+  },
+  {
+    title: "Five Fingers and Laki Beach Camping: What to Bring and What to Expect",
+    category: "Adventure",
+    date: "May 2026",
+    image: "images/fivecamping.jpg",
+    excerpt: "Rock formations, cliff jumps and a night under the stars in Mariveles, Bataan, with a packing list.",
+    body: [
+      "Mariveles, at the southern tip of Bataan, is home to dramatic rock formations, hidden coves and beaches that feel far from the city. Camping here is simple and rewarding if you prepare well.",
+      "## What you will see",
+      "Five Fingers is known for its rock formations rising from the sea. Nearby highlights include the Nagbintana rock formation, the Nagbalite cliff-dive spot and Laki Beach with its Death Pool, a natural swimming area.",
+      "## What to bring",
+      [
+        "Tent or shelter, sleeping mat and a light blanket",
+        "Headlamp or flashlight with spare batteries",
+        "Water shoes with good grip for rocky areas",
+        "Dry bags for phones, clothes and food",
+        "Trash bags, because you carry out everything you carry in",
+        "A light rain cover, since sudden showers still happen",
+        "Basic first-aid kit and insect repellent"
+      ],
+      "## Safety first",
+      "Cliff jumping is thrilling but risky. Jump only where your guide says it is safe, check the water depth and conditions, and never jump alone or after drinking. Swim in calm morning conditions and stay close to shore, because rough water is common in the rainy season.",
+      "## Best time to go",
+      "December to April usually brings the driest, clearest nights for camping. Book early for weekends and holidays."
+    ]
+  },
+  {
+    title: "Planning a Bataan Beach Weekend: Camaya, La Jolla and Playa La Caleta",
+    category: "Beach Guide",
+    date: "April 2026",
+    image: "images/playa.jpg",
+    excerpt: "Three very different beach stays in Bataan, and how to choose the one that fits your group.",
+    body: [
+      "Bataan offers several beach getaways, each with its own feel. Here is how three popular stays compare, so you can match one to your group.",
+      "## Camaya Coast, Five Fingers and Laki Beach",
+      "Best for groups that want activity. Camaya Coast offers waterparks, infinity pools and beachfront activities, and our 4-in-1 package adds cove exploring at Five Fingers and a swim at Laki Beach, with an overnight guesthouse stay.",
+      "## La Jolla Bataan Resort",
+      "Best for families who want comfort. Expect a swimming pool, beach access and family rooms with a loft, with breakfast and round-trip van transfers included in the package.",
+      "## Playa La Caleta",
+      "Best for a laid-back island feel. Playa La Caleta in Bagac includes private boat transfers, island hopping and overnight nipa gazebo accommodation, with stops at spots like Sugong Cave and Miguelito Island.",
+      "## Which one is for you?",
+      [
+        "Active barkada trip: Camaya, Five Fingers and Laki",
+        "Family with kids or seniors: La Jolla",
+        "Quiet, rustic escape: Playa La Caleta"
+      ],
+      "December to May has calmer seas and clearer skies, and weekends fill up first, so book early."
+    ]
+  },
+  {
+    title: "Las Casas Filipinas de Acuzar: Stepping Into Spanish-Era Philippines",
+    category: "Heritage",
+    date: "March 2026",
+    image: "images/las-casas.jpg",
+    excerpt: "Cobblestone streets and restored colonial houses make this Bagac, Bataan heritage resort feel like another century.",
+    body: [
+      "Walk down cobblestone streets lined with restored Spanish-Filipino houses and you will feel like you have stepped into the 1800s. Las Casas Filipinas de Acuzar in Bagac, Bataan, is a heritage resort and open-air museum built around restored colonial houses.",
+      "## What to do",
+      "Wander the heritage district at your own pace, peek into the restored houses and take a cultural riverside tour along the Balsa River. Landmarks such as Hotel de Oriente give you a sense of how grand travel used to be.",
+      "## Make the most of the photos",
+      "The scenery is made for pictures, so bring a charged phone or camera and wear comfortable shoes for the cobblestones. Early morning and late afternoon give the softest light.",
+      "## When to go",
+      "The dry season from November to May is best for walking the district. Midday is hot, so go early or late, and bring water and sunscreen.",
+      "## Easy ways to visit",
+      [
+        "As a one-day trip with our Las Casas Filipinas de Acuzar day tour",
+        "As part of the Bataan Top Destinations 3D2N package",
+        "With family, since the history is easy for kids to enjoy"
+      ]
+    ]
+  },
+  {
+    title: "Chasing the Right Weather: The Best Time to Visit Baguio and Bataan",
+    category: "Travel Guide",
+    date: "February 2026",
+    image: "images/camp-johnhay.jpg",
+    excerpt: "A simple seasonal guide so your trip lands on cool mountain mornings or calm beach days, not storms.",
+    body: [
+      "Choosing when to go can matter as much as choosing where. Here is a simple seasonal guide to our most popular destinations.",
+      "## Baguio: cool and foggy, November to February",
+      "Temperatures hover around 15 to 20 degrees Celsius, perfect for sweaters and hot chocolate. Expect crowds in December and during Holy Week. February also brings Panagbenga, the Baguio flower festival, so book early. June to October is the rainy season, so pack a rain jacket.",
+      "## Bataan: dry season, November to May",
+      "Beaches are best from December to May, when the seas are calmer. Historical stops are most comfortable from November to March. April and May get hot, so start early. The rainy season from June to October can cancel boat trips.",
+      "## Quick planner",
+      [
+        "Cool-weather escape: Baguio, November to February",
+        "Beach and island hopping: Bataan, December to May",
+        "Heritage tours: Bataan, November to March",
+        "Camping: Mariveles, December to April",
+        "Fewer crowds: weekdays and the rainy months, with a backup plan"
+      ],
+      "Weather changes, so check the forecast a few days before you leave and keep your plans flexible."
+    ]
+  },
+  {
+    title: "How to Travel Responsibly in Nature and Heritage Spots",
+    category: "Responsible Travel",
+    date: "February 2026",
+    image: "images/fivefingers.jpg",
+    excerpt: "Small habits that keep beaches, trails and historic sites beautiful for the next traveler.",
+    body: [
+      "The places we love to visit stay beautiful only when visitors protect them. Small habits make a big difference, especially in fragile coastal and mountain areas.",
+      "## Leave no trace",
+      "Pack out all your trash, including wrappers and cigarette butts. Bring a reusable bottle and a small bag for garbage, since bins can be far from beaches and trails.",
+      "## Protect the sea",
+      "Choose reef-safe sunscreen, never step on or take coral, and keep a respectful distance from marine life. Do not feed fish or other wildlife.",
+      "## Respect local communities",
+      "Hire local guides and boat operators, buy from small stalls and ask before taking photos of people. Pay a fair price and avoid bargaining too hard over small amounts.",
+      "## Stay on the trail",
+      "Walk on marked paths, keep noise down in natural areas and never carve or write on rocks, trees or walls.",
+      "## Honor memorials and heritage sites",
+      "At places like Mount Samat, Corregidor and Las Casas, follow posted rules, do not climb on ruins and keep a respectful tone.",
+      "## Quick checklist",
+      [
+        "Reusable water bottle and trash bag",
+        "Reef-safe sunscreen",
+        "Small cash for local vendors",
+        "A guide for risky activities such as cliff jumping"
+      ]
+    ]
+  },
+  {
+    title: "Family-Friendly Weekend Trips From Manila",
+    category: "Family Travel",
+    date: "January 2026",
+    image: "images/strawberry-farm.jpg",
+    excerpt: "Easy logistics, comfortable stays and activities for every age, from toddlers to lolos and lolas.",
+    body: [
+      "Traveling with kids or grandparents calls for easy logistics, comfortable stays and activities that suit all ages. These ideas fit a weekend.",
+      "## La Jolla Bataan Resort",
+      "A family room with a loft, a swimming pool, beach access and breakfast included make this a low-stress option for parents and kids alike.",
+      "## Baguio's gentle attractions",
+      "Strawberry picking, the lake and bikes at Burnham Park and the pines of Camp John Hay are easy activities that kids enjoy. Pack sweaters, because evenings are cold.",
+      "## Las Casas for curious kids",
+      "The heritage district works like a living history lesson, and the riverside tour is a highlight for younger visitors.",
+      "## Tips for traveling with children",
+      [
+        "Leave early to avoid traffic and fussy afternoons",
+        "Pack snacks, wet wipes, spare clothes and motion-sickness remedies",
+        "Bring hats and sun protection for beach days",
+        "Choose stays with a pool or beach that kids can enjoy safely",
+        "Keep the plan light: one big activity per day is plenty",
+        "Let kids help pack and choose one activity"
+      ]
+    ]
+  },
+  {
+    title: "How to Plan a Group Trip Without the Headaches",
+    category: "Travel Hacks",
+    date: "December 2025",
+    image: "images/BNPP.jpg",
+    excerpt: "Friends, family or officemates: a simple checklist to keep planning smooth and everyone happy.",
+    body: [
+      "A trip with friends, family or officemates is more fun when planning is shared. A little structure up front prevents most arguments later.",
+      "## Pick one organizer",
+      "Choose one person to collect decisions and payments. Too many cooks make for confusing group chats.",
+      "## Agree on the basics first",
+      [
+        "Dates and number of nights",
+        "A per-person budget, including food and transport",
+        "The type of trip: relaxing, adventurous or cultural",
+        "Who is bringing kids or needs easier activities"
+      ],
+      "## Book early and confirm headcount",
+      "Weekends, holidays and peak months fill up quickly. Confirm how many people are really going before you book, and set a clear payment deadline.",
+      "## Plan around the slowest pace",
+      "Pick activities that everyone can enjoy, and leave free time so people can rest or explore on their own.",
+      "## Need something custom?",
+      "TraveLaya takes group and custom trip inquiries. Tell us your dates, group size and budget through the inquiry form and we will get back to you."
+    ]
   }
 ];
 
