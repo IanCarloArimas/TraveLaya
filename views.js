@@ -543,7 +543,7 @@ export const views = {
     if (!blog) return views.blogs;
     const paras = blog.body && blog.body.length ? blog.body : [blog.excerpt];
     return `
-    <div class="main-container policy blog-page">
+    <div class="main-container wide policy blog-page">
       <a href="#/blogs" class="back-btn" style="text-decoration:none;display:inline-block">← Back to guides</a>
       <article class="blog-article">
       <div class="blog-hero" role="img" aria-label="${escapeHtml(blog.title)}" style="background-image:url('${blog.image}')"></div>
