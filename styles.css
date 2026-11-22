@@ -921,3 +921,10 @@ header.navbar { position: relative; }
 }
 .policy-card { padding: 8px 32px 32px; }
 @media (max-width: 640px) { .policy-card { padding: 4px 18px 24px; } }
+
+/* Booking form: calendar and guests side by side on wider screens */
+.date-guests { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+@media (min-width: 820px) {
+  .date-guests { grid-template-columns: 340px minmax(0, 1fr); column-gap: 28px; align-items: start; }
+  .date-guests .quantity-row { margin-bottom: 0; }
+}

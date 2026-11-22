@@ -1082,6 +1082,7 @@ export const views = {
             </div>
           </div>
 
+          <div class="date-guests">
           <div class="form-group">
             <label for="booking-date">Select Travel Date</label>
             <input type="hidden" id="booking-date" /><div id="booking-calendar"></div>
@@ -1121,6 +1122,7 @@ export const views = {
                 <button type="button" class="counter-btn" data-action="plus" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #cbd5e0; background: #fff; cursor: pointer; font-weight: bold;">+</button>
               </div>
             </div>
+          </div>
           </div>
 
           <div class="form-group" style="margin-top: 20px;">
