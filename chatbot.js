@@ -215,6 +215,7 @@ export function initChatbot({ getPlaces, faqs, navigate, openPlace }) {
   function send(text) {
     const t = String(text || '').trim();
     if (!t) return;
+    chips.hidden = true;
     addUser(t);
     addBot(reply(t));
   }

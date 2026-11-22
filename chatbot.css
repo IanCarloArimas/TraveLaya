@@ -47,8 +47,9 @@
 .tl-link { background: none; border: 1px solid var(--primary-dark); color: var(--primary-dark); border-radius: 16px; padding: 4px 12px; min-height: 32px; font: 600 12px/1 inherit; font-family: inherit; cursor: pointer; }
 .tl-link:hover { background: var(--primary-dark); color: #fff; }
 
-.tl-chips { display: flex; gap: 6px; padding: 8px 12px; overflow-x: auto; border-top: 1px solid #e2e8f0; background: #fff; scrollbar-width: thin; }
-.tl-chip { flex: 0 0 auto; white-space: nowrap; background: #fff; border: 1px solid #cbd5e0; color: #1b263b; border-radius: 16px; padding: 6px 12px; min-height: 32px; font: 500 12px/1 inherit; font-family: inherit; cursor: pointer; }
+.tl-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px; border-top: 1px solid #e2e8f0; background: #fff; }
+.tl-chips[hidden] { display: none; }
+.tl-chip { flex: 0 1 auto; background: #fff; border: 1px solid #cbd5e0; color: #1b263b; border-radius: 16px; padding: 6px 12px; min-height: 32px; font: 500 12px/1 inherit; font-family: inherit; cursor: pointer; }
 .tl-chip:hover { border-color: var(--primary-dark); color: var(--primary-dark); }
 
 .tl-form { display: flex; gap: 8px; padding: 10px 12px 12px; background: #fff; border-top: 1px solid #e2e8f0; }
