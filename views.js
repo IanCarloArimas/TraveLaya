@@ -543,14 +543,18 @@ export const views = {
     if (!blog) return views.blogs;
     const paras = blog.body && blog.body.length ? blog.body : [blog.excerpt];
     return `
-    <div class="main-container policy">
+    <div class="main-container policy blog-page">
       <a href="#/blogs" class="back-btn" style="text-decoration:none;display:inline-block">← Back to guides</a>
-      <div role="img" aria-label="${escapeHtml(blog.title)}" style="height:280px;border-radius:16px;background-size:cover;background-position:center;background-image:url('${blog.image}')"></div>
+      <article class="blog-article">
+      <div class="blog-hero" role="img" aria-label="${escapeHtml(blog.title)}" style="background-image:url('${blog.image}')"></div>
+      <div class="blog-body">
       <p style="font-size:12px;font-weight:700;color:#c0293f;margin:16px 0 4px"><span>${escapeHtml(blog.category)}</span> <span style="color:#718096;font-weight:500">${escapeHtml(blog.date)}</span></p>
       <h1 style="font-size:26px;font-weight:800;color:#131c38;margin:0 0 12px">${escapeHtml(blog.title)}</h1>
       ${paras.map(renderBlogPart).join('')}
       <button class="book-now-main-btn" style="margin-top:16px" onclick="navigateTo('places')">Explore destinations</button>
       ${renderMoreBlogs(blog)}
+      </div>
+      </article>
     </div>
     ${renderLoginModal()}
   `;

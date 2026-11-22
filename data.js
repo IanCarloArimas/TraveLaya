@@ -94,7 +94,7 @@ export const allPlacesData = {
       { dayGroup: 'Day 3', day: '02:00 PM', title: 'ETD Back to Manila', details: 'Departure from Baguio back to Manila.' },
       { dayGroup: 'Day 3', day: '08:00 PM', title: 'ETA in Manila', details: 'Safe arrival back in Manila.' }
     ],
-    addons: [{ id: 'souvenir', name: 'Special Pasalubong Box', price: 450 }, { id: 'genggeng', name: 'GengGeng', price: 450 }, { id: 'strawberry-picking', name: 'Strawberry Farm Picking Basket', price: 250 }, { id: 'burnham-boat', name: 'Burnham Lake Boat Ride', price: 150 }, { id: 'john-hay-guide', name: 'Camp John Hay Eco-Trail Guide', price: 200 }]
+    addons: [{ id: 'souvenir', name: 'Special Pasalubong Box', price: 450 }, { id: 'strawberry-picking', name: 'Strawberry Farm Picking Basket', price: 250 }, { id: 'burnham-boat', name: 'Burnham Lake Boat Ride', price: 150 }, { id: 'john-hay-guide', name: 'Camp John Hay Eco-Trail Guide', price: 200 }]
   },
 
   'las-casas': {

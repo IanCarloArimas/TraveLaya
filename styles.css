@@ -911,3 +911,12 @@ header.navbar { position: relative; }
 @media (max-width: 640px) { .pay-card { grid-template-columns: 1fr; } .pay-qr { margin: 0 auto; } }
 
 .faq-search { width: 100%; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--border-color); font-size: 14px; box-sizing: border-box; background: #fff; margin-top: 6px; }
+
+.blog-page { max-width: 860px; }
+.blog-article { background: var(--white); border-radius: 16px; overflow: hidden; margin-top: 12px; box-shadow: 0 4px 16px rgba(19, 28, 56, .1); }
+.blog-hero { height: 280px; background-size: cover; background-position: center; }
+.blog-body { padding: 8px 32px 32px; }
+@media (max-width: 640px) {
+  .blog-hero { height: 200px; }
+  .blog-body { padding: 4px 18px 24px; }
+}
