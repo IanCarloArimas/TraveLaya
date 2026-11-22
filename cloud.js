@@ -52,7 +52,7 @@ export async function fetchUser() {
     me.is_admin ? sb.from('profiles').select('*').order('created_at') : Promise.resolve({ data: [me], error: null }),
     sb.from('bookings').select('*').order('created_at', { ascending: true }),
     sb.from('favorites').select('place_id'),
-    me.is_admin ? sb.from('inquiries').select('*').order('created_at', { ascending: false }) : Promise.resolve({ data: [], error: null })
+    sb.from('inquiries').select('*').order('created_at', { ascending: false })
   ]);
   const byUser = {};
   check(bookings).forEach(r => { (byUser[r.user_id] = byUser[r.user_id] || []).push(rowToBooking(r)); });
@@ -60,13 +60,14 @@ export async function fetchUser() {
   return {
     id: uid, email: me.email, name: me.name, isAdmin: me.is_admin, accounts,
     favorites: check(favs).map(r => r.place_id),
-    inquiries: check(inq).map(r => ({ ...r.data, id: r.id, status: r.status, createdAt: r.created_at }))
+    inquiries: check(inq).map(r => ({ ...r.data, id: r.id, status: r.status, createdAt: r.created_at, userId: r.user_id, reply: r.reply || '', repliedAt: r.replied_at || '' }))
   };
 }
 
 // ---------- saving: compare the app's state with what the server last had ----------
 let base = null;
 const j = x => JSON.stringify(x);
+const inqSig = i => i.status + '|' + (i.reply || '');
 function snapshot(s) {
   const bookings = new Map();
   s.accounts.forEach(u => (u.bookings || []).forEach(b => bookings.set(b.referenceId, j(bookingToRow(b)))));
@@ -75,7 +76,7 @@ function snapshot(s) {
   return {
     bookings, blocked,
     reviews: new Set(s.reviews.map(r => r.id)),
-    inquiries: new Map(s.inquiries.map(i => [i.id, i.status])),
+    inquiries: new Map(s.inquiries.map(i => [i.id, inqSig(i)])),
     placeEdits: new Map(Object.entries(s.placeEdits).map(([id, p]) => [id, j(p)])),
     deleted: new Set(s.deletedPlaces),
     favorites: new Set(s.favorites)
@@ -103,13 +104,13 @@ export async function push(s) {
 
   for (const i of s.inquiries) {
     if (!base.inquiries.has(i.id)) {
-      const { id, status, createdAt, ...data } = i;
-      check(await sb.from('inquiries').insert({ id, status: 'New', data, created_at: createdAt }));
-      base.inquiries.set(id, 'New');
+      const { id, status, createdAt, userId, reply, repliedAt, ...data } = i;
+      check(await sb.from('inquiries').insert({ id, status: 'New', data, created_at: createdAt, user_id: s.user ? s.user.id : null }));
+      base.inquiries.set(id, 'New|');
     }
-    if (base.inquiries.get(i.id) !== i.status && s.user && s.user.isAdmin) {
-      check(await sb.from('inquiries').update({ status: i.status }).eq('id', i.id));
-      base.inquiries.set(i.id, i.status);
+    if (base.inquiries.get(i.id) !== inqSig(i) && s.user && s.user.isAdmin) {
+      check(await sb.from('inquiries').update({ status: i.status, reply: i.reply || null, replied_at: i.repliedAt || null }).eq('id', i.id));
+      base.inquiries.set(i.id, inqSig(i));
     }
   }
 

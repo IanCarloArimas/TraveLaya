@@ -78,6 +78,7 @@ window.openPlaceForm = openPlaceForm;
 window.savePlace = savePlace;
 window.submitInquiry = submitInquiry;
 window.setInquiryStatus = setInquiryStatus;
+window.replyToInquiry = replyToInquiry;
 window.deletePlace = deletePlace;
 window.toggleCompare = toggleCompare;
 window.clearCompare = clearCompare;
@@ -421,10 +422,26 @@ function submitInquiry() {
   ])) return;
   let id;
   do { id = 'INQ-' + Math.floor(100000 + Math.random() * 900000); } while (inquiries.some(i => i.id === id));
-  inquiries.unshift({ id, createdAt: new Date().toISOString(), name, email, contact, destination: g('destination'), date: g('date'), groupSize: size, tripType: g('type'), budget: parseInt(g('budget'), 10) || '', message: g('message').slice(0, 1000), status: 'New' });
+  inquiries.unshift({ id, createdAt: new Date().toISOString(), name, email, contact, destination: g('destination'), date: g('date'), groupSize: size, tripType: g('type'), budget: parseInt(g('budget'), 10) || '', message: g('message').slice(0, 1000), status: 'New', userId: currentUser ? currentUser.id : null, reply: '', repliedAt: '' });
   persist();
   toast(`Thank you! Your inquiry ${id} was sent. We will contact you at ${email}.`);
   navigateTo('home');
+}
+
+function replyToInquiry(id) {
+  const i = inquiries.find(x => x.id === id);
+  const box = document.getElementById('inq-reply-' + id);
+  if (!isAdmin || !i || !box) return;
+  const text = box.value.trim().slice(0, 1000);
+  if (!text) { toast('Write a reply first.'); box.focus(); return; }
+  i.reply = text;
+  i.repliedAt = new Date().toISOString();
+  if (i.status === 'New') i.status = 'Contacted';
+  persist();
+  toast(`Reply saved for ${i.id}.`);
+  const y = window.scrollY;
+  navigateTo('admin');
+  window.scrollTo(0, y);
 }
 
 function setInquiryStatus(id, status) {
@@ -1165,7 +1182,7 @@ function navigateTo(pageKey, opts = {}) {
   } else if (pageKey === 'myBookings') {
     const activeUser = sampleAccounts.find(acc => acc.email.toLowerCase() === currentUserEmail?.toLowerCase());
     const myBookingsList = activeUser ? activeUser.bookings : [];
-    content = views.getMyBookingsView(myBookingsList, reviews);
+    content = views.getMyBookingsView(myBookingsList, reviews, inquiries.filter(i => currentUser && i.userId === currentUser.id));
   } else if (pageKey === 'admin') {
     content = views.getAdminView(sampleAccounts, blockedDates, adminFilter, adminCalMonth, inquiries);
   } else if (pageKey === 'inquiry') {

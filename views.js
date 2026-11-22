@@ -312,7 +312,35 @@ function renderAdminInquiries(inquiries) {
       <div>${escapeHtml(i.tripType || 'Trip')} | ${escapeHtml(i.destination || 'No destination chosen')} | ${Number(i.groupSize) || 0} pax${i.date ? ' | ' + escapeHtml(i.date) : ''}${i.budget ? ' | budget ₱' + Number(i.budget).toLocaleString() + ' per person' : ''}</div>
       <div>${escapeHtml(i.contact)} | <a href="${escapeHtml('mailto:' + i.email + '?subject=' + encodeURIComponent('Your TraveLaya inquiry ' + i.id))}" style="color:#131c38">${escapeHtml(i.email)}</a></div>
       <p style="margin:6px 0;white-space:pre-line">${escapeHtml(i.message)}</p>
+      ${i.userId ? '' : '<p style="margin:0 0 6px;font-size:12px;color:#92400e">Sent while logged out. The sender cannot see replies in the app, so also email them.</p>'}
+      <label for="inq-reply-${escapeHtml(i.id)}" style="display:block;font-weight:600;margin-top:8px">Reply${i.repliedAt ? ' (last sent ' + escapeHtml(new Date(i.repliedAt).toLocaleString()) + ')' : ''}</label>
+      <textarea id="inq-reply-${escapeHtml(i.id)}" rows="3" maxlength="1000" style="width:100%;box-sizing:border-box;margin:4px 0 8px;padding:8px 10px;border:1px solid #cbd5e0;border-radius:8px;font:inherit;resize:vertical">${escapeHtml(i.reply || '')}</textarea>
+      <button type="button" data-id="${escapeHtml(i.id)}" onclick="replyToInquiry(this.dataset.id)" style="background:#131c38;color:#fff;border:0;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer;margin-right:10px">${i.reply ? 'Update reply' : 'Send reply'}</button>
       <select data-id="${escapeHtml(i.id)}" aria-label="Inquiry status" onchange="setInquiryStatus(this.dataset.id, this.value)" style="padding:6px 10px;border:1px solid #cbd5e0;border-radius:8px">${statuses.map(s => `<option ${s === i.status ? 'selected' : ''}>${s}</option>`).join('')}</select></div>`).join('') : '<p style="font-size:13px;color:#a0aec0;margin-top:10px">No inquiries yet.</p>'}</div>`;
+}
+
+function renderMyInquiries(list) {
+  if (!list.length) return '';
+  const pill = i => i.reply ? ['Replied', '#dcfce7', '#166534'] : i.status === 'Closed' ? ['Closed', '#e2e8f0', '#334155'] : ['Received', '#fef3c7', '#92400e'];
+  return `<section aria-labelledby="my-inq-title" style="margin-top:36px">
+    <h2 id="my-inq-title" style="font-size:20px;font-weight:700;color:#131c38;margin:0 0 4px">My inquiries</h2>
+    <p style="font-size:14px;color:#475569;margin:0 0 14px">Group and custom trip requests you sent while logged in.</p>
+    <div style="display:flex;flex-direction:column;gap:14px">${list.map(i => {
+      const [label, bg, fg] = pill(i);
+      return `<article style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;font-size:14px;color:#1b263b;line-height:1.6">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+          <div><strong>${escapeHtml(i.id)}</strong><div style="font-size:13px;color:#475569">${escapeHtml(i.tripType || 'Trip')} | ${escapeHtml(i.destination || 'No destination chosen')} | ${Number(i.groupSize) || 0} pax${i.date ? ' | ' + escapeHtml(i.date) : ''}</div></div>
+          <span style="background:${bg};color:${fg};font-size:12px;font-weight:700;padding:4px 12px;border-radius:12px">${label}</span>
+        </div>
+        <p style="margin:8px 0 0;white-space:pre-line">${escapeHtml(i.message)}</p>
+        <p style="margin:4px 0 0;font-size:12px;color:#64748b">Sent ${escapeHtml(new Date(i.createdAt).toLocaleString())}</p>
+        ${i.reply ? `<div style="margin-top:12px;padding:12px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px">
+          <div style="font-size:12px;font-weight:700;color:#166534">Reply from TraveLaya${i.repliedAt ? ' | ' + escapeHtml(new Date(i.repliedAt).toLocaleString()) : ''}</div>
+          <p style="margin:4px 0 0;white-space:pre-line">${escapeHtml(i.reply)}</p></div>`
+        : '<p style="margin:12px 0 0;font-size:13px;color:#475569">No reply yet. We will post it here and may also contact you at ' + escapeHtml(i.email) + '.</p>'}
+      </article>`;
+    }).join('')}</div>
+  </section>`;
 }
 
 export const faqs = [
@@ -678,7 +706,7 @@ export const views = {
     `;
   },
 
-  getMyBookingsView: (bookings, reviews = []) => {
+  getMyBookingsView: (bookings, reviews = [], myInquiries = []) => {
     return `
       <div class="main-container wide">
         <div class="page-header">
@@ -725,6 +753,7 @@ export const views = {
             }).join('')}
           </div>
         `}
+        ${renderMyInquiries(myInquiries)}
       </div>
       ${renderLoginModal()}
     `;
