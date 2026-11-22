@@ -282,7 +282,7 @@ function openModal(html, maxWidth) {
 
 function closeModal() {
   const m = document.getElementById('app-modal');
-  if (m) { m.remove(); leaveModal('app-modal'); }
+  if (m) { m.remove(); leaveModal('app-modal'); if (m._onClose) m._onClose(); }
   calPlaceId = null; calMin = null; calMonth = null; calExclude = null;
 }
 
@@ -290,8 +290,9 @@ function confirmDialog(message, confirmText = 'Confirm', danger = false) {
   return new Promise(resolve => {
     const m = openModal(`<p style="font-size:15px;color:#1b263b;margin:0 0 18px;line-height:1.5">${escapeHtml(message)}</p>
       <div class="action-buttons" style="margin-top:0"><button class="btn btn-cancel" data-v="0">Cancel</button><button class="btn" data-v="1" style="background:${danger ? '#131c38' : '#e0415a'};color:#fff">${escapeHtml(confirmText)}</button></div>`);
+    m._onClose = () => resolve(false);
     m.addEventListener('click', e => {
-      const b = e.target.closest('button[data-v]');
+      const b = e.target.closest('button[data-v]'); if (b) m._onClose = null;
       if (!b) return;
       closeModal();
       resolve(b.dataset.v === '1');
@@ -400,7 +401,7 @@ function exportBookingsCsv() {
 function adminCalNav(n) {
   adminCalMonth = new Date(adminCalMonth.getFullYear(), adminCalMonth.getMonth() + n, 1);
   const y = window.scrollY;
-  navigateTo('admin');
+  navigateTo('admin', { fresh: true });
   window.scrollTo(0, y);
 }
 
@@ -499,7 +500,7 @@ function savePlace(id) {
   if (!pid) {
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'place';
     pid = slug; let k = 2;
-    while (allPlacesData[pid]) pid = `${slug}-${k++}`;
+    while (allPlacesData[pid] || deletedPlaces.includes(pid)) pid = `${slug}-${k++}`;
   }
   const base = allPlacesData[pid] || { badge: 'New' };
   const place = { ...base, id: pid, name, location, numericPrice: price, price: '₱' + price.toLocaleString(), discount, stars: '★'.repeat(n) + '☆'.repeat(5 - n), category: cleanText(val('category')) || 'Nature', duration: cleanText(val('duration')) || '1 day', packageType: cleanText(val('packageType')) || 'Full Stay', image: image || base.image || heroImages[0], capacity, bestTime: cleanText(val('besttime')), description: cleanText(val('description')), amenities: lines(val('amenities')).map(cleanText), landmarks, addons };
@@ -725,7 +726,7 @@ function modifyBookingDate(ref) {
   openModal(`<h2 style="margin:0 0 6px;color:#131c38;font-size:20px">Request a new date</h2>
     <p style="font-size:13px;color:#64748b;margin:0 0 12px">Current date: <strong>${escapeHtml(f.b.date)}</strong>. Black dates are unavailable. An admin must approve the change.</p>
     <input type="hidden" id="booking-date" /><div id="booking-calendar"></div>
-    <div class="action-buttons"><button class="btn btn-cancel" onclick="closeModal()">Cancel</button><button class="btn btn-continue" onclick="submitDateChange('${ref}')">Send request</button></div>`);
+    <div class="action-buttons"><button class="btn btn-cancel" onclick="closeModal()">Cancel</button><button class="btn btn-continue" data-ref="${escapeHtml(ref)}" onclick="submitDateChange(this.dataset.ref)">Send request</button></div>`);
   calPlaceId = placeIdOf(f.b) || null;
   calExclude = ref;
   calMin = getLocalDateString(new Date(Date.now() + 2 * 864e5));
@@ -798,7 +799,13 @@ function fileToDataUrl(file) {
   });
 }
 
+let submittingProof = false;
 async function submitPaymentProof() {
+  if (submittingProof) return;
+  submittingProof = true;
+  try { await submitPaymentProofInner(); } finally { submittingProof = false; }
+}
+async function submitPaymentProofInner() {
   const ref = activePaymentRef;
   const f = ownBooking(ref);
   const txn = document.getElementById('payment-txn-ref')?.value.trim();
@@ -832,7 +839,7 @@ function toggleFavorite(id) {
 
 function setAdminFilter(value) {
   adminFilter = value;
-  navigateTo('admin');
+  navigateTo('admin', { fresh: true });
 }
 
 function closeReview() {
@@ -865,6 +872,8 @@ function toggleDateAvailability(placeId, dateStr) {
     return;
   }
 
+  if (!allPlacesData[placeId]) { toast('That destination no longer exists.', 'warn'); return; }
+  const placeName = allPlacesData[placeId].name;
   if (!blockedDates[placeId]) {
     blockedDates[placeId] = [];
   }
@@ -872,10 +881,10 @@ function toggleDateAvailability(placeId, dateStr) {
   const index = blockedDates[placeId].indexOf(dateStr);
   if (index > -1) {
     blockedDates[placeId].splice(index, 1);
-    toast(`Date ${dateStr} is now AVAILABLE for ${placeId}.`);
+    toast(`Date ${dateStr} is now AVAILABLE for ${placeName}.`);
   } else {
     blockedDates[placeId].push(dateStr);
-    toast(`Date ${dateStr} has been BLOCKED for ${placeId} (Fully Booked/Unavailable).`);
+    toast(`Date ${dateStr} has been BLOCKED for ${placeName} (Fully Booked/Unavailable).`);
   }
   navigateTo('admin');
 }
@@ -1234,7 +1243,7 @@ function applyFilters() {
   const locationQuery = locationEl ? locationEl.value.toLowerCase() : '';
   const minDiscount = discountEl ? parseInt(discountEl.value, 10) || 0 : 0;
   const minPrice = minPriceEl ? parseFloat(minPriceEl.value) || 0 : 0;
-  const maxPrice = maxPriceEl ? parseFloat(maxPriceEl.value) || 60000 : 60000;
+  const maxPrice = maxPriceEl && maxPriceEl.value !== '' ? parseFloat(maxPriceEl.value) : Infinity;
 
   if (discountLabel) {
     discountLabel.textContent = minDiscount === 0 ? 'Any' : `${minDiscount}%+ off`;
@@ -1244,7 +1253,7 @@ function applyFilters() {
   const filtered = allPlaces.filter(p => {
     const matchesCategory = !category || p.category === category;
     const matchesLocation = !locationQuery || p.location.toLowerCase().includes(locationQuery);
-    const matchesDiscount = p.discount >= minDiscount;
+    const matchesDiscount = (Number(p.discount) || 0) >= minDiscount;
     const matchesPrice = p.numericPrice >= minPrice && p.numericPrice <= maxPrice;
 
     return matchesCategory && matchesLocation && matchesDiscount && matchesPrice;
@@ -1469,6 +1478,7 @@ function getLocalDateString(date = new Date()) {
 }
 
 function handleBookingSubmit(confirmed = false) {
+  if (confirmed) closeReview();
   const firstName = document.getElementById('guest-firstname')?.value.trim();
   const lastName = document.getElementById('guest-lastname')?.value.trim();
   const phone = readPhone('guest-contact');
@@ -1550,7 +1560,7 @@ function handleBookingSubmit(confirmed = false) {
     promo: appliedPromoName ? `${appliedPromoName} (${Math.round(appliedPromoDiscount * 100)}% off)` : '',
     paymentMethod,
     total: totalDisplay,
-    packageType: selectedPlace.id === 'bataan-3d2n' ? `Package ${selectedBataanPackage}` : (selectedPlace.itinerary2D1N && selectedPlace.itinerary3D2N ? (selectedItinerary === '3D2N' ? '3D 2N Package' : '2D 1N Package') : (selectedPackageType === 'full' ? 'Full Stay Getaway' : 'Day Trip Package')),
+    packageType: selectedPlace.id === 'bataan-3d2n' ? `Package ${selectedBataanPackage}` : (selectedPlace.itinerary2D1N && selectedPlace.itinerary3D2N ? (selectedItinerary === '3D2N' ? '3D 2N Package' : '2D 1N Package') : (selectedPlace.packageType === 'Day Trip' ? 'Day Trip Package' : 'Full Stay Getaway')),
     status: 'Pending Payment Confirmation'
   };
 

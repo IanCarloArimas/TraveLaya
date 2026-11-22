@@ -8,21 +8,21 @@ export function renderFilterableCard(place) {
   const isDayTrip = place.packageType === 'Day Trip';
   const badgeBg = isDayTrip ? '#131c38' : '#e0415a';
   return `
-    <div class="place-card" role="button" tabindex="0" style="cursor: pointer;" onclick="viewPlaceDetail('${place.id}')">
-      <div class="card-image" role="img" aria-label="${place.name}" style="background-image: url('${place.image}'); position: relative;">
-        <span style="position: absolute; top: 10px; left: 10px; background: #e0415a; color:#fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">${place.discount}% OFF</span>
-        <span style="position: absolute; top: 10px; right: 10px; background: ${badgeBg}; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">${place.packageType}</span>
+    <div class="place-card" role="button" tabindex="0" style="cursor: pointer;" data-id="${escapeHtml(place.id)}" onclick="viewPlaceDetail(this.dataset.id)">
+      <div class="card-image" role="img" aria-label="${escapeHtml(place.name)}" style="background-image: url('${escapeHtml(place.image)}'); position: relative;">
+        <span style="position: absolute; top: 10px; left: 10px; background: #e0415a; color:#fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">${Number(place.discount) || 0}% OFF</span>
+        <span style="position: absolute; top: 10px; right: 10px; background: ${badgeBg}; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">${escapeHtml(place.packageType)}</span>
       </div>
       <div class="card-info">
         <div class="card-title-row">
-          <h3>${place.name}</h3>
-          <span class="card-duration">${place.duration}</span>
+          <h3>${escapeHtml(place.name)}</h3>
+          <span class="card-duration">${escapeHtml(place.duration)}</span>
         </div>
-        <div class="stars" role="img" aria-label="${place.stars.length} out of 5 stars">${place.stars}</div>
-        <span class="location">📍 ${place.location}</span>
+        <div class="stars" role="img" aria-label="${place.stars.length} out of 5 stars">${escapeHtml(place.stars)}</div>
+        <span class="location">📍 ${escapeHtml(place.location)}</span>
         <div class="card-footer-row">
-          <span class="price-label">From <strong class="price">${place.price}</strong></span>
-          <button class="book-now-btn" onclick="event.stopPropagation(); viewPlaceDetail('${place.id}')">View</button>
+          <span class="price-label">From <strong class="price">${escapeHtml(place.price)}</strong></span>
+          <button class="book-now-btn" data-id="${escapeHtml(place.id)}" onclick="event.stopPropagation(); viewPlaceDetail(this.dataset.id)">View</button>
         </div>
       </div>
     </div>
@@ -31,20 +31,20 @@ export function renderFilterableCard(place) {
 
 function renderCard(place) {
   return `
-    <div class="place-card" role="button" tabindex="0" style="cursor: pointer;" onclick="viewPlaceDetail('${place.id}')">
-      <div class="card-image" role="img" aria-label="${place.name}" style="background-image: url('${place.image}');">
-        <span class="card-badge">${place.badge}</span>
+    <div class="place-card" role="button" tabindex="0" style="cursor: pointer;" data-id="${escapeHtml(place.id)}" onclick="viewPlaceDetail(this.dataset.id)">
+      <div class="card-image" role="img" aria-label="${escapeHtml(place.name)}" style="background-image: url('${escapeHtml(place.image)}');">
+        <span class="card-badge">${escapeHtml(place.badge)}</span>
       </div>
       <div class="card-info">
         <div class="card-title-row">
-          <h3>${place.name}</h3>
-          <span class="card-duration">${place.duration}</span>
+          <h3>${escapeHtml(place.name)}</h3>
+          <span class="card-duration">${escapeHtml(place.duration)}</span>
         </div>
-        <div class="stars" role="img" aria-label="${place.stars.length} out of 5 stars">${place.stars}</div>
-        <span class="location">${place.location}</span>
+        <div class="stars" role="img" aria-label="${place.stars.length} out of 5 stars">${escapeHtml(place.stars)}</div>
+        <span class="location">${escapeHtml(place.location)}</span>
         <div class="card-footer-row">
-          <span class="price-label">From <strong class="price">${place.price}</strong></span>
-          <button class="book-now-btn" onclick="event.stopPropagation(); viewPlaceDetail('${place.id}')">View</button>
+          <span class="price-label">From <strong class="price">${escapeHtml(place.price)}</strong></span>
+          <button class="book-now-btn" data-id="${escapeHtml(place.id)}" onclick="event.stopPropagation(); viewPlaceDetail(this.dataset.id)">View</button>
         </div>
       </div>
     </div>
@@ -164,16 +164,16 @@ function renderAdminCharts(all) {
 
 export function renderPlaceRow(place, favs = [], compare = [], rating = null) {
   return `
-    <div class="place-row-card" role="button" tabindex="0" style="cursor: pointer;" onclick="viewPlaceDetail('${place.id}')">
-      <div class="card-thumbnail" role="img" aria-label="${place.name}" style="background-image: url('${place.image}');"></div>
+    <div class="place-row-card" role="button" tabindex="0" style="cursor: pointer;" data-id="${escapeHtml(place.id)}" onclick="viewPlaceDetail(this.dataset.id)">
+      <div class="card-thumbnail" role="img" aria-label="${escapeHtml(place.name)}" style="background-image: url('${escapeHtml(place.image)}');"></div>
       <div class="card-body">
         <div class="card-header">
-          <h3>${place.name}</h3>
-          <div class="stars" role="img" aria-label="${place.stars.length} out of 5 stars">${place.stars}</div><button class="fav-btn" title="Save destination" onclick="event.stopPropagation(); toggleFavorite('${place.id}')" style="background:none;border:none;font-size:20px;color:#c0293f;cursor:pointer">${favs.includes(place.id) ? '♥' : '♡'}</button>
+          <h3>${escapeHtml(place.name)}</h3>
+          <div class="stars" role="img" aria-label="${place.stars.length} out of 5 stars">${escapeHtml(place.stars)}</div><button class="fav-btn" title="Save destination" data-id="${escapeHtml(place.id)}" onclick="event.stopPropagation(); toggleFavorite(this.dataset.id)" style="background:none;border:none;font-size:20px;color:#c0293f;cursor:pointer">${favs.includes(place.id) ? '♥' : '♡'}</button>
         </div>
-        <span class="location">${place.location}</span>
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:-4px 0 8px;font-size:12px;color:#1b263b">${rating ? `<span><span aria-hidden="true" style="color:#d97706">★</span> <strong>${rating.avg.toFixed(1)}</strong> (${rating.count} review${rating.count === 1 ? '' : 's'})</span>` : ''}<label class="compare-chip" onclick="event.stopPropagation()"><input type="checkbox" ${compare.includes(place.id) ? 'checked' : ''} onchange="toggleCompare('${place.id}', this)" /> Compare</label></div>
-        <p class="description">${place.description}</p>
+        <span class="location">${escapeHtml(place.location)}</span>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:-4px 0 8px;font-size:12px;color:#1b263b">${rating ? `<span><span aria-hidden="true" style="color:#d97706">★</span> <strong>${rating.avg.toFixed(1)}</strong> (${rating.count} review${rating.count === 1 ? '' : 's'})</span>` : ''}<label class="compare-chip" onclick="event.stopPropagation()"><input type="checkbox" ${compare.includes(place.id) ? 'checked' : ''} data-id="${escapeHtml(place.id)}" onchange="toggleCompare(this.dataset.id, this)" /> Compare</label></div>
+        <p class="description">${escapeHtml(place.description)}</p>
       </div>
     </div>
   `;
@@ -763,7 +763,7 @@ export const views = {
             <div>
               <label style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 4px;">Destination</label>
               <select id="admin-target-place" style="padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 14px; background: #fff; font-weight: 600;">
-                ${Object.values(allPlacesData).map(p => `<option value="${p.id}">${p.name} (${p.location})</option>`).join('')}
+                ${Object.values(allPlacesData).map(p => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.name)} (${escapeHtml(p.location)})</option>`).join('')}
               </select>
             </div>
             <div>
@@ -782,7 +782,7 @@ export const views = {
                   if (!dates || dates.length === 0) return '';
                   const placeObj = allPlacesData[placeId];
                   const placeName = placeObj ? placeObj.name : placeId;
-                  return `<div style="font-size: 13px; color: #4a5568;"><strong>${placeName}:</strong> ${dates.map(d => `<span style="background: #fed7d7; color: #c53030; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; margin-left: 6px;">${d} <button type="button" onclick="toggleDateAvailability('${placeId}', '${d}')" style="background:none; border:none; color:#c53030; cursor:pointer; font-weight:bold; font-size: 12px; padding: 0;">&times;</button></span>`).join('')}</div>`;
+                  return `<div style="font-size: 13px; color: #4a5568;"><strong>${escapeHtml(placeName)}:</strong> ${dates.map(d => `<span style="background: #fed7d7; color: #c53030; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; margin-left: 6px;">${escapeHtml(d)} <button type="button" data-place="${escapeHtml(placeId)}" data-date="${escapeHtml(d)}" onclick="toggleDateAvailability(this.dataset.place, this.dataset.date)" style="background:none; border:none; color:#c53030; cursor:pointer; font-weight:bold; font-size: 12px; padding: 0;">&times;</button></span>`).join('')}</div>`;
                 }).join('')
               : '<span style="font-size: 13px; color: #a0aec0;">No dates currently blocked for any destination.</span>'
             }
@@ -833,20 +833,20 @@ export const views = {
 
         <div class="detail-banner-slideshow" style="position: relative; width: 100%; height: 360px; border-radius: 16px; overflow: hidden; margin-bottom: 24px; background: #131c38;">
           ${bannerImages.map((img, index) => `
-            <div class="detail-slide ${index === 0 ? 'active' : ''}" style="position: absolute; inset: 0; background-size: cover; background-position: center; background-image: url('${img}'); opacity:${index === 0 ? '1' : '0'}; transition: opacity 1s ease-in-out;"></div>
+            <div class="detail-slide ${index === 0 ? 'active' : ''}" style="position: absolute; inset: 0; background-size: cover; background-position: center; background-image: url('${escapeHtml(img)}'); opacity:${index === 0 ? '1' : '0'}; transition: opacity 1s ease-in-out;"></div>
           `).join('')}
           <button aria-label="Next photo" class="nav-arrow right-arrow" onclick="plusDetailSlide(1)" style="position: absolute; top: 50%; right: 16px; transform: translateY(-50%); z-index: 10; cursor: pointer;">&#10095;</button>
         </div>
 
         <div class="detail-grid">
           <div class="detail-main-info">
-            <h1>${selectedPlace.name}</h1>
-            <div class="stars" role="img" aria-label="${selectedPlace.stars.length} out of 5 stars">${selectedPlace.stars}</div>
-            <span class="location-tag">📍 ${selectedPlace.location}</span>
+            <h1>${escapeHtml(selectedPlace.name)}</h1>
+            <div class="stars" role="img" aria-label="${selectedPlace.stars.length} out of 5 stars">${escapeHtml(selectedPlace.stars)}</div>
+            <span class="location-tag">📍 ${escapeHtml(selectedPlace.location)}</span>
             
             <div class="detail-description-box">
               <h3>About & Highlights</h3>
-              <p>${selectedPlace.description}</p>
+              <p>${escapeHtml(selectedPlace.description)}</p>
             </div>
 
             ${selectedPlace.bestTime ? `<div style="margin-top:18px;padding:14px 16px;background:#fffaf0;border:1px solid #fbd38d;border-radius:12px;font-size:13px;line-height:1.6;color:#4a3410"><strong style="color:#744210">☀ Best time to visit &amp; weather</strong><br>${escapeHtml(selectedPlace.bestTime)}<br><span style="font-size:11px;color:#744210">General guide only. Check the forecast a few days before you travel.</span></div>` : ''}
@@ -869,7 +869,7 @@ export const views = {
               <div class="landmarks-grid">
                 ${(selectedPlace.landmarks || []).map(lm => `
                   <div class="landmark-card">
-                    <div class="landmark-img" style="background-image: url('${lm.image}');"></div>
+                    <div class="landmark-img" style="background-image: url('${escapeHtml(lm.image)}');"></div>
                     <span>${escapeHtml(lm.name)}</span>
                   </div>
                 `).join('')}
@@ -924,7 +924,7 @@ export const views = {
             ` : `
               <div class="package-pillar-card" style="background: #fff; padding: 16px; border-radius: 12px; border: 2px solid #e0415a; margin-bottom: 16px;">
                 <h4 class="pillar-title" style="color: #131c38; margin-bottom: 6px;">STANDARD PACKAGE</h4>
-                <div class="pillar-price-badge" style="background: #e0415a; color:#fff; text-align: center; padding: 6px; border-radius: 6px; font-weight: 700;">${selectedPlace.price} / Pax</div>
+                <div class="pillar-price-badge" style="background: #e0415a; color:#fff; text-align: center; padding: 6px; border-radius: 6px; font-weight: 700;">${escapeHtml(selectedPlace.price)} / Pax</div>
               </div>
             `}
 
@@ -969,15 +969,15 @@ export const views = {
         <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap;">
           <div>
             <h1 style="margin-bottom: 4px;">Booking Details</h1>
-            <p class="subtitle">Location: <strong>${selectedPlace.location}</strong> | ${isBataan ? `Package: <strong id="booking-bataan-label">${selectedBataanPackage}</strong> | ` : ''}${hasItineraryChoice ? `Package: <strong id="booking-itinerary-label">${selectedItinerary === '3D2N' ? '3D 2N' : '2D 1N'}</strong> | ` : ''}Base Rate: <strong id="booking-base-rate">₱${basePrice.toLocaleString()} / Adult</strong>${discountRate > 0 ? ` <span style="color:#38a169;font-weight:600">(${selectedPlace.discount}% off already applied)</span>` : ''}</p>
+            <p class="subtitle">Location: <strong>${escapeHtml(selectedPlace.location)}</strong> | ${isBataan ? `Package: <strong id="booking-bataan-label">${selectedBataanPackage}</strong> | ` : ''}${hasItineraryChoice ? `Package: <strong id="booking-itinerary-label">${selectedItinerary === '3D2N' ? '3D 2N' : '2D 1N'}</strong> | ` : ''}Base Rate: <strong id="booking-base-rate">₱${basePrice.toLocaleString()} / Adult</strong>${discountRate > 0 ? ` <span style="color:#38a169;font-weight:600">(${Number(selectedPlace.discount) || 0}% off already applied)</span>` : ''}</p>
           </div>
           
           <div style="min-width: 260px;">
             <label for="destination-select" style="font-size: 12px; font-weight: 700; color: #4a5568; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Change Destination</label>
             <select id="destination-select" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-family: inherit; font-size: 14px; background: #ffffff; margin-bottom: 10px; cursor: pointer; color: #1b263b; font-weight: 600;" onchange="changeBookingDestination(this.value)">
               ${Object.values(allPlacesData).map(p => `
-                <option value="${p.id}" ${p.id === selectedPlace.id ? 'selected' : ''}>
-                  ${p.name} (${p.location})
+                <option value="${escapeHtml(p.id)}" ${p.id === selectedPlace.id ? 'selected' : ''}>
+                  ${escapeHtml(p.name)} (${escapeHtml(p.location)})
                 </option>
               `).join('')}
             </select>
@@ -987,7 +987,7 @@ export const views = {
         ${renderStepper(1)}
         <div id="review-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center;padding:16px"></div>
         <div class="reservation-box" style="margin-top: 20px;">
-          <h2>Reservation Form - ${selectedPlace.name}</h2>
+          <h2>Reservation Form - ${escapeHtml(selectedPlace.name)}</h2>
 
           ${isBataan ? `
           <div class="form-group" role="group" aria-labelledby="bataan-pkg-label" style="margin-bottom: 20px;">
@@ -1094,8 +1094,8 @@ export const views = {
               ${(selectedPlace.addons || availableAddons).map(addon => `
                 <label style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 13px; color: #1b263b;">
                   <span style="display: flex; align-items: center; gap: 8px;">
-                    <input type="checkbox" class="addon-checkbox" data-price="${addon.price}" data-name="${escapeHtml(addon.name)}" onchange="updateBookingTotal()" style="width: 16px; height: 16px; accent-color: #e0415a; cursor: pointer;" />
-                    ${addon.name}
+                    <input type="checkbox" class="addon-checkbox" data-price="${Number(addon.price) || 0}" data-name="${escapeHtml(addon.name)}" onchange="updateBookingTotal()" style="width: 16px; height: 16px; accent-color: #e0415a; cursor: pointer;" />
+                    ${escapeHtml(addon.name)}
                   </span>
                   <strong style="color: #c0293f;">+₱${addon.price.toLocaleString()}</strong>
                 </label>
