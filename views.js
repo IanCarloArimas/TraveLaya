@@ -418,10 +418,13 @@ export const views = {
       </div>
 
       <div class="carousel-container">
-        <div class="cards-wrapper grid" id="filtered-results-container">
+        <button aria-label="Scroll left" class="nav-arrow left-arrow" id="filter-prev">&#10094;</button>
+        <div class="cards-wrapper" id="filtered-results-container">
           ${Object.values(allPlacesData).map(renderFilterableCard).join('')}
         </div>
+        <button aria-label="Scroll right" class="nav-arrow right-arrow" id="filter-next">&#10095;</button>
       </div>
+      <div class="carousel-dots" id="filter-dots"></div>
     </section>
 
     <section class="places-section">

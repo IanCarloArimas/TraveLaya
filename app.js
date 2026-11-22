@@ -1253,6 +1253,7 @@ function applyFilters() {
   container.innerHTML = filtered.length > 0
     ? filtered.map(renderFilterableCard).join('')
     : `<p style="padding: 20px; text-align: center; color: #718096; width: 100%;">No destinations match your selected filters.</p>`;
+  setupCarousel('filter-prev', 'filter-next', 'filtered-results-container', 'filter-dots', []);
 
 }
 
@@ -1589,7 +1590,13 @@ function setupCarousel(prevId, nextId, wrapperId, dotsId, dataArray) {
     return Math.max(1, Math.ceil(maxScroll / getStep()) + 1);
   };
 
+  const toggleControls = () => {
+    const overflow = carousel.scrollWidth - carousel.clientWidth > 2;
+    [prevBtn, nextBtn, dotsContainer].forEach(el => { if (el) el.style.display = overflow ? '' : 'none'; });
+  };
+
   const renderDots = () => {
+    toggleControls();
     if (!dotsContainer) return;
     dotsContainer.innerHTML = Array.from({ length: getDotCount() })
       .map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}"></span>`).join('');
@@ -1610,11 +1617,18 @@ function setupCarousel(prevId, nextId, wrapperId, dotsId, dataArray) {
 
   carousel.scrollLeft = 0;
   renderDots();
+
+  if (carousel._ro) carousel._ro.disconnect();
+  if (window.ResizeObserver) {
+    carousel._ro = new ResizeObserver(() => { renderDots(); updateDots(); });
+    carousel._ro.observe(carousel);
+  }
 }
 
 function attachHomeListeners() {
   setupCarousel('top-prev', 'top-next', 'top-carousel', 'top-dots', topPlaces);
   setupCarousel('dom-prev', 'dom-next', 'dom-carousel', 'dom-dots', domesticPlaces);
+  setupCarousel('filter-prev', 'filter-next', 'filtered-results-container', 'filter-dots', []);
 
   const bgElements = document.querySelectorAll('.hero-bg');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
