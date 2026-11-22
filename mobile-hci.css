@@ -175,3 +175,11 @@ button:active, [role="button"]:active { transform: scale(.98); }
   min-width: 44px; min-height: 44px; padding: 0;
   display: inline-flex; align-items: center; justify-content: center;
 }
+
+/* Home page: wider sections + carousels on large screens (4 cards fill the row) */
+@media (min-width: 1100px) {
+  .places-section, .reviews-section { max-width: 1320px; }
+  .places-section .cards-wrapper:not(.grid) .place-card {
+    flex: 0 0 calc((100% - 60px) / 4);
+  }
+}
