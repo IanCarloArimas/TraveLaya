@@ -7,31 +7,29 @@ This website is developed for our Human Computer Interaction course.
 ```
 project/
 ├── index.html
-├── places.html
-├── booking.html
 ├── styles.css
+├── mobile-hci.css
+├── chatbot.css
+├── chatbot.js
+├── cloud.js
+├── config.js
 ├── data.js
 ├── views.js
 └── app.js
 ```
 
 ## Features
-- Selection of place of interest
-- Provision of tour packages
-- Reservation
-- UX-friendly billing and payment
+- Diverse selection of place of interests
+- Tour packages that shows destinations and its inclusions
+- Selection of itineraries
+- Easy reservation, with support for billing and payment
+- Chatbot that answers common questions and suggests trips
 
 ## UI development history
-### Identifying Requirements
-- To be written...
 ### Development of analysis diagrams 
 - Flowchart
-  (to be added)
+  [Flowchart](https://lucid.app/lucidchart/d971982c-1a82-4651-9b46-ae933bb166a3/edit?invitationId=inv_8707bc93-a607-49bc-a55b-5b8c41360113&page=0_0#)
 - ERD
-  (to be added)
-- Wireframe
-  (to be added)
+  [ERD](https://dbdiagram.io/d/6b047a176514799802e2768e)
 ### Development of design diagrams (Figma interface mock up)
 - [Figma link](https://www.figma.com/design/F6Z0rTTHbOoJxxD2dbDvOI/HCI-TOURISM-PROJECT?node-id=0-1&t=GAmzGcDZsv8YLKR4-1)
-
-[Click here](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
