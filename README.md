@@ -27,9 +27,7 @@ project/
 
 ## UI development history
 ### Development of analysis diagrams 
-- Flowchart
-  [Flowchart](https://lucid.app/lucidchart/d971982c-1a82-4651-9b46-ae933bb166a3/edit?invitationId=inv_8707bc93-a607-49bc-a55b-5b8c41360113&page=0_0#)
-- ERD
-  [ERD](https://dbdiagram.io/d/6b047a176514799802e2768e)
+- [Flowchart](https://lucid.app/lucidchart/d971982c-1a82-4651-9b46-ae933bb166a3/edit?invitationId=inv_8707bc93-a607-49bc-a55b-5b8c41360113&page=0_0#)
+- [ERD](https://dbdiagram.io/d/6b047a176514799802e2768e)
 ### Development of design diagrams (Figma interface mock up)
 - [Figma link](https://www.figma.com/design/F6Z0rTTHbOoJxxD2dbDvOI/HCI-TOURISM-PROJECT?node-id=0-1&t=GAmzGcDZsv8YLKR4-1)
